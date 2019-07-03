@@ -1,0 +1,14 @@
+html,body{
+    height: 100%;
+    font-family: Lanting;
+    font-size:800;
+}
+
+@font-face {
+    font-family: Lanting;
+    src: url(方正兰亭超细黑.TTF);
+}
+
+.hidden{
+    display: none;
+}

@@ -1,0 +1,24 @@
+html,body{
+    height: 100%;
+    font-family: Lanting;
+}
+
+.element::-webkit-scrollbar {display:none}
+
+a{
+    cursor: pointer;
+}
+
+table{
+    height: 40%;
+    overflow: auto;
+}
+
+tbody{
+    overflow: auto;
+}
+
+@font-face {
+    font-family: Lanting;
+    src: url(方正兰亭超细黑.TTF);
+}

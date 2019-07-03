@@ -1,0 +1,98 @@
+html,
+body {
+    height: 100%;
+}
+
+@font-face {
+    font-family: Lanting;
+    src: url(方正兰亭超细黑.TTF);
+}
+
+.font_f {
+    font-family: Lanting;
+}
+
+.title {
+    font-size: 1.6em;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#content {
+    padding: 2%;
+    height: 95%
+}
+
+.maina{
+    /* margin:10px */
+    height:100%
+}
+
+#main {
+    height:100%;
+    width: 100%;
+}
+
+.row,
+.col {
+    height: 95%
+}
+
+.Finayear {
+    padding-right: 27%;
+    padding-left: 27%;
+    padding-top: 13%;
+    padding-bottom: 11%;
+    cursor: pointer;
+    margin-bottom: 2%;
+    font-family: Lanting;
+}
+
+th {
+    font-family: Lanting;
+    font-size:0.8em
+}
+
+.Finayear:hover {
+    background-color: rgb(247, 247, 247)
+}
+
+h4.h {
+    padding-left: 0.3em;
+    /* padding-right: 30%; */
+}
+
+
+
+@media screen and (min-width:1055px) {
+    html,
+    body {
+        overflow: hidden;
+    }
+    table tbody.transfer {
+        display:block;
+        height:270px;
+        overflow-y:scroll;
+        -webkit-overflow-scrolling: touch; 
+    }
+
+    table tbody.lonate {
+        display:block;
+        height:500px;
+        overflow-y:scroll;
+        -webkit-overflow-scrolling: touch; 
+    }
+    
+    table tbody::-webkit-scrollbar {
+        display: none; 
+    }
+    
+    table thead, tbody tr {
+        display:table;
+        width:100%;
+        table-layout:fixed;
+    }
+    
+    table thead {
+        width: calc( 100% )
+    }
+}

@@ -1,0 +1,71 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+@font-face {
+    font-family: Lanting;
+    src: url(方正兰亭超细黑.TTF);
+}
+
+.font_f {
+    font-family: Lanting;
+}
+
+.title {
+    font-size: 1.6em;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#content {
+    padding: 2%;
+    height: 95%
+}
+
+.up,
+.down {
+    padding-bottom: 2.1%
+}
+
+.modal-over {
+    height: 100%;
+    width: 100%;
+    opacity: .5;
+}
+
+.left {
+    height: 560px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.right {
+    height: 560px;
+}
+
+.buttons-right {
+    padding-top: 7px;
+}
+
+.hide { 
+    display: none;
+}
+
+.fuck{
+    margin-left: 15px;
+}
+
+@media screen and (max-width:576px) {
+    html,
+    body {
+        overflow: auto;
+    }
+    .right {
+        height: 560px;
+        padding-top: 8px;
+    }
+    .left {
+        border-bottom: .5px solid rgb(136, 136, 136);
+    }
+}

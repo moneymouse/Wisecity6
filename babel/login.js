@@ -94,7 +94,7 @@ class Form extends React.Component{
                     <Input type="text" onGet={this.handleget[0]} onKey={this.handlekey} />
                     <div className={"tips tip"}>密码/password</div>
                     <Input type="password" onGet={this.handleget[1]} onKey={this.handlekey} />
-                    <div className="forget"><a onClick={e=>{alert("请咨询穿荧光黄外衣的那位！")}}>忘记密码？/Foget?</a></div>
+                    <div className="forget"><a onClick={e=>{alert("请联系 穿着荧光黄外套 的技术支持(小生蚝)~")}}>忘记密码? / Forget?</a></div>
                     <Button value="登录" class="t btn btn-p" click={this.handleclick} />
                     
                 </div>

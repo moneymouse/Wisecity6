@@ -175,7 +175,7 @@ var Left = function (_React$Component) {
         value: function render() {
             return React.createElement(
                 "div",
-                { className: "col-sm-12 col-md-12 col-lg-12 maina" },
+                { className: "col-sm-12 col-md-6 col-lg-4 maina" },
                 React.createElement("div", { id: "main" })
             );
         }

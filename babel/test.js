@@ -78,83 +78,84 @@ class Left extends React.Component{
          // 饼图以及折线图的实现
     var myChart = echarts.init(document.getElementById('main'));
 
-        var option = { baseOption:{
-            legend: {},
-            tooltip: {
-                trigger: 'axis',
-                showContent: false
+    var option = { baseOption: {
+        legend: {},
+        tooltip: {
+            trigger: 'axis',
+            showContent: false
+        },
+        dataset: {
+            source: [
+                ['Fina', '第一财年', '第二财年', '第三财年', '第四财年', '第五财年', '第六财年'], 
+                ['交易', this.analyzeTranscation[0], this.analyzeTranscation[1],this.analyzeTranscation[2],this.analyzeTranscation[3],this.analyzeTranscation[4],this.analyzeTranscation[5]],
+                ['存取', this.analyzeBank[0], this.analyzeBank[1],this.analyzeBank[2],this.analyzeBank[3],this.analyzeBank[4],this.analyzeBank[5]],
+                ['兑票', this.analyzeTicket[0], this.analyzeTicket[1],this.analyzeTicket[2],this.analyzeTicket[3],this.analyzeTicket[4],this.analyzeTicket[5]],
+                ['流动资产', this.analyzeFlow[0], this.analyzeFlow[1],this.analyzeFlow[2],this.analyzeFlow[3],this.analyzeFlow[4],this.analyzeFlow[5]]
+            ]
+        },
+        xAxis: {
+            type: 'category',
+            name: ''
+        },
+        yAxis: {
+            gridIndex: 0
+        },
+        grid: {
+            top:"10%",
+            left:"50%",
+            height:"80%"
+        },
+        series: [{
+            type: 'line',
+            smooth: true,
+            seriesLayoutBy: 'row'
+        }, {
+            type: 'line',
+            smooth: true,
+            seriesLayoutBy: 'row'
+        }, {
+            type: 'line',
+            smooth: true,
+            seriesLayoutBy: 'row'
+        }, {
+            type: 'line',
+            smooth: true,
+            seriesLayoutBy: 'row'
+        }, {
+            type: 'pie',
+            id: 'pie',
+            radius: '40%',
+            center: ['20%', '50%'],
+            label: {
+                formatter: '{b}: {@2012} ({d}%)'
             },
-            dataset: {
-                source: [
-                    ['Fina', '第一财年', '第二财年', '第三财年', '第四财年', '第五财年', '第六财年'],
-                    ['交易', this.analyzeTranscation[0], this.analyzeTranscation[1],this.analyzeTranscation[2],this.analyzeTranscation[3],this.analyzeTranscation[4],this.analyzeTranscation[5]],
-                    ['存取', this.analyzeBank[0], this.analyzeBank[1],this.analyzeBank[2],this.analyzeBank[3],this.analyzeBank[4],this.analyzeBank[5]],
-                    ['兑票', this.analyzeTicket[0], this.analyzeTicket[1],this.analyzeTicket[2],this.analyzeTicket[3],this.analyzeTicket[4],this.analyzeTicket[5]],
-                    ['流动资产', this.analyzeFlow[0], this.analyzeFlow[1],this.analyzeFlow[2],this.analyzeFlow[3],this.analyzeFlow[4],this.analyzeFlow[5]]
-                ]
-            },
-            xAxis: {
-                type: 'category',
-                name:'财年'
-            },
-            yAxis: {
-                gridIndex: 0
-            },
-            grid: {
-                top: '35%'
-            },
-            series: [{
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row'
-            }, {
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row'
-            }, {
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row'
-            }, {
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row'
-            }, {
-                type: 'pie',
+            encode: {
+                itemName: 'Fina',
+                value: '第一财年',
+                tooltip: '第一财年'
+            }
+        }]
+    },
+    media: []
+};
+myChart.on('updateAxisPointer', function (event) {
+    var xAxisInfo = event.axesInfo[0];
+    if (xAxisInfo) {
+        var dimension = xAxisInfo.value + 1;
+        myChart.setOption({
+            series: {
                 id: 'pie',
-                radius: '30%',
-                center: ['50%', '20%'],
                 label: {
-                    formatter: '{b}: {@2012} ({d}%)'
+                    formatter: '{b}: {@[' + dimension + ']} ({d}%)'
                 },
                 encode: {
-                    itemName: 'Fina',
-                    value: '第一财年',
-                    tooltip: '第一财年'
+                    value: dimension,
+                    tooltip: dimension
                 }
-            }]
-        },
-        media: [                
-        ]
-    };
-        myChart.on('updateAxisPointer', function(event) {
-            var xAxisInfo = event.axesInfo[0];
-            if (xAxisInfo) {
-                var dimension = xAxisInfo.value + 1;
-                myChart.setOption({
-                    series: {
-                        id: 'pie',
-                        label: {
-                            formatter: '{b}: {@[' + dimension + ']} ({d}%)'
-                        },
-                        encode: {
-                            value: dimension,
-                            tooltip: dimension
-                        }
-                    }
-                });
             }
-    });
+        });
+    }
+});
         myChart.setOption(option);
     }
     

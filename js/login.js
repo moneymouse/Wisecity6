@@ -40,7 +40,7 @@ var Input = function (_React$Component) {
             return React.createElement(
                 React.Fragment,
                 null,
-                React.createElement("input", { type: this.props.type, placeholder: this.props.placeholder, onChange: this.handleget, onKeyDown: this.handlekey })
+                React.createElement("input", { className: "form-control", type: this.props.type, placeholder: this.props.placeholder, onChange: this.handleget, onKeyDown: this.handlekey })
             );
         }
     }]);
@@ -160,7 +160,7 @@ var Form = function (_React$Component3) {
                         React.createElement(
                             "a",
                             { onClick: function onClick(e) {
-                                    alert("请咨询穿荧光黄外衣的那位！");
+                                    alert("请联系 穿着荧光黄外套 的技术支持(小生蚝)~");
                                 } },
                             "\u5FD8\u8BB0\u5BC6\u7801\uFF1F/Foget?"
                         )

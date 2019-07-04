@@ -107,13 +107,15 @@ var Left = function (_React$Component) {
                     },
                     xAxis: {
                         type: 'category',
-                        name: '财年'
+                        name: ''
                     },
                     yAxis: {
                         gridIndex: 0
                     },
                     grid: {
-                        top: '35%'
+                        top: "10%",
+                        left: "50%",
+                        height: "80%"
                     },
                     series: [{
                         type: 'line',
@@ -134,8 +136,8 @@ var Left = function (_React$Component) {
                     }, {
                         type: 'pie',
                         id: 'pie',
-                        radius: '30%',
-                        center: ['50%', '20%'],
+                        radius: '40%',
+                        center: ['20%', '50%'],
                         label: {
                             formatter: '{b}: {@2012} ({d}%)'
                         },

@@ -166,31 +166,6 @@ class Modal_foot extends React.Component{
     }
 }
 
-// {
-//  <div>   
-//     <div className="cont font_f">
-//     {/* 商品选择modal-body样式 */}
-//             {"商品"+":"+this.props.content.name}
-//             <br/>
-//             {"单价"+":"+this.props.content.price}
-//             <br/>
-//         </div>
-//         <div class="input-group mb-3">
-//             <div class="input-group-prepend">
-//                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-//                 <div class="dropdown-menu">
-//                     <a class="dropdown-item" href="#">Action</a>
-//                     <a class="dropdown-item" href="#">Another action</a>
-//                     <a class="dropdown-item" href="#">Something else here</a>
-//                     <div role="separator" class="dropdown-divider"></div>
-//                     <a class="dropdown-item" href="#">Separated link</a>
-//                 </div>
-//             </div>
-//             <input type="text" class="form-control" aria-label="Text input with dropdown button"/>
-//         </div>
-//     </div>
-// }           
-
 class Fade extends React.Component{
     // 背景颜色
     constructor(props){
@@ -236,101 +211,174 @@ class Fade extends React.Component{
 
 }
 
-
-
-
-
+/*
+    name:Nav
+    props: teamName -- the team.name,
+           choosed -- the ordinal num of the choosed nav.0.首页, 1.转账, 2.仓库, 3.情报, 
+           4.商店, 5.资产管理, 6.金融操作
+    return: a Nav component
+*/
 class Nav extends React.Component {
     // 导航栏组件
     constructor(props) {
         super(props);
         this.state = {
-            navshow:"collapse navbar-collapse",
-            height:"0px",
-            down:"nav-item dropdown active",
-            downmenu:"dropdown-menu"
+            navClass:["onChoose inline hide",
+            "onChoose inline hide",
+            "hide inline onChoose",
+            "onChoose inline hide",
+            "onChoose inline hide",
+            "onChoose inline hide",
+            "onChoose inline hide",
+            "onChoose inline hide"],
+            isOpen:false,
         };
-        this.timehandle;
-        this.togglehandle = this.toggle.bind(this);
-        this.toggle_2 = this.toggle_1.bind(this);
-        this.isclick=true;
+        this.state.navClass[this.props.choosed] = "onChoose inline";
+        this.value = {};
+
+        this.handleClose = this.close.bind(this);
+        this.handleOpen = this.open.bind(this);
+        this.handleGetValue = this.getValue.bind(this);
+        this.handleClick = this.Click.bind(this);
     }
 
-    toggle(e){
-        // 移动端收缩导航栏显示与隐藏
-        if(this.isclick==true){
-        this.isclick = false;
-        var _t = this
-        var navshow ;
-        if(this.state.navshow=="collapse navbar-collapse show"){
-            navshow="collapse navbar-collapse";
-            this.setState({
-                navshow:"collapsing navbar-collapse",
-                height:"0px"
-            })
-        }
-        else{
-            navshow="collapse navbar-collapse show";
-            this.setState({
-                navshow:"collapsing navbar-collapse"
-            })
-            setTimeout(function(){
-                _t.setState({height:"114px"})
-            },1)
-        }
-        var tog = function (){
-            _t.setState({
-                navshow:navshow
-            })
-            _t.isclick = true
-        }
-        setTimeout(function(){
-            tog();
-        },300);}
+    close(){
+        this.setState({
+            isOpen:false
+        })
     }
 
-    toggle_1(){
-        // 下拉菜单显示与隐藏
-        if(this.state.downmenu == "dropdown-menu"){
-            this.setState({
-                downmenu: "dropdown-menu show"
-            })
+    open(){
+        this.setState({
+            isOpen:true
+        })
+    }
+
+    getValue(e,i){
+        this.value[i] = e.target.value;
+        e.target.value = "";
+    }
+
+    Click(){
+        if(this.value["surepass"]!==this.value["newpass"]){
+            alert("新密码与确认密码不同！");
+            return ;
         }
-        else{
-            this.setState({
-                downmenu: "dropdown-menu"
-            }) 
-        }
+        
+        var _t = this;
+        $.ajax({
+            type: "POST",
+            url: "https://wisecity.itrclub.com/api/user/changePassword",
+            data: {
+                "oldPwd":_t.value["oldpass"],
+                "newPwd":_t.value["newpass"]
+            },
+            dataType: "JSON",
+            success: function (response) {
+                if(response.code===200){
+                    alert("修改成功");
+                    _t.handleClose();
+                }
+                else if(response.code === 403){
+                    alert("旧密码错误");
+                }
+                else{
+                    alert("请联系管理员！");
+                }
+            }
+        });
+
     }
 
     render() { 
-        return (<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a className="navbar-brand title" href="#">Wisecity</a>
-        <button onClick={this.togglehandle} className="navbar-toggler" aria-controls="navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-        <div className={this.state.navshow} style={{height:this.state.height}} id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                    <a className="nav-link font_f active" href="index">首页</a>
-                </li>
-                <li className={this.state.down}>
-                    <a className="nav-link dropdown-toggle" role="button" href="#" id="dropdownId" onClick={this.toggle_2}>操作</a>
-                    <ul className={this.state.downmenu} aria-labelledby="dropdownId">
-                        <li><a className="dropdown-item" href="https://wisecity.itrclub.com/team/payment">转账</a></li>
-                        <li><a className="dropdown-item" href="https://wisecity.itrclub.com/team/warehouse">仓库</a></li>
-                        <li><a className="dropdown-item" href="https://wisecity.itrclub.com/team/news">情报</a></li>
-                        <li><a className="dropdown-item" href="https://wisecity.itrclub.com/team/goods">商店</a></li>
-                        <li><a className="dropdown-item" href="https://wisecity.itrclub.com/team/asset">资产管理</a></li>
-                        <li><a className="dropdown-item" href="https://wisecity.itrclub.com/team/investment">金融操作</a></li>
-                    </ul>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link font_f active" href="https://wisecity.itrclub.com/user/logout" role="button">退出登录</a>
-                </li>
-            </ul>
+        return (<React.Fragment>
+            <div class="Nav">
+        <div class="nav-top">
+            <div class="f inline">{this.props.teamName}</div>
+            <div class="d inline"><a href="https://wisecity.itrclub.com/user/logout">退出登录</a></div>
         </div>
-    </nav>);
+        <div class="nav-logo">
+            <img src="https://wisecity.itrclub.com/resource/img/Nav_logo.png" alt="WISECITY" />
+        </div>
+        <div class="first navBar">
+            <div className={this.state.navClass[0]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/home.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a style={{"color":"white"}} href="index">首页</a></div>
+        </div>
+        <div class="navBar">
+            <div className={this.state.navClass[1]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/exchange-alt.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a style={{"color":"white"}} href="payment">转账</a></div>
+        </div>
+        <div class="navBar">
+            <div className={this.state.navClass[2]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/chart-pie.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a style={{"color":"white"}} href="warehouse">仓库</a></div>
+        </div>
+        <div class="navBar">
+            <div className={this.state.navClass[3]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/chart-bar.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a style={{"color":"white"}} href="news">情报</a></div>
+        </div>
+        <div class="navBar">
+            <div className={this.state.navClass[4]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/shopping-cart.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a style={{"color":"white"}} href="goods">商店</a></div>
+        </div>
+        <div class="navBar">
+            <div className={this.state.navClass[5]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/dollar-sign.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a style={{"color":"white"}} href="asset">资产管理</a></div>
+        </div>
+        <div class="navBar">
+            <div className={this.state.navClass[6]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/hand-pointer.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a style={{"color":"white"}} href="investment">金融操作</a></div>
+        </div>
+        <div class="navBar">
+            <div className={this.state.navClass[7]}></div>
+            <div class="icon inline">
+                <span><img src="https://wisecity.itrclub.com/resource/img/icon/user-shield.png" alt="WISECITY" /></span>
+            </div>
+            <div class="option inline"><a onClick={this.handleOpen}>修改密码</a></div>
+        </div>
+        
+    </div>  
+    <Modal isOpen={this.state.isOpen}>
+        <Modal_head close={this.handleClose}><b>修改密码</b></Modal_head>
+        <Modal_body>
+            <div className="row">
+                <div className="col-3">原密码</div>
+                <div className="col-6"><input className="form-control" onChange={e=>this.handleGetValue(e,"oldpass")} /></div>
+            </div>
+            <div className="row">
+                <div className="col-3">新密码</div>
+                <div className="col-6"><input className="form-control" onChange={e=>this.handleGetValue(e,"newpass")} /></div>
+            </div>
+            <div className="row">
+                <div className="col-3">确认新密码</div>
+                <div className="col-6"><input className="form-control" onChange={e=>this.handleGetValue(e,"surepass")} /></div>
+            </div>
+        </Modal_body>
+        <Modal_foot close={this.handleClose}>
+            <a className="btn bg-brown" role="button" onClick={this.handleClick} >确认</a>
+        </Modal_foot>
+    </Modal>
+    </React.Fragment>)
     }
 }
 

@@ -309,10 +309,14 @@ class CheckboxGroup extends React.Component{
 		// 编辑框下面第一栏的单选框，以及输入框
 		return (<React.Fragment>
 		<div className="row">
+			<div className="col-3">
+				<input type="checkbox" onClick={(e)=>this} />{/*!!! */}
+				<label>{全选}</label> 
+			</div>
 			{this.state.groups.map((v,i)=>{
 				this.checked.v = false;
 				// console.log(v);
-				return (<div className="col-1">
+				return (<div className="col-3">
 					<input type="checkbox" onClick={(e)=>this.handleClick(i,e)} />
 					<label>{v}</label>
 				</div>
@@ -320,11 +324,11 @@ class CheckboxGroup extends React.Component{
 			})}
 		</div>
 		<div class="row">
-			<div class="col-1">
+			<div class="col-3">
 				<input name="lyz2lzh" type="radio" onChange={this.handleCheck.public} />
 				<label >公开</label>
 			</div>
-			<div class="col-1">
+			<div class="col-3">
 				<input name="lyz2lzh" type="radio" onChange={this.handleCheck.private} />
 				<label >收费</label>
 			</div>

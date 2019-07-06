@@ -124,7 +124,9 @@ class Table extends React.Component{
     render(){
         return (<React.Fragment>
         <table className="table">
-            <thead className="thead-light">
+            <div className="welcome">商店</div>
+            <div className="goodBox"></div>
+            <thead className="bg-brown" style={{"color":"white"}}>
                 <tr>
                 <th scope="col">商品名称</th>
                 <th scope="col">原产地</th>
@@ -134,13 +136,13 @@ class Table extends React.Component{
                 </tr>
             </thead>
             <tbody>
-                {this.state.good_space.map((value,index)=>{
+                {this.state.good_space.map((value)=>{
                     return (<tr key="index" >
                         <td>{value.name}</td>
                         <td> {value.place.name} </td>
                         <td>{value.buy}</td>
                         <td>{value.sell}</td>
-                        <td><a class="btn btn-secondary" href="#" onClick={()=>{this.handleopenModal(value)}} role="button">Click!</a></td>
+                        <td><a class="btn bg-brown" href="#" onClick={()=>{this.handleopenModal(value)}} role="button">Click!</a></td>
                     </tr>)
                 })}
             </tbody>
@@ -148,7 +150,7 @@ class Table extends React.Component{
         <Modal isOpen={this.state.publicModal_state} >
 			<Modal_head close={this.handlecloseModal}>{this.state.modal_value.name}</Modal_head>
 			<Modal_body>
-				<h4>进价:{this.state.modal_value.buy}</h4>
+				<h4>即时进价:{this.state.modal_value.buy}</h4>
 				<h4>产地:{this.state.modal_value.place.name}</h4>
 				<h4>库存:{this.warehouse[this.state.modal_value.name]}</h4>
 			</Modal_body>

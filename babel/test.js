@@ -161,7 +161,8 @@ myChart.on('updateAxisPointer', function (event) {
     
 
     render(){
-        return (<div className="col-sm-12 col-md-6 col-lg-4 maina" >
+        return (<div className={this.props.className} >
+            <div className="font-index">图形报表</div>
             <div id="main"></div>
         </div>
         );
@@ -193,30 +194,37 @@ class T_table_a extends React.Component{
             Table:[]
         }
         this.total = 0;
-        var listent = (e)=>{
+        this.listent = this.listent.bind(this);
+        console.log(this.state.Table);
+    }
+
+    listent(e){
+        var arr = [];
+        console.log(this.total);
+        console.log(arr);
+        console.log(this.state.Table);
+        if(this.total>0){
+            this.total = 0;
+        }
+        else{
+            arr = this.state.Table;
             this.total = this.total + 1;
-            var arr = [];
-            if(this.total>2){
-                this.total = 0;
-            }
-            else{
-                arr = this.state.Table;
-            }
-            e.num = e.money||e.num;
-            for(var a in e){
-                if(e[a]==undefined){continue}
-                arr.push(e[a]);
-            }
-            // console.log(arr);
-            this.setState({
-                Table : arr
-            })
-            // console.log(e)
-        };
-        this.listent = listent.bind(this);
+        }
+        console.log(arr);
+        for(var a in e){
+            e[a].num = e.money||e.num;
+            if(e[a]==undefined){continue;}
+            else arr.push(e[a]);
+        }
+        // console.log(arr);
+        this.setState({
+            Table : arr
+        })
+        // console.log(e)
     }
 
     componentDidMount(){
+        console.log(this.state.Table);
         ppss.listent("log.transfer",this.listent);
         ppss.listent("log.transcation",this.listent);
         getLog("transfer","confirm")
@@ -242,8 +250,8 @@ class T_table_a extends React.Component{
 
     render(){
         return (
-        <table className="table">
-            <thead className="thead-light">
+        <table className={this.props.className}>
+            <thead className="bg-brown">
                 <tr>
                 <th scope="col">交易ID</th>
                 <th scope="col">发起人</th>
@@ -329,8 +337,8 @@ class Loan_table extends React.Component{
 
     render(){
         return (
-        <table className="table">
-            <thead className="thead-light">
+        <table className={this.props.className}>
+            <thead className="bg-brown">
                 <tr>
                 <th scope="col">交易ID</th>
                 <th scope="col">贷款方</th>
@@ -397,7 +405,7 @@ class Fina_box extends React.Component{
     }
 
     render(){
-        return (<div className="Finayear" onClick={this.handleclick}>
+        return (<div className={this.props.className} onClick={this.handleclick}>
             <h4 style={{"font-size":"1.3em"}}>第一财年倒计时</h4>
             <h4 className="h">{this.state.time}</h4>
         </div>);
@@ -410,11 +418,24 @@ class Asset extends React.Component{
     }
 
     render(){
-        return (<div className="Finayear">
-        <h5>队伍名称:{team.name}</h5>
+        return (<div className={this.props.className}>
         {team.money.map((v,i)=>{
             if(i<=2){
-                return (<p>{v.currency}:{v.num}</p>)
+                if(i===0||i===1){
+                    return (<React.Fragment>
+                    <div className="asset-each inline">
+                        <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                        <br />
+                        <div style={{"float":"left"}}>{v.currency}</div>
+                    </div>
+                    <div className="line-index-asset inline"></div>
+                    </React.Fragment>)
+                }
+                else return (<div className="asset-each inline">
+                <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                <br />
+                <div style={{"float":"left"}}>{v.currency}</div>
+            </div>)
             }
         })}
     </div>)
@@ -557,15 +578,25 @@ class Content extends React.Component{
         }
         return (
             <React.Fragment>
-                <div className="row">
-                    <Left />
-                    <div className="col-lg-4 col-md-6 col-sm-12" style={{overFlow:"auto"}}>
-                        <Fina_box/>
-                        <T_table_a openModal={this.handleOpen}/>
+                <div className="welcome">
+                    <b style={{"color":"#856B53"}}>你好，{team.name}</b>
+                </div>
+                <div className="top-explain">
+                    <div className="font-index inline time"><b>时间</b></div>
+                    <div className="font-index inline wholeTell"><b>概况</b></div>
+                </div>
+                <div className="top">
+                    <Fina_box className="Finayear inline"/>
+                    <Asset className="Asset inline" />
+                </div>
+                <Left className="maina" />
+                <div className="font-index top-explain">待处理</div>
+                <div className="bottom">
+                    <div className="inline a">
+                        <T_table_a openModal={this.handleOpen} className="table inline" />
                     </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12" style={{overFlow:"auto"}}>
-                        <Asset />
-                        <Loan_table openModal={this.handleOpenL} />
+                    <div className="inline b">
+                        <Loan_table openModal={this.handleOpenL} className="table inline" />
                     </div>
                 </div>
                 <Modal isOpen={this.state.isOpen}>
@@ -618,7 +649,7 @@ class Content extends React.Component{
 
 ReactDOM.render(
     // 渲染导航栏
-    <Nav />,
+    <Nav teamName={team.name} choosed={0} />,
     document.getElementById("Nav")
 )
 ReactDOM.render(

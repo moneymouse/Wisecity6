@@ -1,0 +1,91 @@
+html,
+body {
+    height: 100%;
+    overflow: auto;
+}
+
+.Nav{
+    height: 100%;
+    overflow: hidden;
+    width:15.3%;
+    background-color:#856B53;
+}
+
+.navBar{
+    width:100%;
+    height:4.4%;
+    margin-bottom: 16.1%
+}
+
+.navBar:hover{
+    background-color:#856B53 90%;
+}
+
+.first{
+    margin-top:23.4%;
+}
+
+.inline{
+    display: inline-block;
+}
+
+.icon{
+    vertical-align: super;
+    height: 54%;
+    width: 8.8%;
+    margin-left: 18.3%;
+    vertical-align:middle;
+}
+
+.onChoose{
+    height: 100%;
+    width: 3.7%;
+    background-color:white;
+    vertical-align:middle;
+    margin-right: -5.7%;
+}
+
+.option{
+    font-family:"微软雅黑";
+    margin-left: 13.6%;
+    color:white;
+    vertical-align: middle;
+    font-size:0.87em;
+}
+
+.f{
+    margin-left:10%;
+    font-family:"微软雅黑";
+    color:white;
+    font-size:0.87em;
+}
+
+.d{
+    margin-left: 32%;
+    font-family: "微软雅黑";
+    color:white;
+    font-size:0.87em;
+}
+
+img{
+    display: block;
+    height:100%;
+    width:100%;
+}
+
+.nav-top{
+    margin-top:11.5%;
+}
+
+.nav-logo{
+    height:7.3%;
+    width:53.4%;
+    margin-top:15.6%;
+    margin-left:23%;
+}
+
+@media screen and (max-width:1024px){
+    .d{
+        margin-left:20%
+    }
+}

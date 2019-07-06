@@ -6,11 +6,12 @@ class Table extends React.Component{
         this.state={
             warehouse:[],
             modal_state:false,
-            classinput:"form-control col-3",
+            classinput:"form-control",
             a:["白银"],
             teamlist:{
                 name:[]
-            }
+            },
+            totalPrice:0
         }
         this.value = {};// the value to modal
         this.sellvalue = {};// the value to ajax
@@ -24,6 +25,8 @@ class Table extends React.Component{
         this.handlegetcurrency = this.get_currency.bind(this);
         this.handleSell = this.Sell.bind(this);
         this.handleBuy = this.Buy.bind(this);
+        this.handleGetChoice = this.choiceOfBuy.bind(this);
+        this.handleClickPOST = this.clickPOST.bind(this);
     }
 
     close(){
@@ -181,10 +184,20 @@ class Table extends React.Component{
 
     get_num_value(e){
         this.sellvalue.num = e.target.value;
+        if(this.sellvalue.price!==undefined){
+            this.setState({
+                totalPrice:this.sellvalue.price*this.sellvalue.num
+            })
+        }
     }
 
     get_price_value(e){
         this.sellvalue.price = e.target.value;
+        if(this.sellvalue.num!==undefined){
+            this.setState({
+                totalPrice:this.sellvalue.price*this.sellvalue.num
+            })
+        }
     }
 
     get_currency(e){
@@ -217,10 +230,30 @@ class Table extends React.Component{
         Transaction_goods(this.sellvalue.id,this.sellvalue.currency,this.sellvalue.num,this.sellvalue.remark,1,this.sellvalue.good,this.sellvalue.price);
     }
 
+    choiceOfBuy(e){
+        this.type={};
+        this.type.buy = e.target.checked;
+    }
+
+    clickPOST(){
+        if(this.type===undefined){
+            alert("请选择购入或卖出！");
+            return ;
+        }
+        if(this.type.buy){
+            this.handleBuy();
+        }
+        else{
+            this.handleSell();
+        }
+    }
+
     render(){
         return (<React.Fragment>
+        <div className="welcome"><b>仓库</b></div>
+        <div className="warehouseBox">
         <table className="table" style={{paddingTop:"10px"}}>
-            <thead className="thead-light">
+            <thead className="bg-brown" style={{"color":"white"}}>
                 <tr>
                 <th scope="col">商品名称</th>
                 <th scope="col">库存</th>
@@ -233,38 +266,68 @@ class Table extends React.Component{
                     return (<tr key={index}>
                         <th scope="row">{val.goods_name}</th>
                         <td>{val.num}</td>
-                        <td>{this.good.list.map((v,i)=>{
+                        <td>{this.good.list.map((v)=>{
                             if(v.name==val.goods_name){
                                 val.price = v.sell;
                                 val.id = v.id;
                                 return v.sell;
                             }
                         })}</td>
-                        <td><a class="btn btn-secondary" href="#" role="button" onClick={()=>{this.handleclick(val)}}>Click!</a></td>
+                        <td><a class="btn bg-brown" href="#" role="button" onClick={()=>{this.handleclick(val)}}>Click!</a></td>
                 </tr>)
                 })}
             </tbody>
         </table>
+        </div>
         <Modal isOpen={this.state.modal_state}>
             <Modal_head close={this.handleclose}>{this.value.goods_name}</Modal_head>
             <Modal_body>
-                <h4>价格:{this.value.price}</h4>
-                <br />
-                <h4>库存:{this.value.num}</h4>
                 <div className="row mb-3">
-                    <Select options={this.state.teamlist.name} get_value={this.handlegetselect} /> {/* select the aim who you want to sell */}
+                    <div className="col-3">
+                        <input name={"lzh2lyz13"} type="radio" onChange={this.handleGetChoice} />
+                        <label>购入</label>
+                    </div>
+                    <div className="col-3">
+                        <input name={"lzh2lyz13"} type="radio" />
+                        <label>售出</label>
+                    </div>
                 </div>
                 <div className="row mb-3">
-                    <Select options={this.state.a} get_value={this.handlegetcurrency} /> {/* select the aim who you want to sell */}
+                    <div className="font-modal col-2">目标方:</div>
+                    <div className="col-4">
+                        <Select options={this.state.teamlist.name} get_value={this.handlegetselect} /> {/* select the aim who you want to sell */}
+                    </div>
+                    <div className="font-modal col-2 c">货币类型:</div>
+                    <div className="col-4">
+                        <Select options={this.state.a} get_value={this.handlegetcurrency} /> {/* select the currency which you want to use */}
+                    </div>
                 </div>
+                <div className="row mb-3">
+                    <div className="col-2">数量:</div>
+                    <div className="col-4">
+                        <input className="form-control" onChange={this.handlegetnum} type="text" placeholder="数量..." />
+                    </div>
+                    <div className="col-2">单价:</div>
+                    <div className="col-4">
+                        <input className={this.state.classinput} onChange={this.handlegetprice} type="text" placeholder="单价..." />
+                    </div>
+                </div>
+                <div className={"line"}></div>
+                <div className="mb-2">
+                    <div className="modal-body-down-left inline">
+                        <div className={"font-modal "}>库存:{this.value.num}</div>
+                        <div className={"font-modal"}>即时单价:{this.value.price}</div>
+                    </div>
+                    <div className="modal-body-down-right inline">
+                        <div className="font-modal">总金额:</div>
+                        <div className="font-modal" style={{"float":"right"}}>{this.state.totalPrice.toFixed(2)}</div>
+                    </div>
+                </div>
+                <input className={this.state.classinput} onChange={this.handlegetremark} type="text" placeholder="备注..." />
             </Modal_body>
             <Modal_foot close={this.handleclose} >
                 <div className="row">
-                <input className="form-control col-3" onChange={this.handlegetnum} type="text" placeholder="出售数量..." />
-                <input className={this.state.classinput} onChange={this.handlegetprice} type="text" placeholder="出售单价..." />
-                <input className={this.state.classinput} onChange={this.handlegetremark} type="text" placeholder="备注..." />
-                <a class="btn btn-success" href="#" role="button" onClick={this.handleBuy} >购入</a>
-                <a class="btn btn-primary" href="#" role="button" onClick={this.handleSell} >出售</a>
+                    <a class="btn bg-brown" href="#" role="button" onClick={this.handleClickPOST} >确认</a>
                 </div>
             </Modal_foot>
         </Modal>
@@ -280,6 +343,6 @@ ReactDOM.render(
 )
 
 ReactDOM.render(
-    <Nav />,
+    <Nav choosed={2} teamName={team.name} />,
     document.getElementById("Nav")
 )

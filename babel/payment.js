@@ -5,12 +5,9 @@ class Input_select extends React.Component{
 
     render(){
         return(
-            <Input_group>
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">{this.props.optionName}</label>
-                </div>
+            <div className={this.props.className}>
                 <Select options={this.props.options} get_value={this.props.get_value} />
-            </Input_group>
+            </div>
         )
     }
 }
@@ -24,8 +21,8 @@ class Body extends React.Component{
                 teamlist:{},
                 name:[]
             },
-            inputValueM:"",
-            inputValueR:""
+            inputValueM:undefined,
+            inputValueR:undefined
         }
         // this.b = [["a","b","c"],[1,2,3],[4,5,6]]
         this.handleget = {
@@ -36,6 +33,7 @@ class Body extends React.Component{
         };
         this.value =  {};
         this.handleClick = this.Click.bind(this);
+        this.handleClear = this.Clear.bind(this);
     }
 
     Get(index,e){
@@ -150,33 +148,48 @@ class Body extends React.Component{
         })
     }
 
+    Clear(){
+        this.setState({
+            inputValueM:"",
+            inputValueR:""
+        })
+    }
+
     render(){
         return(
             <React.Fragment>
-                <div className="mb-3"></div>
+                <div className="welcome"><b>转账</b></div>
+                <div className="paybox">
                 <div className="row mb-3">
                     <div className="col">
-                        <Input_select optionName="收款方" options={this.state.b.name} get_value={this.handleget["to"]} />
+                        <div className="inline payment-explain">收款方</div>
+                        <Input_select className="inline" optionName="收款方" options={this.state.b.name} get_value={this.handleget["to"]} />
                     </div>
-                    <div className="col">   
-                        <Input_select optionName="货币类型" options={this.state.a} get_value={this.handleget["type"]} />
+                    <div className="col"> 
+                        <div className="inline payment-explain">货币类型</div>  
+                        <Input_select className="inline" optionName="货币类型" options={this.state.a} get_value={this.handleget["type"]} />
+                    </div>
+                </div>
+                <div className="row mb-4">
+                    <div className="col">
+                        <div className="inline payment-explain">金额</div>
+                        <div className="inline money"><input value={this.state.inputValueM} className="form-control" type="text" onChange={this.handleget["num"]} placeholder="金额..." /></div>    
                     </div>
                 </div>
                 <div className="row mb-3">
                     <div className="col">
-                        <input value={this.state.clearValue} className="form-control" type="text" onChange={this.handleget["num"]} placeholder="金额..." />    
-                    </div>
-                </div>
-                <div className="row mb-3">
-                    <div className="col">
-                        <input value={this.state.clearValue} className="form-control" type="text" onChange={this.handleget["remark"]} placeholder="备注..." />
+                        <div className="inline remark mb-3">备注</div>
+                        <br />
+                        <input value={this.state.inputValueR} className="form-control inline" type="text" onChange={this.handleget["remark"]} placeholder="备注..." />
                     </div>    
                 </div>
                 <div className="row mb-3">
                     <div className="col">
                         {/* 发起交易按钮 */}
-                        <input type="button" className="form-control" onClick={this.handleClick} value="发起交易" />
+                        <input type="button" className="btn bg-brown btn-post" onClick={this.handleClick} value="发起交易" />
+                        <div className="inline reset"><a className="reset" onClick={this.handleClear}>重置</a></div>
                     </div>    
+                </div>
                 </div>
             </React.Fragment>
         )
@@ -189,6 +202,6 @@ ReactDOM.render(
 )
 
 ReactDOM.render(
-    <Nav />,
+    <Nav teamName={team.name} choosed={1} />,
     document.getElementById("Nav")
 )

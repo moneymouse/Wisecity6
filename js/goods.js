@@ -157,6 +157,12 @@ var Table = function (_React$Component) {
                     "table",
                     { className: "table" },
                     React.createElement(
+                        "div",
+                        { className: "welcome" },
+                        "\u5546\u5E97"
+                    ),
+                    React.createElement("div", { className: "goodBox" }),
+                    React.createElement(
                         "thead",
                         { className: "thead-light" },
                         React.createElement(

@@ -432,12 +432,24 @@ var CheckboxGroup = function (_React$Component7) {
 				React.createElement(
 					"div",
 					{ className: "row" },
+					React.createElement(
+						"div",
+						{ className: "col-3" },
+						React.createElement("input", { type: "checkbox", onClick: function onClick(e) {
+								return _this16;
+							} }),
+						React.createElement(
+							"label",
+							null,
+							全选
+						)
+					),
 					this.state.groups.map(function (v, i) {
 						_this16.checked.v = false;
 						// console.log(v);
 						return React.createElement(
 							"div",
-							{ className: "col-1" },
+							{ className: "col-3" },
 							React.createElement("input", { type: "checkbox", onClick: function onClick(e) {
 									return _this16.handleClick(i, e);
 								} }),
@@ -454,7 +466,7 @@ var CheckboxGroup = function (_React$Component7) {
 					{ "class": "row" },
 					React.createElement(
 						"div",
-						{ "class": "col-1" },
+						{ "class": "col-3" },
 						React.createElement("input", { name: "lyz2lzh", type: "radio", onChange: this.handleCheck.public }),
 						React.createElement(
 							"label",
@@ -464,7 +476,7 @@ var CheckboxGroup = function (_React$Component7) {
 					),
 					React.createElement(
 						"div",
-						{ "class": "col-1" },
+						{ "class": "col-3" },
 						React.createElement("input", { name: "lyz2lzh", type: "radio", onChange: this.handleCheck.private }),
 						React.createElement(
 							"label",

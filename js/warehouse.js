@@ -21,11 +21,12 @@ var Table = function (_React$Component) {
         _this.state = {
             warehouse: [],
             modal_state: false,
-            classinput: "form-control col-3",
+            classinput: "form-control",
             a: ["白银"],
             teamlist: {
                 name: []
-            }
+            },
+            totalPrice: 0
         };
         _this.value = {}; // the value to modal
         _this.sellvalue = {}; // the value to ajax
@@ -39,6 +40,8 @@ var Table = function (_React$Component) {
         _this.handlegetcurrency = _this.get_currency.bind(_this);
         _this.handleSell = _this.Sell.bind(_this);
         _this.handleBuy = _this.Buy.bind(_this);
+        _this.handleGetChoice = _this.choiceOfBuy.bind(_this);
+        _this.handleClickPOST = _this.clickPOST.bind(_this);
         return _this;
     }
 
@@ -204,11 +207,21 @@ var Table = function (_React$Component) {
         key: "get_num_value",
         value: function get_num_value(e) {
             this.sellvalue.num = e.target.value;
+            if (this.sellvalue.price !== undefined) {
+                this.setState({
+                    totalPrice: this.sellvalue.price * this.sellvalue.num
+                });
+            }
         }
     }, {
         key: "get_price_value",
         value: function get_price_value(e) {
             this.sellvalue.price = e.target.value;
+            if (this.sellvalue.num !== undefined) {
+                this.setState({
+                    totalPrice: this.sellvalue.price * this.sellvalue.num
+                });
+            }
         }
     }, {
         key: "get_currency",
@@ -244,6 +257,25 @@ var Table = function (_React$Component) {
             Transaction_goods(this.sellvalue.id, this.sellvalue.currency, this.sellvalue.num, this.sellvalue.remark, 1, this.sellvalue.good, this.sellvalue.price);
         }
     }, {
+        key: "choiceOfBuy",
+        value: function choiceOfBuy(e) {
+            this.type = {};
+            this.type.buy = e.target.checked;
+        }
+    }, {
+        key: "clickPOST",
+        value: function clickPOST() {
+            if (this.type === undefined) {
+                alert("请选择购入或卖出！");
+                return;
+            }
+            if (this.type.buy) {
+                this.handleBuy();
+            } else {
+                this.handleSell();
+            }
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this3 = this;
@@ -252,77 +284,90 @@ var Table = function (_React$Component) {
                 React.Fragment,
                 null,
                 React.createElement(
-                    "table",
-                    { className: "table", style: { paddingTop: "10px" } },
+                    "div",
+                    { className: "welcome" },
                     React.createElement(
-                        "thead",
-                        { className: "thead-light" },
-                        React.createElement(
-                            "tr",
-                            null,
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u5546\u54C1\u540D\u79F0"
-                            ),
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u5E93\u5B58"
-                            ),
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u5373\u65F6\u552E\u4EF7"
-                            ),
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u4E70\u5165/\u5356\u51FA"
-                            )
-                        )
-                    ),
-                    React.createElement(
-                        "tbody",
+                        "b",
                         null,
-                        this.state.warehouse.map(function (val, index) {
-                            return React.createElement(
+                        "\u4ED3\u5E93"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "warehouseBox" },
+                    React.createElement(
+                        "table",
+                        { className: "table", style: { paddingTop: "10px" } },
+                        React.createElement(
+                            "thead",
+                            { className: "bg-brown", style: { "color": "white" } },
+                            React.createElement(
                                 "tr",
-                                { key: index },
+                                null,
                                 React.createElement(
                                     "th",
-                                    { scope: "row" },
-                                    val.goods_name
+                                    { scope: "col" },
+                                    "\u5546\u54C1\u540D\u79F0"
                                 ),
                                 React.createElement(
-                                    "td",
-                                    null,
-                                    val.num
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5E93\u5B58"
                                 ),
                                 React.createElement(
-                                    "td",
-                                    null,
-                                    _this3.good.list.map(function (v, i) {
-                                        if (v.name == val.goods_name) {
-                                            val.price = v.sell;
-                                            val.id = v.id;
-                                            return v.sell;
-                                        }
-                                    })
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5373\u65F6\u552E\u4EF7"
                                 ),
                                 React.createElement(
-                                    "td",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-secondary", href: "#", role: "button", onClick: function onClick() {
-                                                _this3.handleclick(val);
-                                            } },
-                                        "Click!"
-                                    )
+                                    "th",
+                                    { scope: "col" },
+                                    "\u4E70\u5165/\u5356\u51FA"
                                 )
-                            );
-                        })
+                            )
+                        ),
+                        React.createElement(
+                            "tbody",
+                            null,
+                            this.state.warehouse.map(function (val, index) {
+                                return React.createElement(
+                                    "tr",
+                                    { key: index },
+                                    React.createElement(
+                                        "th",
+                                        { scope: "row" },
+                                        val.goods_name
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        val.num
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        _this3.good.list.map(function (v) {
+                                            if (v.name == val.goods_name) {
+                                                val.price = v.sell;
+                                                val.id = v.id;
+                                                return v.sell;
+                                            }
+                                        })
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        React.createElement(
+                                            "a",
+                                            { "class": "btn bg-brown", href: "#", role: "button", onClick: function onClick() {
+                                                    _this3.handleclick(val);
+                                                } },
+                                            "Click!"
+                                        )
+                                    )
+                                );
+                            })
+                        )
                     )
                 ),
                 React.createElement(
@@ -337,30 +382,115 @@ var Table = function (_React$Component) {
                         Modal_body,
                         null,
                         React.createElement(
-                            "h4",
-                            null,
-                            "\u4EF7\u683C:",
-                            this.value.price
-                        ),
-                        React.createElement("br", null),
-                        React.createElement(
-                            "h4",
-                            null,
-                            "\u5E93\u5B58:",
-                            this.value.num
+                            "div",
+                            { className: "row mb-3" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { name: "lzh2lyz13", type: "radio", onChange: this.handleGetChoice }),
+                                React.createElement(
+                                    "label",
+                                    null,
+                                    "\u8D2D\u5165"
+                                )
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { name: "lzh2lyz13", type: "radio" }),
+                                React.createElement(
+                                    "label",
+                                    null,
+                                    "\u552E\u51FA"
+                                )
+                            )
                         ),
                         React.createElement(
                             "div",
                             { className: "row mb-3" },
-                            React.createElement(Select, { options: this.state.teamlist.name, get_value: this.handlegetselect }),
-                            " "
+                            React.createElement(
+                                "div",
+                                { className: "font-modal col-2" },
+                                "\u76EE\u6807\u65B9:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-4" },
+                                React.createElement(Select, { options: this.state.teamlist.name, get_value: this.handlegetselect }),
+                                " "
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "font-modal col-2 c" },
+                                "\u8D27\u5E01\u7C7B\u578B:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-4" },
+                                React.createElement(Select, { options: this.state.a, get_value: this.handlegetcurrency }),
+                                " "
+                            )
                         ),
                         React.createElement(
                             "div",
                             { className: "row mb-3" },
-                            React.createElement(Select, { options: this.state.a, get_value: this.handlegetcurrency }),
-                            " "
-                        )
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                "\u6570\u91CF:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-4" },
+                                React.createElement("input", { className: "form-control", onChange: this.handlegetnum, type: "text", placeholder: "\u6570\u91CF..." })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                "\u5355\u4EF7:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-4" },
+                                React.createElement("input", { className: this.state.classinput, onChange: this.handlegetprice, type: "text", placeholder: "\u5355\u4EF7..." })
+                            )
+                        ),
+                        React.createElement("div", { className: "line" }),
+                        React.createElement(
+                            "div",
+                            { className: "mb-2" },
+                            React.createElement(
+                                "div",
+                                { className: "modal-body-down-left inline" },
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal " },
+                                    "\u5E93\u5B58:",
+                                    this.value.num
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal" },
+                                    "\u5373\u65F6\u5355\u4EF7:",
+                                    this.value.price
+                                )
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "modal-body-down-right inline" },
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal" },
+                                    "\u603B\u91D1\u989D:"
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal", style: { "float": "right" } },
+                                    this.state.totalPrice.toFixed(2)
+                                )
+                            )
+                        ),
+                        React.createElement("input", { className: this.state.classinput, onChange: this.handlegetremark, type: "text", placeholder: "\u5907\u6CE8..." })
                     ),
                     React.createElement(
                         Modal_foot,
@@ -368,18 +498,10 @@ var Table = function (_React$Component) {
                         React.createElement(
                             "div",
                             { className: "row" },
-                            React.createElement("input", { className: "form-control col-3", onChange: this.handlegetnum, type: "text", placeholder: "\u51FA\u552E\u6570\u91CF..." }),
-                            React.createElement("input", { className: this.state.classinput, onChange: this.handlegetprice, type: "text", placeholder: "\u51FA\u552E\u5355\u4EF7..." }),
-                            React.createElement("input", { className: this.state.classinput, onChange: this.handlegetremark, type: "text", placeholder: "\u5907\u6CE8..." }),
                             React.createElement(
                                 "a",
-                                { "class": "btn btn-success", href: "#", role: "button", onClick: this.handleBuy },
-                                "\u8D2D\u5165"
-                            ),
-                            React.createElement(
-                                "a",
-                                { "class": "btn btn-primary", href: "#", role: "button", onClick: this.handleSell },
-                                "\u51FA\u552E"
+                                { "class": "btn bg-brown", href: "#", role: "button", onClick: this.handleClickPOST },
+                                "\u786E\u8BA4"
                             )
                         )
                     )
@@ -393,4 +515,4 @@ var Table = function (_React$Component) {
 
 ReactDOM.render(React.createElement(Table, null), document.getElementById("root"));
 
-ReactDOM.render(React.createElement(Nav, null), document.getElementById("Nav"));
+ReactDOM.render(React.createElement(Nav, { choosed: 2, teamName: team.name }), document.getElementById("Nav"));

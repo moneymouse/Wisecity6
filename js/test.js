@@ -175,7 +175,12 @@ var Left = function (_React$Component) {
         value: function render() {
             return React.createElement(
                 "div",
-                { className: "col-sm-12 col-md-6 col-lg-4 maina" },
+                { className: this.props.className },
+                React.createElement(
+                    "div",
+                    { className: "font-index" },
+                    "\u56FE\u5F62\u62A5\u8868"
+                ),
                 React.createElement("div", { id: "main" })
             );
         }
@@ -228,36 +233,43 @@ var T_table_a = function (_React$Component3) {
             Table: []
         };
         _this4.total = 0;
-        var listent = function listent(e) {
-            _this4.total = _this4.total + 1;
-            var arr = [];
-            if (_this4.total > 2) {
-                _this4.total = 0;
-            } else {
-                arr = _this4.state.Table;
-            }
-            e.num = e.money || e.num;
-            for (var a in e) {
-                if (e[a] == undefined) {
-                    continue;
-                }
-                arr.push(e[a]);
-            }
-            // console.log(arr);
-            _this4.setState({
-                Table: arr
-            });
-            // console.log(e)
-        };
-        _this4.listent = listent.bind(_this4);
+        _this4.listent = _this4.listent.bind(_this4);
+        console.log(_this4.state.Table);
         return _this4;
     }
 
     _createClass(T_table_a, [{
+        key: "listent",
+        value: function listent(e) {
+            var arr = [];
+            console.log(this.total);
+            console.log(arr);
+            console.log(this.state.Table);
+            if (this.total > 0) {
+                this.total = 0;
+            } else {
+                arr = this.state.Table;
+                this.total = this.total + 1;
+            }
+            console.log(arr);
+            for (var a in e) {
+                e[a].num = e.money || e.num;
+                if (e[a] == undefined) {
+                    continue;
+                } else arr.push(e[a]);
+            }
+            // console.log(arr);
+            this.setState({
+                Table: arr
+            });
+            // console.log(e)
+        }
+    }, {
         key: "componentDidMount",
         value: function componentDidMount() {
             var _this5 = this;
 
+            console.log(this.state.Table);
             ppss.listent("log.transfer", this.listent);
             ppss.listent("log.transcation", this.listent);
             getLog("transfer", "confirm");
@@ -289,10 +301,10 @@ var T_table_a = function (_React$Component3) {
 
             return React.createElement(
                 "table",
-                { className: "table" },
+                { className: this.props.className },
                 React.createElement(
                     "thead",
-                    { className: "thead-light" },
+                    { className: "bg-brown" },
                     React.createElement(
                         "tr",
                         null,
@@ -451,10 +463,10 @@ var Loan_table = function (_React$Component5) {
 
             return React.createElement(
                 "table",
-                { className: "table" },
+                { className: this.props.className },
                 React.createElement(
                     "thead",
-                    { className: "thead-light" },
+                    { className: "bg-brown" },
                     React.createElement(
                         "tr",
                         null,
@@ -574,7 +586,7 @@ var Fina_box = function (_React$Component6) {
         value: function render() {
             return React.createElement(
                 "div",
-                { className: "Finayear", onClick: this.handleclick },
+                { className: this.props.className, onClick: this.handleclick },
                 React.createElement(
                     "h4",
                     { style: { "font-size": "1.3em" } },
@@ -606,21 +618,52 @@ var Asset = function (_React$Component7) {
         value: function render() {
             return React.createElement(
                 "div",
-                { className: "Finayear" },
-                React.createElement(
-                    "h5",
-                    null,
-                    "\u961F\u4F0D\u540D\u79F0:",
-                    team.name
-                ),
+                { className: this.props.className },
                 team.money.map(function (v, i) {
                     if (i <= 2) {
-                        return React.createElement(
-                            "p",
-                            null,
-                            v.currency,
-                            ":",
-                            v.num
+                        if (i === 0 || i === 1) {
+                            return React.createElement(
+                                React.Fragment,
+                                null,
+                                React.createElement(
+                                    "div",
+                                    { className: "asset-each inline" },
+                                    React.createElement(
+                                        "div",
+                                        { style: { "float": "left", "color": "#856B53" } },
+                                        React.createElement(
+                                            "b",
+                                            null,
+                                            v.num
+                                        )
+                                    ),
+                                    React.createElement("br", null),
+                                    React.createElement(
+                                        "div",
+                                        { style: { "float": "left" } },
+                                        v.currency
+                                    )
+                                ),
+                                React.createElement("div", { className: "line-index-asset inline" })
+                            );
+                        } else return React.createElement(
+                            "div",
+                            { className: "asset-each inline" },
+                            React.createElement(
+                                "div",
+                                { style: { "float": "left", "color": "#856B53" } },
+                                React.createElement(
+                                    "b",
+                                    null,
+                                    v.num
+                                )
+                            ),
+                            React.createElement("br", null),
+                            React.createElement(
+                                "div",
+                                { style: { "float": "left" } },
+                                v.currency
+                            )
                         );
                     }
                 })
@@ -789,19 +832,60 @@ var Content = function (_React$Component8) {
                 null,
                 React.createElement(
                     "div",
-                    { className: "row" },
-                    React.createElement(Left, null),
+                    { className: "welcome" },
+                    React.createElement(
+                        "b",
+                        { style: { "color": "#856B53" } },
+                        "\u4F60\u597D\uFF0C",
+                        team.name
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "top-explain" },
                     React.createElement(
                         "div",
-                        { className: "col-lg-4 col-md-6 col-sm-12", style: { overFlow: "auto" } },
-                        React.createElement(Fina_box, null),
-                        React.createElement(T_table_a, { openModal: this.handleOpen })
+                        { className: "font-index inline time" },
+                        React.createElement(
+                            "b",
+                            null,
+                            "\u65F6\u95F4"
+                        )
                     ),
                     React.createElement(
                         "div",
-                        { className: "col-lg-4 col-md-12 col-sm-12", style: { overFlow: "auto" } },
-                        React.createElement(Asset, null),
-                        React.createElement(Loan_table, { openModal: this.handleOpenL })
+                        { className: "font-index inline wholeTell" },
+                        React.createElement(
+                            "b",
+                            null,
+                            "\u6982\u51B5"
+                        )
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "top" },
+                    React.createElement(Fina_box, { className: "Finayear inline" }),
+                    React.createElement(Asset, { className: "Asset inline" })
+                ),
+                React.createElement(Left, { className: "maina" }),
+                React.createElement(
+                    "div",
+                    { className: "font-index top-explain" },
+                    "\u5F85\u5904\u7406"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "bottom" },
+                    React.createElement(
+                        "div",
+                        { className: "inline a" },
+                        React.createElement(T_table_a, { openModal: this.handleOpen, className: "table inline" })
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "inline b" },
+                        React.createElement(Loan_table, { openModal: this.handleOpenL, className: "table inline" })
                     )
                 ),
                 React.createElement(
@@ -911,7 +995,7 @@ var Content = function (_React$Component8) {
 
 ReactDOM.render(
 // 渲染导航栏
-React.createElement(Nav, null), document.getElementById("Nav"));
+React.createElement(Nav, { teamName: team.name, choosed: 0 }), document.getElementById("Nav"));
 ReactDOM.render(
 // 渲染content
 React.createElement(Content, null), document.getElementById("content"));

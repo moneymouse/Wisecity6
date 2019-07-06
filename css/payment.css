@@ -1,7 +1,6 @@
 body,
 html {
     height: 100%;
-    padding: 30px;
 }
 
 @media screen and (max-width:768px) {
@@ -10,4 +9,51 @@ html {
         height: 100%;
         padding: 10px;
     }
+}
+
+#root{
+    height:100%;
+    margin-left:15.3%
+}
+
+.paybox {
+    margin-top: 3%;
+    margin-left: 8.3%;
+    width: 46.1%;
+    height: 50.5%;
+    padding: 3.8%;
+    border: 1px solid rgba(221,221,221,1);
+}
+
+.payment-explain{
+    margin-right: 2.2%;
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+
+.btn-post {
+    margin-left: 33.65%;
+    width: 32.7%;
+    height: 80%;
+    padding-top:0px !important;
+    color: white !important;
+    font-size: 0.9em !important;
+}
+
+.inline.reset{
+    margin-left: 10%;
+}
+
+.remark{
+    font-size:0.8em;
+}
+
+.reset{
+    color:black !important;
+}
+
+.money{
+    width:88%;
+    vertical-align: middle;
+    padding-left:2%;
 }

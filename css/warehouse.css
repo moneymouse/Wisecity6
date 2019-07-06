@@ -1,11 +1,20 @@
 #root {
-    padding-top: 2%;
-    padding-left: 12%;
-    padding-right: 12%;
+    height: 100%;
+    margin-left:15.3%;
 }
 
 .table {
     border: .5px solid #dddddd;
+}
+
+th {
+    font-family: Lanting;
+    font-size:0.8em;
+    border-bottom: none !important;
+}
+
+.table.td{
+    font-size:0.8em;
 }
 
 @font-face {
@@ -37,4 +46,34 @@
 
 .hide{
     display: none;
+}
+
+.font-modal.col-2.c{
+    padding: 0 !important;
+    padding-left: 14px !important;
+}
+
+.line{
+    height: 0px;
+    border: 1px solid rgba(112,112,112,0.5);
+    opacity: 0.51;
+    margin-bottom: 24px;
+}
+
+.warehouseBox{
+    margin-left: 8.3%;
+    margin-top: 4.8%;
+    width: 48.1%;
+}
+
+.modal-body-down-right{
+    float: right;
+}
+
+.modal-body-down-left>.font-modal{
+    margin-bottom: 12px;
+}
+
+.modal-body-down-right>.font-modal{
+    margin-bottom: 12px;
 }

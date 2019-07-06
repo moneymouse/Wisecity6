@@ -162,7 +162,7 @@ var Form = function (_React$Component3) {
                             { onClick: function onClick(e) {
                                     alert("请联系 穿着荧光黄外套 的技术支持(小生蚝)~");
                                 } },
-                            "\u5FD8\u8BB0\u5BC6\u7801\uFF1F/Foget?"
+                            "\u5FD8\u8BB0\u5BC6\u7801\uFF1F/Forget\uFF1F"
                         )
                     ),
                     React.createElement(Button, { value: "\u767B\u5F55", "class": "t btn btn-p", click: this.handleclick })

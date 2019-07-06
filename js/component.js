@@ -241,31 +241,6 @@ var Modal_foot = function (_React$Component4) {
     return Modal_foot;
 }(React.Component);
 
-// {
-//  <div>   
-//     <div className="cont font_f">
-//     {/* 商品选择modal-body样式 */}
-//             {"商品"+":"+this.props.content.name}
-//             <br/>
-//             {"单价"+":"+this.props.content.price}
-//             <br/>
-//         </div>
-//         <div class="input-group mb-3">
-//             <div class="input-group-prepend">
-//                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-//                 <div class="dropdown-menu">
-//                     <a class="dropdown-item" href="#">Action</a>
-//                     <a class="dropdown-item" href="#">Another action</a>
-//                     <a class="dropdown-item" href="#">Something else here</a>
-//                     <div role="separator" class="dropdown-divider"></div>
-//                     <a class="dropdown-item" href="#">Separated link</a>
-//                 </div>
-//             </div>
-//             <input type="text" class="form-control" aria-label="Text input with dropdown button"/>
-//         </div>
-//     </div>
-// }           
-
 var Fade = function (_React$Component5) {
     _inherits(Fade, _React$Component5);
 
@@ -316,6 +291,15 @@ var Fade = function (_React$Component5) {
     return Fade;
 }(React.Component);
 
+/*
+    name:Nav
+    props: teamName -- the team.name,
+           choosed -- the ordinal num of the choosed nav.0.首页, 1.转账, 2.仓库, 3.情报, 
+           4.商店, 5.资产管理, 6.金融操作
+    return: a Nav component
+*/
+
+
 var Nav = function (_React$Component6) {
     _inherits(Nav, _React$Component6);
 
@@ -326,172 +310,358 @@ var Nav = function (_React$Component6) {
         var _this6 = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props));
 
         _this6.state = {
-            navshow: "collapse navbar-collapse",
-            height: "0px",
-            down: "nav-item dropdown active",
-            downmenu: "dropdown-menu"
+            navClass: ["onChoose inline hide", "onChoose inline hide", "hide inline onChoose", "onChoose inline hide", "onChoose inline hide", "onChoose inline hide", "onChoose inline hide", "onChoose inline hide"],
+            isOpen: false
         };
-        _this6.timehandle;
-        _this6.togglehandle = _this6.toggle.bind(_this6);
-        _this6.toggle_2 = _this6.toggle_1.bind(_this6);
-        _this6.isclick = true;
+        _this6.state.navClass[_this6.props.choosed] = "onChoose inline";
+        _this6.value = {};
+
+        _this6.handleClose = _this6.close.bind(_this6);
+        _this6.handleOpen = _this6.open.bind(_this6);
+        _this6.handleGetValue = _this6.getValue.bind(_this6);
+        _this6.handleClick = _this6.Click.bind(_this6);
         return _this6;
     }
 
     _createClass(Nav, [{
-        key: "toggle",
-        value: function toggle(e) {
-            // 移动端收缩导航栏显示与隐藏
-            if (this.isclick == true) {
-                this.isclick = false;
-                var _t = this;
-                var navshow;
-                if (this.state.navshow == "collapse navbar-collapse show") {
-                    navshow = "collapse navbar-collapse";
-                    this.setState({
-                        navshow: "collapsing navbar-collapse",
-                        height: "0px"
-                    });
-                } else {
-                    navshow = "collapse navbar-collapse show";
-                    this.setState({
-                        navshow: "collapsing navbar-collapse"
-                    });
-                    setTimeout(function () {
-                        _t.setState({ height: "114px" });
-                    }, 1);
-                }
-                var tog = function tog() {
-                    _t.setState({
-                        navshow: navshow
-                    });
-                    _t.isclick = true;
-                };
-                setTimeout(function () {
-                    tog();
-                }, 300);
-            }
+        key: "close",
+        value: function close() {
+            this.setState({
+                isOpen: false
+            });
         }
     }, {
-        key: "toggle_1",
-        value: function toggle_1() {
-            // 下拉菜单显示与隐藏
-            if (this.state.downmenu == "dropdown-menu") {
-                this.setState({
-                    downmenu: "dropdown-menu show"
-                });
-            } else {
-                this.setState({
-                    downmenu: "dropdown-menu"
-                });
+        key: "open",
+        value: function open() {
+            this.setState({
+                isOpen: true
+            });
+        }
+    }, {
+        key: "getValue",
+        value: function getValue(e, i) {
+            this.value[i] = e.target.value;
+            e.target.value = "";
+        }
+    }, {
+        key: "Click",
+        value: function Click() {
+            if (this.value["surepass"] !== this.value["newpass"]) {
+                alert("新密码与确认密码不同！");
+                return;
             }
+
+            var _t = this;
+            $.ajax({
+                type: "POST",
+                url: "https://wisecity.itrclub.com/api/user/changePassword",
+                data: {
+                    "oldPwd": _t.value["oldpass"],
+                    "newPwd": _t.value["newpass"]
+                },
+                dataType: "JSON",
+                success: function success(response) {
+                    if (response.code === 200) {
+                        alert("修改成功");
+                        _t.handleClose();
+                    } else if (response.code === 403) {
+                        alert("旧密码错误");
+                    } else {
+                        alert("请联系管理员！");
+                    }
+                }
+            });
         }
     }, {
         key: "render",
         value: function render() {
+            var _this7 = this;
+
             return React.createElement(
-                "nav",
-                { className: "navbar navbar-expand-lg navbar-dark bg-dark" },
-                React.createElement(
-                    "a",
-                    { className: "navbar-brand title", href: "#" },
-                    "Wisecity"
-                ),
-                React.createElement(
-                    "button",
-                    { onClick: this.togglehandle, className: "navbar-toggler", "aria-controls": "navbarSupportedContent" },
-                    React.createElement("span", { "class": "navbar-toggler-icon" })
-                ),
+                React.Fragment,
+                null,
                 React.createElement(
                     "div",
-                    { className: this.state.navshow, style: { height: this.state.height }, id: "navbarSupportedContent" },
+                    { "class": "Nav" },
                     React.createElement(
-                        "ul",
-                        { className: "navbar-nav mr-auto" },
+                        "div",
+                        { "class": "nav-top" },
                         React.createElement(
-                            "li",
-                            { className: "nav-item" },
-                            React.createElement(
-                                "a",
-                                { className: "nav-link font_f active", href: "index" },
-                                "\u9996\u9875"
-                            )
+                            "div",
+                            { "class": "f inline" },
+                            this.props.teamName
                         ),
                         React.createElement(
-                            "li",
-                            { className: this.state.down },
+                            "div",
+                            { "class": "d inline" },
                             React.createElement(
                                 "a",
-                                { className: "nav-link dropdown-toggle", role: "button", href: "#", id: "dropdownId", onClick: this.toggle_2 },
-                                "\u64CD\u4F5C"
-                            ),
-                            React.createElement(
-                                "ul",
-                                { className: this.state.downmenu, "aria-labelledby": "dropdownId" },
-                                React.createElement(
-                                    "li",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { className: "dropdown-item", href: "https://wisecity.itrclub.com/team/payment" },
-                                        "\u8F6C\u8D26"
-                                    )
-                                ),
-                                React.createElement(
-                                    "li",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { className: "dropdown-item", href: "https://wisecity.itrclub.com/team/warehouse" },
-                                        "\u4ED3\u5E93"
-                                    )
-                                ),
-                                React.createElement(
-                                    "li",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { className: "dropdown-item", href: "https://wisecity.itrclub.com/team/news" },
-                                        "\u60C5\u62A5"
-                                    )
-                                ),
-                                React.createElement(
-                                    "li",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { className: "dropdown-item", href: "https://wisecity.itrclub.com/team/goods" },
-                                        "\u5546\u5E97"
-                                    )
-                                ),
-                                React.createElement(
-                                    "li",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { className: "dropdown-item", href: "https://wisecity.itrclub.com/team/asset" },
-                                        "\u8D44\u4EA7\u7BA1\u7406"
-                                    )
-                                ),
-                                React.createElement(
-                                    "li",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { className: "dropdown-item", href: "https://wisecity.itrclub.com/team/investment" },
-                                        "\u91D1\u878D\u64CD\u4F5C"
-                                    )
-                                )
-                            )
-                        ),
-                        React.createElement(
-                            "li",
-                            { className: "nav-item" },
-                            React.createElement(
-                                "a",
-                                { className: "nav-link font_f active", href: "https://wisecity.itrclub.com/user/logout", role: "button" },
+                                { href: "https://wisecity.itrclub.com/user/logout" },
                                 "\u9000\u51FA\u767B\u5F55"
                             )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "nav-logo" },
+                        React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/Nav_logo.png", alt: "WISECITY" })
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "first navBar" },
+                        React.createElement("div", { className: this.state.navClass[0] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/home.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { style: { "color": "white" }, href: "index" },
+                                "\u9996\u9875"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "navBar" },
+                        React.createElement("div", { className: this.state.navClass[1] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/exchange-alt.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { style: { "color": "white" }, href: "payment" },
+                                "\u8F6C\u8D26"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "navBar" },
+                        React.createElement("div", { className: this.state.navClass[2] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/chart-pie.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { style: { "color": "white" }, href: "warehouse" },
+                                "\u4ED3\u5E93"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "navBar" },
+                        React.createElement("div", { className: this.state.navClass[3] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/chart-bar.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { style: { "color": "white" }, href: "news" },
+                                "\u60C5\u62A5"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "navBar" },
+                        React.createElement("div", { className: this.state.navClass[4] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/shopping-cart.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { style: { "color": "white" }, href: "goods" },
+                                "\u5546\u5E97"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "navBar" },
+                        React.createElement("div", { className: this.state.navClass[5] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/dollar-sign.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { style: { "color": "white" }, href: "asset" },
+                                "\u8D44\u4EA7\u7BA1\u7406"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "navBar" },
+                        React.createElement("div", { className: this.state.navClass[6] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/hand-pointer.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { style: { "color": "white" }, href: "investment" },
+                                "\u91D1\u878D\u64CD\u4F5C"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "navBar" },
+                        React.createElement("div", { className: this.state.navClass[7] }),
+                        React.createElement(
+                            "div",
+                            { "class": "icon inline" },
+                            React.createElement(
+                                "span",
+                                null,
+                                React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/icon/user-shield.png", alt: "WISECITY" })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { "class": "option inline" },
+                            React.createElement(
+                                "a",
+                                { onClick: this.handleOpen },
+                                "\u4FEE\u6539\u5BC6\u7801"
+                            )
+                        )
+                    )
+                ),
+                React.createElement(
+                    Modal,
+                    { isOpen: this.state.isOpen },
+                    React.createElement(
+                        Modal_head,
+                        { close: this.handleClose },
+                        React.createElement(
+                            "b",
+                            null,
+                            "\u4FEE\u6539\u5BC6\u7801"
+                        )
+                    ),
+                    React.createElement(
+                        Modal_body,
+                        null,
+                        React.createElement(
+                            "div",
+                            { className: "row" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                "\u539F\u5BC6\u7801"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-6" },
+                                React.createElement("input", { className: "form-control", onChange: function onChange(e) {
+                                        return _this7.handleGetValue(e, "oldpass");
+                                    } })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                "\u65B0\u5BC6\u7801"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-6" },
+                                React.createElement("input", { className: "form-control", onChange: function onChange(e) {
+                                        return _this7.handleGetValue(e, "newpass");
+                                    } })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                "\u786E\u8BA4\u65B0\u5BC6\u7801"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-6" },
+                                React.createElement("input", { className: "form-control", onChange: function onChange(e) {
+                                        return _this7.handleGetValue(e, "surepass");
+                                    } })
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        Modal_foot,
+                        { close: this.handleClose },
+                        React.createElement(
+                            "a",
+                            { className: "btn bg-brown", role: "button", onClick: this.handleClick },
+                            "\u786E\u8BA4"
                         )
                     )
                 )
@@ -606,10 +776,10 @@ var Select = function (_React$Component10) {
     function Select(props) {
         _classCallCheck(this, Select);
 
-        var _this10 = _possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
+        var _this11 = _possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
 
-        _this10.handleget = _this10.Get.bind(_this10);
-        return _this10;
+        _this11.handleget = _this11.Get.bind(_this11);
+        return _this11;
     }
 
     _createClass(Select, [{

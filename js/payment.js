@@ -21,17 +21,8 @@ var Input_select = function (_React$Component) {
         key: "render",
         value: function render() {
             return React.createElement(
-                Input_group,
-                null,
-                React.createElement(
-                    "div",
-                    { "class": "input-group-prepend" },
-                    React.createElement(
-                        "label",
-                        { "class": "input-group-text", "for": "inputGroupSelect01" },
-                        this.props.optionName
-                    )
-                ),
+                "div",
+                { className: this.props.className },
                 React.createElement(Select, { options: this.props.options, get_value: this.props.get_value })
             );
         }
@@ -54,8 +45,8 @@ var Body = function (_React$Component2) {
                 teamlist: {},
                 name: []
             },
-            inputValueM: "",
-            inputValueR: ""
+            inputValueM: undefined,
+            inputValueR: undefined
             // this.b = [["a","b","c"],[1,2,3],[4,5,6]]
         };_this2.handleget = {
             "to": _this2.Get.bind(_this2, "to"),
@@ -65,6 +56,7 @@ var Body = function (_React$Component2) {
         };
         _this2.value = {};
         _this2.handleClick = _this2.Click.bind(_this2);
+        _this2.handleClear = _this2.Clear.bind(_this2);
         return _this2;
     }
 
@@ -184,51 +176,105 @@ var Body = function (_React$Component2) {
             });
         }
     }, {
+        key: "Clear",
+        value: function Clear() {
+            this.setState({
+                inputValueM: "",
+                inputValueR: ""
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return React.createElement(
                 React.Fragment,
                 null,
-                React.createElement("div", { className: "mb-3" }),
                 React.createElement(
                     "div",
-                    { className: "row mb-3" },
+                    { className: "welcome" },
+                    React.createElement(
+                        "b",
+                        null,
+                        "\u8F6C\u8D26"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "paybox" },
                     React.createElement(
                         "div",
-                        { className: "col" },
-                        React.createElement(Input_select, { optionName: "\u6536\u6B3E\u65B9", options: this.state.b.name, get_value: this.handleget["to"] })
+                        { className: "row mb-3" },
+                        React.createElement(
+                            "div",
+                            { className: "col" },
+                            React.createElement(
+                                "div",
+                                { className: "inline payment-explain" },
+                                "\u6536\u6B3E\u65B9"
+                            ),
+                            React.createElement(Input_select, { className: "inline", optionName: "\u6536\u6B3E\u65B9", options: this.state.b.name, get_value: this.handleget["to"] })
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "col" },
+                            React.createElement(
+                                "div",
+                                { className: "inline payment-explain" },
+                                "\u8D27\u5E01\u7C7B\u578B"
+                            ),
+                            React.createElement(Input_select, { className: "inline", optionName: "\u8D27\u5E01\u7C7B\u578B", options: this.state.a, get_value: this.handleget["type"] })
+                        )
                     ),
                     React.createElement(
                         "div",
-                        { className: "col" },
-                        React.createElement(Input_select, { optionName: "\u8D27\u5E01\u7C7B\u578B", options: this.state.a, get_value: this.handleget["type"] })
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    { className: "row mb-3" },
+                        { className: "row mb-4" },
+                        React.createElement(
+                            "div",
+                            { className: "col" },
+                            React.createElement(
+                                "div",
+                                { className: "inline payment-explain" },
+                                "\u91D1\u989D"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "inline money" },
+                                React.createElement("input", { value: this.state.inputValueM, className: "form-control", type: "text", onChange: this.handleget["num"], placeholder: "\u91D1\u989D..." })
+                            )
+                        )
+                    ),
                     React.createElement(
                         "div",
-                        { className: "col" },
-                        React.createElement("input", { value: this.state.clearValue, className: "form-control", type: "text", onChange: this.handleget["num"], placeholder: "\u91D1\u989D..." })
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    { className: "row mb-3" },
+                        { className: "row mb-3" },
+                        React.createElement(
+                            "div",
+                            { className: "col" },
+                            React.createElement(
+                                "div",
+                                { className: "inline remark mb-3" },
+                                "\u5907\u6CE8"
+                            ),
+                            React.createElement("br", null),
+                            React.createElement("input", { value: this.state.inputValueR, className: "form-control inline", type: "text", onChange: this.handleget["remark"], placeholder: "\u5907\u6CE8..." })
+                        )
+                    ),
                     React.createElement(
                         "div",
-                        { className: "col" },
-                        React.createElement("input", { value: this.state.clearValue, className: "form-control", type: "text", onChange: this.handleget["remark"], placeholder: "\u5907\u6CE8..." })
-                    )
-                ),
-                React.createElement(
-                    "div",
-                    { className: "row mb-3" },
-                    React.createElement(
-                        "div",
-                        { className: "col" },
-                        React.createElement("input", { type: "button", className: "form-control", onClick: this.handleClick, value: "\u53D1\u8D77\u4EA4\u6613" })
+                        { className: "row mb-3" },
+                        React.createElement(
+                            "div",
+                            { className: "col" },
+                            React.createElement("input", { type: "button", className: "btn bg-brown btn-post", onClick: this.handleClick, value: "\u53D1\u8D77\u4EA4\u6613" }),
+                            React.createElement(
+                                "div",
+                                { className: "inline reset" },
+                                React.createElement(
+                                    "a",
+                                    { className: "reset", onClick: this.handleClear },
+                                    "\u91CD\u7F6E"
+                                )
+                            )
+                        )
                     )
                 )
             );
@@ -240,4 +286,4 @@ var Body = function (_React$Component2) {
 
 ReactDOM.render(React.createElement(Body, null), document.getElementById("root"));
 
-ReactDOM.render(React.createElement(Nav, null), document.getElementById("Nav"));
+ReactDOM.render(React.createElement(Nav, { teamName: team.name, choosed: 1 }), document.getElementById("Nav"));

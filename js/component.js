@@ -311,11 +311,10 @@ var Nav = function (_React$Component6) {
 
         _this6.state = {
             navClass: ["onChoose inline hide", "onChoose inline hide", "hide inline onChoose", "onChoose inline hide", "onChoose inline hide", "onChoose inline hide", "onChoose inline hide", "onChoose inline hide"],
-            isOpen: false
+            isOpen: false,
+            value: {}
         };
         _this6.state.navClass[_this6.props.choosed] = "onChoose inline";
-        _this6.value = {};
-
         _this6.handleClose = _this6.close.bind(_this6);
         _this6.handleOpen = _this6.open.bind(_this6);
         _this6.handleGetValue = _this6.getValue.bind(_this6);
@@ -340,13 +339,16 @@ var Nav = function (_React$Component6) {
     }, {
         key: "getValue",
         value: function getValue(e, i) {
-            this.value[i] = e.target.value;
-            e.target.value = "";
+            var oj = this.state.value;
+            oj[i] = e.target.value;
+            this.setState({
+                value: oj
+            });
         }
     }, {
         key: "Click",
         value: function Click() {
-            if (this.value["surepass"] !== this.value["newpass"]) {
+            if (this.state.value["surepass"] !== this.state.value["newpass"]) {
                 alert("新密码与确认密码不同！");
                 return;
             }
@@ -356,8 +358,8 @@ var Nav = function (_React$Component6) {
                 type: "POST",
                 url: "https://wisecity.itrclub.com/api/user/changePassword",
                 data: {
-                    "oldPwd": _t.value["oldpass"],
-                    "newPwd": _t.value["newpass"]
+                    "oldPwd": _t.state.value["oldpass"],
+                    "newPwd": _t.state.value["newpass"]
                 },
                 dataType: "JSON",
                 success: function success(response) {
@@ -608,48 +610,48 @@ var Nav = function (_React$Component6) {
                         null,
                         React.createElement(
                             "div",
-                            { className: "row" },
+                            { className: "row mb-3" },
                             React.createElement(
                                 "div",
-                                { className: "col-3" },
+                                { className: "col-4" },
                                 "\u539F\u5BC6\u7801"
                             ),
                             React.createElement(
                                 "div",
-                                { className: "col-6" },
-                                React.createElement("input", { className: "form-control", onChange: function onChange(e) {
+                                { className: "col-7" },
+                                React.createElement("input", { className: "form-control", value: this.state.value.oldpass, onChange: function onChange(e) {
                                         return _this7.handleGetValue(e, "oldpass");
                                     } })
                             )
                         ),
                         React.createElement(
                             "div",
-                            { className: "row" },
+                            { className: "row mb-3" },
                             React.createElement(
                                 "div",
-                                { className: "col-3" },
+                                { className: "col-4" },
                                 "\u65B0\u5BC6\u7801"
                             ),
                             React.createElement(
                                 "div",
-                                { className: "col-6" },
-                                React.createElement("input", { className: "form-control", onChange: function onChange(e) {
+                                { className: "col-7" },
+                                React.createElement("input", { className: "form-control", value: this.state.value.newpass, onChange: function onChange(e) {
                                         return _this7.handleGetValue(e, "newpass");
                                     } })
                             )
                         ),
                         React.createElement(
                             "div",
-                            { className: "row" },
+                            { className: "row mb-3" },
                             React.createElement(
                                 "div",
-                                { className: "col-3" },
+                                { className: "col-4" },
                                 "\u786E\u8BA4\u65B0\u5BC6\u7801"
                             ),
                             React.createElement(
                                 "div",
-                                { className: "col-6" },
-                                React.createElement("input", { className: "form-control", onChange: function onChange(e) {
+                                { className: "col-7" },
+                                React.createElement("input", { className: "form-control", value: this.state.value.surepass, onChange: function onChange(e) {
                                         return _this7.handleGetValue(e, "surepass");
                                     } })
                             )

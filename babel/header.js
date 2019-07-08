@@ -99,7 +99,7 @@ class SureExchange extends React.Component{
     render(){
         return(
             <T_table>
-                <thead class={"thead-light"}>
+                <thead class={"bg-brown"}>
                     <tr>
                         <th scope="col">交易ID</th>
                         <th scope="col">发起队伍</th>
@@ -156,7 +156,7 @@ class Response extends React.Component{
         var _t = this;
         return(<div>
                 <T_table>
-                    <thead className="thead-light">
+                    <thead className="bg-brown">
                         <tr>
                             <th scope="col">交易号</th>
                             <th scope="col">发起队伍</th>
@@ -320,7 +320,7 @@ class Transfer extends React.Component{
 
     render(){
         return (
-            <React.Fragment>
+            <div className="border-brown">
                 <div className="row mb-3">
                     <div className="col-4">
                         <Select value="目标队伍..." options={this.state.teamList} get_value={this.handleTeamFocus} />
@@ -337,10 +337,10 @@ class Transfer extends React.Component{
                         <input className="form-control" type="text" onChange={this.handleGetRemark} placeholder="备注...." />
                     </div>
                     <div className="col-3">
-                        <a className="btn btn-primary" role="button" onClick={this.handleClick}>转账</a>
+                        <a className="btn bg-brown" role="button" onClick={this.handleClick}>转账</a>
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
     )
 
     }
@@ -386,13 +386,13 @@ class Issue extends React.Component{
 
     render(){
         return(<React.Fragment>
-            <div className="row mb-3">
+            <div className="row mb-3 border-brown">
                 <h5 className="col-3">发行票号:</h5>
                 <div className="col-5">
                     <input className="form-control" type="text" onChange={this.handlegetNum} placeholder="数量...." />
                 </div>
                 <div className="col-3">
-                    <a className="btn btn-primary" onClick={this.handleClick} role="button">发行</a>
+                    <a className="btn bg-brown" onClick={this.handleClick} role="button">发行</a>
                 </div>
             </div>
         </React.Fragment>)
@@ -450,7 +450,7 @@ class Deposit extends React.Component{
         var _t = this;
         return (<React.Fragment>
             <T_table>
-                <thead className="thead-light">
+                <thead className="bg-brown">
                     <tr>
                         <th scope="col">交易单号</th>
                         <th scope="col">队伍名</th>
@@ -545,17 +545,12 @@ class Content extends React.Component{
         var status = ["已还","未还","申请延期","申请贷款"];
         if(this.props.type==="money"){
             return (<React.Fragment>
-                <div className="mb-3"></div>
-                <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
+
                     <Groupdata type="money" groupName={this.props.group.name} groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id}  />
                     <Response onClick={this.handleOpenResponse} />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
                     <Transfer groupId={this.props.group.id} />
                     <Deposit onClick={this.handleOpenDeposit} groupId={this.props.group.id} />
-                </div>
-                </div>
+               
                 <Modal isOpen={this.state.isOpenResponse}>
                     <Modal_head close={this.handleCloseResponse}>借贷业务详情</Modal_head>
                     <Modal_body>
@@ -584,20 +579,13 @@ class Content extends React.Component{
         }
         else {
             return (<React.Fragment>
-                <div className="mb-3"></div>
-                <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
                     <Groupdata type="money" groupName={this.props.group.name} groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id} />
                     <h5>借贷申请:</h5>
                     <Response onClick={this.handleOpenResponse} />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
                     <Transfer groupId={this.props.group.id} />
                     <Issue />
                     <h5>兑现申请:</h5>
                     <SureExchange groupId={this.props.group.id} />
-                </div>
-                </div>
                 <Modal isOpen={this.state.isOpenResponse}>
                     <Modal_head close={this.handleCloseResponse}>借贷业务详情</Modal_head>
                     <Modal_body>

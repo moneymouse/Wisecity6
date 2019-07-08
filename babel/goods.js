@@ -9,7 +9,9 @@ class Table extends React.Component{
             modal_value:{
                 place:{}
             },
-            currency:[]
+            currency:[],
+            totalPriceSell:0,
+            totalPriceBuy:0,
         }
         this.handlecloseModal = this.close.bind(this);
         this.handleopenModal = this.open.bind(this);
@@ -110,22 +112,36 @@ class Table extends React.Component{
 
     get_input_Value(e){
         this.buy_value.num = e.target.value;
+        this.setState({
+            inputValue:e.target.value,
+            totalPriceSell:Number(this.buy_value.num) * Number(this.state.modal_value.sell),
+            totalPriceBuy:Number(this.buy_value.num) * Number(this.state.modal_value.buy)
+        })
     }
 
     Buy(){
-        console.log(this.buy_value);
+        this.setState({
+            inputValue:undefined,
+            totalPriceSell:0,
+            totalPriceBuy:0
+        })
         this.good.BuyOrSell("buy",this.buy_value.id,this.buy_value.num)
     }
 
     Sell(){
+        this.setState({
+            inputValue:undefined,
+            totalPriceSell:0,
+            totalPriceBuy:0
+        })
         this.good.BuyOrSell("sell",this.buy_value.id,this.buy_value.num);
     }
 
     render(){
         return (<React.Fragment>
+        <div className="welcome"><b>商店</b></div>
+        <div className="goodBox">
         <table className="table">
-            <div className="welcome">商店</div>
-            <div className="goodBox"></div>
             <thead className="bg-brown" style={{"color":"white"}}>
                 <tr>
                 <th scope="col">商品名称</th>
@@ -147,19 +163,46 @@ class Table extends React.Component{
                 })}
             </tbody>
         </table>
+        </div>
+        <div className="logo">
+            <img src={"https://wisecity.itrclub.com/resource/img/logo/store.png"} alt={"logo"} />
+        </div>
         <Modal isOpen={this.state.publicModal_state} >
 			<Modal_head close={this.handlecloseModal}>{this.state.modal_value.name}</Modal_head>
 			<Modal_body>
-				<h4>即时进价:{this.state.modal_value.buy}</h4>
-				<h4>产地:{this.state.modal_value.place.name}</h4>
-				<h4>库存:{this.warehouse[this.state.modal_value.name]}</h4>
+                <div className="row mb-2">
+				    <div className="col-3 font-modal">库存:</div>
+                    <div className="col-2">{this.warehouse[this.state.modal_value.name]}</div>
+				    <div className="col-3 font-modal">即时进价:</div>
+                    <div className="col-2">{this.state.modal_value.buy}</div>
+                </div>
+                <div className="row mb-3">
+                    <div className="col-3">产地:</div>
+                    <div className="col-2">{this.state.modal_value.place.name}</div>
+                    <div className="col-3 font-modal">即时售价:</div>
+                    <div className="col-2">{this.state.modal_value.sell}</div>
+                </div>
+                <div className="row mb-4">
+                    <div className="col-4">购入/售出数量:</div>
+                    <div className="col-6">
+                        <input value={this.state.inputValue} className="form-control" type="text" onChange={this.handleget_input_Value} placeholder="购买/售出数量..." />
+                    </div>
+                </div>
+                <div className={"line"}></div>
+                <div>
+                    <div className="modal-body-down-left inline">
+                        <div className="font-modal">总进价:</div>
+                        <div className="font-modal" style={{"float":"left"}}>{this.state.totalPriceBuy.toFixed(2)}</div>
+                    </div>
+                    <div className="modal-body-down-right inline">
+                        <div className="font-modal" style={{"float":"right"}}>总售价:</div>
+                        <div className="font-modal" style={{"float":"right"}}>{this.state.totalPriceSell.toFixed(2)}</div>
+                    </div>
+                </div>
 			</Modal_body>
 			<Modal_foot close={this.handlecloseModal} >
-                <div className="row">
-                    <input className="form-control" type="text" onChange={this.handleget_input_Value} placeholder="购买数量..." />
-                </div>
-                <a class="btn btn-primary" href="#" onClick={this.handleBuy} role="button">购买</a>
-                <a class="btn btn-primary" href="#" role="button" onClick={this.handleSell} >出售</a>
+                <a class="btn bg-brown" href="#" onClick={this.handleBuy} role="button">购买</a>
+                <a class="btn bg-brown" href="#" role="button" onClick={this.handleSell} >出售</a>
             </Modal_foot>
 		</Modal>
     </React.Fragment>
@@ -174,6 +217,6 @@ ReactDOM.render(
 )
 
 ReactDOM.render(
-    <Nav />,
+    <Nav choosed={4} teamName={team.name} />,
     document.getElementById("Nav")
 )

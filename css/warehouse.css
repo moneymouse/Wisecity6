@@ -3,10 +3,6 @@
     margin-left:15.3%;
 }
 
-.table {
-    border: .5px solid #dddddd;
-}
-
 th {
     font-family: Lanting;
     font-size:0.8em;
@@ -37,11 +33,6 @@ th {
 }
 
 @media screen and (max-width:576px) {
-    #root {
-        padding-top: 2%;
-        padding-left: 4.19%;
-        padding-right: 4.19%;
-    }
 }
 
 .hide{
@@ -77,3 +68,11 @@ th {
 .modal-body-down-right>.font-modal{
     margin-bottom: 12px;
 }
+
+.logo {
+    height: 34%;
+    position: relative;
+    top: -36%;
+    left: 73%;
+}
+

@@ -158,9 +158,42 @@ class Teamtransfer extends React.Component{
                 <input  className="form-control" type="text" onChange={this.handlegetRemark} placeholder="备注..." />
             </div>
             <div className="col-2">
-                <a onClick={this.handleClick} className="btn btn-primary" href="#" role="button">转账</a>
+                <a onClick={this.handleClick} style={{"color":"white"}} className="btn bg-brown" href="#" role="button">转账</a>
             </div>
         </div>
+        )
+    }
+}
+
+class AssetData extends React.Component{
+    constructor(props){
+        super(props);
+
+    }
+
+    render(){
+        return(
+            <div className={this.props.className}>
+                {this.props.data.map((v,i)=>{
+                    if(i<=2){
+                        if(i===0||i===1){
+                            return (<React.Fragment>
+                            <div className="asset-each inline">
+                                <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                                <br />
+                                <div style={{"float":"left"}}>{v.currency}</div>
+                            </div>
+                            <div className="line-index-asset inline"></div>
+                            </React.Fragment>)
+                        }
+                        else return (<div className="asset-each inline">
+                            <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                            <br />
+                            <div style={{"float":"left"}}>{v.currency}</div>
+                        </div>)
+                    }
+                })}
+            </div>
         )
     }
 }
@@ -173,7 +206,9 @@ class Investment extends React.Component{
             itemActive:[false,false,false,false,false],
             bank_money:"hidden",
             bank_ticket:"hidden",
-            teamShow:false
+            teamShow:false,
+            bankInput:undefined,
+            askMoneyInput:[]
         };
         this.preactive;//指向前一active的listItem
         this.curactive;//指向当前active的listItem
@@ -181,7 +216,9 @@ class Investment extends React.Component{
         this.ajaxData={};//传给后端的数据
         this.handleItemclick = this.itemClick.bind(this);
         this.handleAchange = this.aChange.bind(this);
+        this.handleAclear = this.aClear.bind(this)
         this.handleBchange = this.bChange.bind(this);
+        this.handleBclear = this.bClear.bind(this);
         this.handleCchange = this.cChange.bind(this);
         this.handleDchange = this.dChange.bind(this);
         this.handleCredit = this.Credit.bind(this);
@@ -213,7 +250,7 @@ class Investment extends React.Component{
             if(e.bankId<=3){
                 this.setState({
                     itemActive:a, // run the change
-                    bank_money:"",
+                    bank_money:"show",
                     bank_ticket:"hidden",
                     teamShow:teamShow
                 })
@@ -222,7 +259,7 @@ class Investment extends React.Component{
                 this.setState({
                     itemActive:a, // run the change
                     bank_money:"hidden",
-                    bank_ticket:"",
+                    bank_ticket:"show",
                     teamShow:teamShow
                 })
             }
@@ -231,10 +268,30 @@ class Investment extends React.Component{
 
     aChange(e){
         this.ajaxData.A_value = e.target.value;
+        this.setState({
+            bankInput:e.target.value
+        })
+    }
+
+    aClear(){
+        this.setState({
+            bankInput:undefined
+        })
     }
 
     bChange(e){
         this.ajaxData.B_value = e.target.value;
+        var arr = this.state.askMoneyInput;
+        arr[0] = e.target.value;
+        this.setState({
+            askMoneyInput:arr
+        })
+    }
+
+    bClear(){
+        this.setState({
+            askMoneyInput:[]
+        })
     }
 
     cChange(e){
@@ -247,14 +304,29 @@ class Investment extends React.Component{
 
     creditTime(e){
         this.ajaxData.creditTime = e.target.value;
+        var arr = this.state.askMoneyInput;
+        arr[2] = e.target.value;
+        this.setState({
+            askMoneyInput:arr
+        })
     }
 
     remarkGet(e){
         this.ajaxData.remark = e.target.value;
+        var arr = this.state.askMoneyInput;
+        arr[3] = e.target.value;
+        this.setState({
+            askMoneyInput:arr
+        })
     }
 
     reCreditChange(e){
         this.ajaxData.reCreditNum = e.target.value;
+        var arr = this.state.askMoneyInput;
+        arr[1] = e.target.value;
+        this.setState({
+            askMoneyInput:arr
+        })
     }
 
     TypeA(e){
@@ -339,6 +411,9 @@ class Investment extends React.Component{
     }
 
     Deposit(){
+        this.setState({
+            bankInput:undefined
+        })
         Bank.Deposit_Money(this.ajaxData.A_value,this.ajaxData.id,this.focusItem.name,this.ajaxData.typeA);
     }
 
@@ -361,85 +436,104 @@ class Investment extends React.Component{
         }
         return(
             <React.Fragment>
-            <div className="mb-3"></div>
-            <div className="row">
-                <div class="col">
-                    <List_Group>
-                        {this.state.banks.map((v,i)=>{
-                            return (<List_Item active={this.state.itemActive[i]} onClick={()=>{this.handleItemclick(v,i)}}>{v.name}庄</List_Item>)
-                        })}
-                    </List_Group>
-                </div>
-                <div class="col">
-                    <div class={this.state.bank_money}>
+            
+            <div className="list-choose">
+                <List_Group>
+                    {this.state.banks.map((v,i)=>{
+                        return (<List_Item active={this.state.itemActive[i]} onClick={()=>{this.handleItemclick(v,i)}}>{v.name}庄</List_Item>)
+                    })}
+                </List_Group>
+            </div>
+            <div className="welcome"><b>金融操作</b></div>
+            <div className="container-investment">
+                <div class={this.state.bank_money}>
                         {/* 可以隐藏，可以显现，右半边 */}
-                        <h3>{this.focusItem.name}钱庄</h3>
-                        <h4>商队:{team.name}</h4>
-                        <h4>存款:{team.money.map((v)=>{
-                            if(v.bankName === this.focusItem.name){
-                                return (<div>{v.currency}:{v.num}</div>)
+                        <div className="top-explain">
+                            <div className="saveMoney inline text-bottom">存款:</div>
+                            <div className="inline text-bottom">贷款:</div>
+                        </div>
+                        {team.money.map((v,i)=>{
+                            if(i===0){
+                                this.arr = [];
                             }
-                        })}</h4>
-                        <h4 className="mb-3">贷款:{team.credit.map((v)=>{
                             if(v.bankName === this.focusItem.name){
-                                return(<div>{v.currency}:{v.num}</div>)
+                                this.arr.push(v);
+                                if(this.arr.length===2){
+                                    return (<AssetData className={"detail-box inline"} data={this.arr} />)
+                                }
                             }
-                        })} 剩余额度:白银:999999</h4>
-                        <h4>存取款</h4>
-                        <div className="row mb-3">
-                            <div className="col-2">
+                        })}
+                        {team.credit.map((v,i)=>{
+                            if(i===0){
+                                this.arr = [];
+                            }
+                            if(v.bankName === this.focusItem.name){
+                                this.arr.push(v);
+                                if(arr.length===2){
+                                    return (<AssetData className={"detail-box inline"} data={this.arr} />)
+                                }
+                            }
+                        })} 
+                        <div className="top-explain">存取款</div>
+                        <div className="second">
+                            <div className="tips inline">货币类型：</div>
+                            <div className="inline currency">
                                 <Select value="货币类型" options={tickets} get_value={this.handleTypeA} ></Select>
                             </div>
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleAchange} placeholder="金额..." />
+                            <div className="tips inline">金额：</div>
+                            <div className="inline">
+                                <input className="form-control" value={this.state.bankInput} type="text" onChange={this.handleAchange} placeholder="金额..." />
                             </div>
-                            <div className="col-2">
-                                <a class="btn btn-success" href="#" role="button" onClick={this.handleDeposit}>存</a>
+                            <div className="inline savemoney">
+                                <a class="btn bts bg-brown" href="#" role="button" onClick={this.handleDeposit}>存</a>
                             </div>
-                            <div className="col-2">
-                                <a class="btn btn-warning" onClick={this.handleWithdrawal} href="#" role="button">取</a>
+                            <div className="inline getmoney">
+                                <a class="btn bts bg-brown" onClick={this.handleWithdrawal} href="#" role="button">取</a>
                             </div>
-                        </div>
-                        <div className="mb-3"></div>
-                        <h4 className="mb-3" >贷还款</h4>
+                            <div className="inline">
+                                <a class="btn" style={{"boder":"1px solid"}} onClick={this.handleAclear} href="#" role="button">重置</a>
+                            </div>  
+                        </div>              
+                        <div className="top-explain" >贷款</div>
                         <div className="row mb-2">
-                            <div className="col-4">
+                            <div className="col-3">
                                 <Select value="货币类型" options={tickets} get_value={this.handleTypeB}></Select>
                             </div>
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleBchange} placeholder="贷款金额..." />
+                            <div className="col-3">
+                                <input value={this.state.askMoneyInput[0]} className="form-control" type="text" onChange={this.handleBchange} placeholder="贷款金额..." />
                             </div>
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleRechange} placeholder="还款金额..." />
-                            </div>
-                        </div>
-                        <div className="row mb-3">
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleCreditTime} placeholder="还贷时间...分钟" />
-                            </div>
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleRemark} placeholder="备注..." />
-                            </div>
-                            <div className="col-2">
-                                <a class="btn btn-success" onClick={this.handleCredit} href="#" role="button">借</a>
-                            </div>
-                            <div className="col-2">
-                                <a class="btn btn-warning" onClick={this.handleRecredit} href="#" role="button">还</a>
+                            <div className="col-3">
+                                <input value={this.state.askMoneyInput[1]} className="form-control" type="text" onChange={this.handleRechange} placeholder="还款金额..." />
                             </div>
                         </div>
+                        <div className="row mb-4">
+                            <div className="col-3">
+                                <input value={this.state.askMoneyInput[2]} className="form-control" type="text" onChange={this.handleCreditTime} placeholder="还贷时间...分钟" />
+                            </div>
+                            <div className="col-4">
+                                <input value={this.state.askMoneyInput[3]} className="form-control" type="text" onChange={this.handleRemark} placeholder="备注..." />
+                            </div>
+                            <div className="col-2">
+                                <a class="btn bts bg-brown" style={{"color":"white"}} onClick={this.handleCredit} href="#" role="button">借贷</a>
+                            </div>
+                            <div className="col-2">
+                                <a class="btn bts" onClick={this.handleBclear} href="#" role="button">重置</a>
+                            </div>
+                        </div>
+                        <Teamtransfer show={this.state.teamShow} options={tickets}></Teamtransfer>
                     </div>
-                    <div class={this.state.bank_ticket}>
+                <div class={this.state.bank_ticket}>
                         {/* 可以显现，可以隐藏，右半边 */}
-                        <h3>{this.focusItem.name}票庄</h3>
-                        <h4>商队:{team.name}</h4>
-                        <h4>持有票数:{(team.money[1].moneyType===this.focusItem.bankId)?(team.money[1].num):(team.money[2].num)}</h4>
-                        <h4>汇率:{this.focusItem.rate}</h4>
+                        <div className="top-explain">
+                            <div style={{"float":"left"}}>持有票数:{(team.money[1].moneyType===this.focusItem.bankId)?(team.money[1].num):(team.money[2].num)}</div>
+                            <div style={{"margin-left":"15%"}} >汇率:{this.focusItem.rate}</div>
+                        </div>
                         <div className="row mb-3">
                             <div className="col-9">
                                 <input className="form-control" type="text" onChange={this.handleCchange} placeholder="数额..." />
                             </div>
                             <div className="col-3">
-                                <a class="btn btn-primary" onClick={this.handleExchangeticket} href="#" role="button">兑票</a>
+                                <a class="btn bg-brown" style={{"color":"white"}} onClick={this.handleExchangeticket} href="#" role="button">兑票</a>
                             </div>
                         </div>
                         <div className="row mb-3">
@@ -447,39 +541,40 @@ class Investment extends React.Component{
                                 <input className="form-control" type="text" onChange={this.handleDchange} placeholder="数额..." />
                             </div>
                             <div className="col-3">
-                                <a class="btn btn-success" onClick={this.handleExchangemoney} href="#" role="button">兑钱</a>
+                                <a class="btn bg-brown" style={{"color":"white"}} onClick={this.handleExchangemoney} href="#" role="button">兑钱</a>
                             </div>
                         </div>
-                        <div className="mb-3"></div>
-                        <h4 className="mb-3" >贷还款</h4>
+                        <div className="top-explain" >贷款</div>
                         <div className="row mb-2">
-                            <div className="col-4">
+                            <div className="col-3">
                                 <Select value="货币类型" options={tickets} get_value={this.handleTypeB}></Select>
                             </div>
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleBchange} placeholder="贷款金额..." />
+                            <div className="col-3">
+                                <input value={this.state.askMoneyInput[0]} className="form-control" type="text" onChange={this.handleBchange} placeholder="贷款金额..." />
                             </div>
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleRechange} placeholder="还款金额..." />
-                            </div>
-                        </div>
-                        <div className="row mb-3">
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleCreditTime} placeholder="还贷时间...分钟" />
-                            </div>
-                            <div className="col-4">
-                                <input className="form-control" type="text" onChange={this.handleRemark} placeholder="备注..." />
-                            </div>
-                            <div className="col-2">
-                                <a class="btn btn-success" onClick={this.handleCredit} href="#" role="button">借</a>
-                            </div>
-                            <div className="col-2">
-                                <a class="btn btn-warning" onClick={this.handleRecredit} href="#" role="button">还</a>
+                            <div className="col-3">
+                                <input value={this.state.askMoneyInput[1]} className="form-control" type="text" onChange={this.handleRechange} placeholder="还款金额..." />
                             </div>
                         </div>
+                        <div className="row mb-4">
+                            <div className="col-3">
+                                <input value={this.state.askMoneyInput[2]} className="form-control" type="text" onChange={this.handleCreditTime} placeholder="还贷时间...分钟" />
+                            </div>
+                            <div className="col-4">
+                                <input value={this.state.askMoneyInput[3]} className="form-control" type="text" onChange={this.handleRemark} placeholder="备注..." />
+                            </div>
+                            <div className="col-2">
+                                <a class="btn bts bg-brown" style={{"color":"white"}} onClick={this.handleCredit} href="#" role="button">借贷</a>
+                            </div>
+                            <div className="col-2">
+                                <a class="btn bts" onClick={this.handleBclear} href="#" role="button">重置</a>
+                            </div>
+                        </div>
+                        <Teamtransfer show={this.state.teamShow} options={tickets}></Teamtransfer>
                     </div>
-                    <Teamtransfer show={this.state.teamShow} options={tickets}></Teamtransfer>
-                </div>
+            </div>    
+            <div className="logo">
+                <img src={"https://wisecity.itrclub.com/resource/img/logo/bank.png"} alt={"logo"} />
             </div>
             </React.Fragment>
         )
@@ -491,6 +586,6 @@ ReactDOM.render(
     document.getElementById("root")
 );
 ReactDOM.render(
-    <Nav />,
+    <Nav choosed={6} teamName={team.name} />,
     document.getElementById("Nav")
 );

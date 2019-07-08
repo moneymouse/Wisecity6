@@ -218,7 +218,7 @@ var Teamtransfer = function (_React$Component3) {
                     { className: "col-2" },
                     React.createElement(
                         "a",
-                        { onClick: this.handleClick, className: "btn btn-primary", href: "#", role: "button" },
+                        { onClick: this.handleClick, style: { "color": "white" }, className: "btn bg-brown", href: "#", role: "button" },
                         "\u8F6C\u8D26"
                     )
                 )
@@ -229,42 +229,116 @@ var Teamtransfer = function (_React$Component3) {
     return Teamtransfer;
 }(React.Component);
 
-var Investment = function (_React$Component4) {
-    _inherits(Investment, _React$Component4);
+var AssetData = function (_React$Component4) {
+    _inherits(AssetData, _React$Component4);
+
+    function AssetData(props) {
+        _classCallCheck(this, AssetData);
+
+        return _possibleConstructorReturn(this, (AssetData.__proto__ || Object.getPrototypeOf(AssetData)).call(this, props));
+    }
+
+    _createClass(AssetData, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "div",
+                { className: this.props.className },
+                this.props.data.map(function (v, i) {
+                    if (i <= 2) {
+                        if (i === 0 || i === 1) {
+                            return React.createElement(
+                                React.Fragment,
+                                null,
+                                React.createElement(
+                                    "div",
+                                    { className: "asset-each inline" },
+                                    React.createElement(
+                                        "div",
+                                        { style: { "float": "left", "color": "#856B53" } },
+                                        React.createElement(
+                                            "b",
+                                            null,
+                                            v.num
+                                        )
+                                    ),
+                                    React.createElement("br", null),
+                                    React.createElement(
+                                        "div",
+                                        { style: { "float": "left" } },
+                                        v.currency
+                                    )
+                                ),
+                                React.createElement("div", { className: "line-index-asset inline" })
+                            );
+                        } else return React.createElement(
+                            "div",
+                            { className: "asset-each inline" },
+                            React.createElement(
+                                "div",
+                                { style: { "float": "left", "color": "#856B53" } },
+                                React.createElement(
+                                    "b",
+                                    null,
+                                    v.num
+                                )
+                            ),
+                            React.createElement("br", null),
+                            React.createElement(
+                                "div",
+                                { style: { "float": "left" } },
+                                v.currency
+                            )
+                        );
+                    }
+                })
+            );
+        }
+    }]);
+
+    return AssetData;
+}(React.Component);
+
+var Investment = function (_React$Component5) {
+    _inherits(Investment, _React$Component5);
 
     function Investment(props) {
         _classCallCheck(this, Investment);
 
-        var _this5 = _possibleConstructorReturn(this, (Investment.__proto__ || Object.getPrototypeOf(Investment)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (Investment.__proto__ || Object.getPrototypeOf(Investment)).call(this, props));
 
-        _this5.state = {
+        _this6.state = {
             banks: [],
             itemActive: [false, false, false, false, false],
             bank_money: "hidden",
             bank_ticket: "hidden",
-            teamShow: false
+            teamShow: false,
+            bankInput: undefined,
+            askMoneyInput: []
         };
-        _this5.preactive; //指向前一active的listItem
-        _this5.curactive; //指向当前active的listItem
-        _this5.focusItem = {}; //当前被点击的item的详细信息
-        _this5.ajaxData = {}; //传给后端的数据
-        _this5.handleItemclick = _this5.itemClick.bind(_this5);
-        _this5.handleAchange = _this5.aChange.bind(_this5);
-        _this5.handleBchange = _this5.bChange.bind(_this5);
-        _this5.handleCchange = _this5.cChange.bind(_this5);
-        _this5.handleDchange = _this5.dChange.bind(_this5);
-        _this5.handleCredit = _this5.Credit.bind(_this5);
-        _this5.handleRecredit = _this5.ReCredit.bind(_this5);
-        _this5.handleDeposit = _this5.Deposit.bind(_this5);
-        _this5.handleWithdrawal = _this5.Withdrawal.bind(_this5);
-        _this5.handleExchangeticket = _this5.exchangeTicket.bind(_this5);
-        _this5.handleExchangemoney = _this5.exchangeMoney.bind(_this5);
-        _this5.handleTypeA = _this5.TypeA.bind(_this5);
-        _this5.handleTypeB = _this5.TypeB.bind(_this5);
-        _this5.handleCreditTime = _this5.creditTime.bind(_this5);
-        _this5.handleRemark = _this5.remarkGet.bind(_this5);
-        _this5.handleRechange = _this5.reCreditChange.bind(_this5);
-        return _this5;
+        _this6.preactive; //指向前一active的listItem
+        _this6.curactive; //指向当前active的listItem
+        _this6.focusItem = {}; //当前被点击的item的详细信息
+        _this6.ajaxData = {}; //传给后端的数据
+        _this6.handleItemclick = _this6.itemClick.bind(_this6);
+        _this6.handleAchange = _this6.aChange.bind(_this6);
+        _this6.handleAclear = _this6.aClear.bind(_this6);
+        _this6.handleBchange = _this6.bChange.bind(_this6);
+        _this6.handleBclear = _this6.bClear.bind(_this6);
+        _this6.handleCchange = _this6.cChange.bind(_this6);
+        _this6.handleDchange = _this6.dChange.bind(_this6);
+        _this6.handleCredit = _this6.Credit.bind(_this6);
+        _this6.handleRecredit = _this6.ReCredit.bind(_this6);
+        _this6.handleDeposit = _this6.Deposit.bind(_this6);
+        _this6.handleWithdrawal = _this6.Withdrawal.bind(_this6);
+        _this6.handleExchangeticket = _this6.exchangeTicket.bind(_this6);
+        _this6.handleExchangemoney = _this6.exchangeMoney.bind(_this6);
+        _this6.handleTypeA = _this6.TypeA.bind(_this6);
+        _this6.handleTypeB = _this6.TypeB.bind(_this6);
+        _this6.handleCreditTime = _this6.creditTime.bind(_this6);
+        _this6.handleRemark = _this6.remarkGet.bind(_this6);
+        _this6.handleRechange = _this6.reCreditChange.bind(_this6);
+        return _this6;
     }
 
     _createClass(Investment, [{
@@ -286,7 +360,7 @@ var Investment = function (_React$Component4) {
                 if (e.bankId <= 3) {
                     this.setState({
                         itemActive: a, // run the change
-                        bank_money: "",
+                        bank_money: "show",
                         bank_ticket: "hidden",
                         teamShow: teamShow
                     });
@@ -294,7 +368,7 @@ var Investment = function (_React$Component4) {
                     this.setState({
                         itemActive: a, // run the change
                         bank_money: "hidden",
-                        bank_ticket: "",
+                        bank_ticket: "show",
                         teamShow: teamShow
                     });
                 }
@@ -304,11 +378,33 @@ var Investment = function (_React$Component4) {
         key: "aChange",
         value: function aChange(e) {
             this.ajaxData.A_value = e.target.value;
+            this.setState({
+                bankInput: e.target.value
+            });
+        }
+    }, {
+        key: "aClear",
+        value: function aClear() {
+            this.setState({
+                bankInput: undefined
+            });
         }
     }, {
         key: "bChange",
         value: function bChange(e) {
             this.ajaxData.B_value = e.target.value;
+            var arr = this.state.askMoneyInput;
+            arr[0] = e.target.value;
+            this.setState({
+                askMoneyInput: arr
+            });
+        }
+    }, {
+        key: "bClear",
+        value: function bClear() {
+            this.setState({
+                askMoneyInput: []
+            });
         }
     }, {
         key: "cChange",
@@ -324,16 +420,31 @@ var Investment = function (_React$Component4) {
         key: "creditTime",
         value: function creditTime(e) {
             this.ajaxData.creditTime = e.target.value;
+            var arr = this.state.askMoneyInput;
+            arr[2] = e.target.value;
+            this.setState({
+                askMoneyInput: arr
+            });
         }
     }, {
         key: "remarkGet",
         value: function remarkGet(e) {
             this.ajaxData.remark = e.target.value;
+            var arr = this.state.askMoneyInput;
+            arr[3] = e.target.value;
+            this.setState({
+                askMoneyInput: arr
+            });
         }
     }, {
         key: "reCreditChange",
         value: function reCreditChange(e) {
             this.ajaxData.reCreditNum = e.target.value;
+            var arr = this.state.askMoneyInput;
+            arr[1] = e.target.value;
+            this.setState({
+                askMoneyInput: arr
+            });
         }
     }, {
         key: "TypeA",
@@ -380,10 +491,10 @@ var Investment = function (_React$Component4) {
     }, {
         key: "componentDidMount",
         value: function componentDidMount() {
-            var _this6 = this;
+            var _this7 = this;
 
             var listen = function listen(e) {
-                _this6.setState({
+                _this7.setState({
                     banks: e
                 });
             };
@@ -425,6 +536,9 @@ var Investment = function (_React$Component4) {
     }, {
         key: "Deposit",
         value: function Deposit() {
+            this.setState({
+                bankInput: undefined
+            });
             Bank.Deposit_Money(this.ajaxData.A_value, this.ajaxData.id, this.focusItem.name, this.ajaxData.typeA);
         }
     }, {
@@ -445,7 +559,7 @@ var Investment = function (_React$Component4) {
     }, {
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             var tickets = ["白银"];
             for (var i in this.state.banks) {
@@ -456,297 +570,307 @@ var Investment = function (_React$Component4) {
             return React.createElement(
                 React.Fragment,
                 null,
-                React.createElement("div", { className: "mb-3" }),
                 React.createElement(
                     "div",
-                    { className: "row" },
+                    { className: "list-choose" },
+                    React.createElement(
+                        List_Group,
+                        null,
+                        this.state.banks.map(function (v, i) {
+                            return React.createElement(
+                                List_Item,
+                                { active: _this8.state.itemActive[i], onClick: function onClick() {
+                                        _this8.handleItemclick(v, i);
+                                    } },
+                                v.name,
+                                "\u5E84"
+                            );
+                        })
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "welcome" },
+                    React.createElement(
+                        "b",
+                        null,
+                        "\u91D1\u878D\u64CD\u4F5C"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "container-investment" },
                     React.createElement(
                         "div",
-                        { "class": "col" },
-                        React.createElement(
-                            List_Group,
-                            null,
-                            this.state.banks.map(function (v, i) {
-                                return React.createElement(
-                                    List_Item,
-                                    { active: _this7.state.itemActive[i], onClick: function onClick() {
-                                            _this7.handleItemclick(v, i);
-                                        } },
-                                    v.name,
-                                    "\u5E84"
-                                );
-                            })
-                        )
-                    ),
-                    React.createElement(
-                        "div",
-                        { "class": "col" },
+                        { "class": this.state.bank_money },
                         React.createElement(
                             "div",
-                            { "class": this.state.bank_money },
+                            { className: "top-explain" },
                             React.createElement(
-                                "h3",
-                                null,
-                                this.focusItem.name,
-                                "\u94B1\u5E84"
-                            ),
-                            React.createElement(
-                                "h4",
-                                null,
-                                "\u5546\u961F:",
-                                team.name
-                            ),
-                            React.createElement(
-                                "h4",
-                                null,
-                                "\u5B58\u6B3E:",
-                                team.money.map(function (v) {
-                                    if (v.bankName === _this7.focusItem.name) {
-                                        return React.createElement(
-                                            "div",
-                                            null,
-                                            v.currency,
-                                            ":",
-                                            v.num
-                                        );
-                                    }
-                                })
-                            ),
-                            React.createElement(
-                                "h4",
-                                { className: "mb-3" },
-                                "\u8D37\u6B3E:",
-                                team.credit.map(function (v) {
-                                    if (v.bankName === _this7.focusItem.name) {
-                                        return React.createElement(
-                                            "div",
-                                            null,
-                                            v.currency,
-                                            ":",
-                                            v.num
-                                        );
-                                    }
-                                }),
-                                " \u5269\u4F59\u989D\u5EA6:\u767D\u94F6:999999"
-                            ),
-                            React.createElement(
-                                "h4",
-                                null,
-                                "\u5B58\u53D6\u6B3E"
+                                "div",
+                                { className: "saveMoney inline text-bottom" },
+                                "\u5B58\u6B3E:"
                             ),
                             React.createElement(
                                 "div",
-                                { className: "row mb-3" },
-                                React.createElement(
-                                    "div",
-                                    { className: "col-2" },
-                                    React.createElement(Select, { value: "\u8D27\u5E01\u7C7B\u578B", options: tickets, get_value: this.handleTypeA })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleAchange, placeholder: "\u91D1\u989D..." })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-2" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-success", href: "#", role: "button", onClick: this.handleDeposit },
-                                        "\u5B58"
-                                    )
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-2" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-warning", onClick: this.handleWithdrawal, href: "#", role: "button" },
-                                        "\u53D6"
-                                    )
-                                )
-                            ),
-                            React.createElement("div", { className: "mb-3" }),
+                                { className: "inline text-bottom" },
+                                "\u8D37\u6B3E:"
+                            )
+                        ),
+                        team.money.map(function (v, i) {
+                            if (i === 0) {
+                                _this8.arr = [];
+                            }
+                            if (v.bankName === _this8.focusItem.name) {
+                                _this8.arr.push(v);
+                                if (_this8.arr.length === 2) {
+                                    return React.createElement(AssetData, { className: "detail-box inline", data: _this8.arr });
+                                }
+                            }
+                        }),
+                        team.credit.map(function (v, i) {
+                            if (i === 0) {
+                                _this8.arr = [];
+                            }
+                            if (v.bankName === _this8.focusItem.name) {
+                                _this8.arr.push(v);
+                                if (arr.length === 2) {
+                                    return React.createElement(AssetData, { className: "detail-box inline", data: _this8.arr });
+                                }
+                            }
+                        }),
+                        React.createElement(
+                            "div",
+                            { className: "top-explain" },
+                            "\u5B58\u53D6\u6B3E"
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "second" },
                             React.createElement(
-                                "h4",
-                                { className: "mb-3" },
-                                "\u8D37\u8FD8\u6B3E"
+                                "div",
+                                { className: "tips inline" },
+                                "\u8D27\u5E01\u7C7B\u578B\uFF1A"
                             ),
                             React.createElement(
                                 "div",
-                                { className: "row mb-2" },
+                                { className: "inline currency" },
+                                React.createElement(Select, { value: "\u8D27\u5E01\u7C7B\u578B", options: tickets, get_value: this.handleTypeA })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "tips inline" },
+                                "\u91D1\u989D\uFF1A"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "inline" },
+                                React.createElement("input", { className: "form-control", value: this.state.bankInput, type: "text", onChange: this.handleAchange, placeholder: "\u91D1\u989D..." })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "inline savemoney" },
                                 React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement(Select, { value: "\u8D27\u5E01\u7C7B\u578B", options: tickets, get_value: this.handleTypeB })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleBchange, placeholder: "\u8D37\u6B3E\u91D1\u989D..." })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleRechange, placeholder: "\u8FD8\u6B3E\u91D1\u989D..." })
+                                    "a",
+                                    { "class": "btn bts bg-brown", href: "#", role: "button", onClick: this.handleDeposit },
+                                    "\u5B58"
                                 )
                             ),
                             React.createElement(
                                 "div",
-                                { className: "row mb-3" },
+                                { className: "inline getmoney" },
                                 React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleCreditTime, placeholder: "\u8FD8\u8D37\u65F6\u95F4...\u5206\u949F" })
-                                ),
+                                    "a",
+                                    { "class": "btn bts bg-brown", onClick: this.handleWithdrawal, href: "#", role: "button" },
+                                    "\u53D6"
+                                )
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "inline" },
                                 React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleRemark, placeholder: "\u5907\u6CE8..." })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-2" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-success", onClick: this.handleCredit, href: "#", role: "button" },
-                                        "\u501F"
-                                    )
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-2" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-warning", onClick: this.handleRecredit, href: "#", role: "button" },
-                                        "\u8FD8"
-                                    )
+                                    "a",
+                                    { "class": "btn", style: { "boder": "1px solid" }, onClick: this.handleAclear, href: "#", role: "button" },
+                                    "\u91CD\u7F6E"
                                 )
                             )
                         ),
                         React.createElement(
                             "div",
-                            { "class": this.state.bank_ticket },
+                            { className: "top-explain" },
+                            "\u8D37\u6B3E"
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row mb-2" },
                             React.createElement(
-                                "h3",
-                                null,
-                                this.focusItem.name,
-                                "\u7968\u5E84"
+                                "div",
+                                { className: "col-3" },
+                                React.createElement(Select, { value: "\u8D27\u5E01\u7C7B\u578B", options: tickets, get_value: this.handleTypeB })
                             ),
                             React.createElement(
-                                "h4",
-                                null,
-                                "\u5546\u961F:",
-                                team.name
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { value: this.state.askMoneyInput[0], className: "form-control", type: "text", onChange: this.handleBchange, placeholder: "\u8D37\u6B3E\u91D1\u989D..." })
                             ),
                             React.createElement(
-                                "h4",
-                                null,
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { value: this.state.askMoneyInput[1], className: "form-control", type: "text", onChange: this.handleRechange, placeholder: "\u8FD8\u6B3E\u91D1\u989D..." })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row mb-4" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { value: this.state.askMoneyInput[2], className: "form-control", type: "text", onChange: this.handleCreditTime, placeholder: "\u8FD8\u8D37\u65F6\u95F4...\u5206\u949F" })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-4" },
+                                React.createElement("input", { value: this.state.askMoneyInput[3], className: "form-control", type: "text", onChange: this.handleRemark, placeholder: "\u5907\u6CE8..." })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                React.createElement(
+                                    "a",
+                                    { "class": "btn bts bg-brown", style: { "color": "white" }, onClick: this.handleCredit, href: "#", role: "button" },
+                                    "\u501F\u8D37"
+                                )
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                React.createElement(
+                                    "a",
+                                    { "class": "btn bts", onClick: this.handleBclear, href: "#", role: "button" },
+                                    "\u91CD\u7F6E"
+                                )
+                            )
+                        ),
+                        React.createElement(Teamtransfer, { show: this.state.teamShow, options: tickets })
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": this.state.bank_ticket },
+                        React.createElement(
+                            "div",
+                            { className: "top-explain" },
+                            React.createElement(
+                                "div",
+                                { style: { "float": "left" } },
                                 "\u6301\u6709\u7968\u6570:",
                                 team.money[1].moneyType === this.focusItem.bankId ? team.money[1].num : team.money[2].num
                             ),
                             React.createElement(
-                                "h4",
-                                null,
+                                "div",
+                                { style: { "margin-left": "15%" } },
                                 "\u6C47\u7387:",
                                 this.focusItem.rate
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row mb-3" },
+                            React.createElement(
+                                "div",
+                                { className: "col-9" },
+                                React.createElement("input", { className: "form-control", type: "text", onChange: this.handleCchange, placeholder: "\u6570\u989D..." })
                             ),
                             React.createElement(
                                 "div",
-                                { className: "row mb-3" },
+                                { className: "col-3" },
                                 React.createElement(
-                                    "div",
-                                    { className: "col-9" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleCchange, placeholder: "\u6570\u989D..." })
-                                ),
+                                    "a",
+                                    { "class": "btn bg-brown", style: { "color": "white" }, onClick: this.handleExchangeticket, href: "#", role: "button" },
+                                    "\u5151\u7968"
+                                )
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row mb-3" },
+                            React.createElement(
+                                "div",
+                                { className: "col-9" },
+                                React.createElement("input", { className: "form-control", type: "text", onChange: this.handleDchange, placeholder: "\u6570\u989D..." })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
                                 React.createElement(
-                                    "div",
-                                    { className: "col-3" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-primary", onClick: this.handleExchangeticket, href: "#", role: "button" },
-                                        "\u5151\u7968"
-                                    )
+                                    "a",
+                                    { "class": "btn bg-brown", style: { "color": "white" }, onClick: this.handleExchangemoney, href: "#", role: "button" },
+                                    "\u5151\u94B1"
+                                )
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "top-explain" },
+                            "\u8D37\u6B3E"
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row mb-2" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                React.createElement(Select, { value: "\u8D27\u5E01\u7C7B\u578B", options: tickets, get_value: this.handleTypeB })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { value: this.state.askMoneyInput[0], className: "form-control", type: "text", onChange: this.handleBchange, placeholder: "\u8D37\u6B3E\u91D1\u989D..." })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { value: this.state.askMoneyInput[1], className: "form-control", type: "text", onChange: this.handleRechange, placeholder: "\u8FD8\u6B3E\u91D1\u989D..." })
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "row mb-4" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                React.createElement("input", { value: this.state.askMoneyInput[2], className: "form-control", type: "text", onChange: this.handleCreditTime, placeholder: "\u8FD8\u8D37\u65F6\u95F4...\u5206\u949F" })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-4" },
+                                React.createElement("input", { value: this.state.askMoneyInput[3], className: "form-control", type: "text", onChange: this.handleRemark, placeholder: "\u5907\u6CE8..." })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                React.createElement(
+                                    "a",
+                                    { "class": "btn bts bg-brown", style: { "color": "white" }, onClick: this.handleCredit, href: "#", role: "button" },
+                                    "\u501F\u8D37"
                                 )
                             ),
                             React.createElement(
                                 "div",
-                                { className: "row mb-3" },
+                                { className: "col-2" },
                                 React.createElement(
-                                    "div",
-                                    { className: "col-9" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleDchange, placeholder: "\u6570\u989D..." })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-3" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-success", onClick: this.handleExchangemoney, href: "#", role: "button" },
-                                        "\u5151\u94B1"
-                                    )
-                                )
-                            ),
-                            React.createElement("div", { className: "mb-3" }),
-                            React.createElement(
-                                "h4",
-                                { className: "mb-3" },
-                                "\u8D37\u8FD8\u6B3E"
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "row mb-2" },
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement(Select, { value: "\u8D27\u5E01\u7C7B\u578B", options: tickets, get_value: this.handleTypeB })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleBchange, placeholder: "\u8D37\u6B3E\u91D1\u989D..." })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleRechange, placeholder: "\u8FD8\u6B3E\u91D1\u989D..." })
-                                )
-                            ),
-                            React.createElement(
-                                "div",
-                                { className: "row mb-3" },
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleCreditTime, placeholder: "\u8FD8\u8D37\u65F6\u95F4...\u5206\u949F" })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-4" },
-                                    React.createElement("input", { className: "form-control", type: "text", onChange: this.handleRemark, placeholder: "\u5907\u6CE8..." })
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-2" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-success", onClick: this.handleCredit, href: "#", role: "button" },
-                                        "\u501F"
-                                    )
-                                ),
-                                React.createElement(
-                                    "div",
-                                    { className: "col-2" },
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-warning", onClick: this.handleRecredit, href: "#", role: "button" },
-                                        "\u8FD8"
-                                    )
+                                    "a",
+                                    { "class": "btn bts", onClick: this.handleBclear, href: "#", role: "button" },
+                                    "\u91CD\u7F6E"
                                 )
                             )
                         ),
                         React.createElement(Teamtransfer, { show: this.state.teamShow, options: tickets })
                     )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "logo" },
+                    React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/bank.png", alt: "logo" })
                 )
             );
         }
@@ -756,4 +880,4 @@ var Investment = function (_React$Component4) {
 }(React.Component);
 
 ReactDOM.render(React.createElement(Investment, null), document.getElementById("root"));
-ReactDOM.render(React.createElement(Nav, null), document.getElementById("Nav"));
+ReactDOM.render(React.createElement(Nav, { choosed: 6, teamName: team.name }), document.getElementById("Nav"));

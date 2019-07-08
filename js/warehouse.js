@@ -371,6 +371,11 @@ var Table = function (_React$Component) {
                     )
                 ),
                 React.createElement(
+                    "div",
+                    { className: "logo" },
+                    React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/storage.png", alt: "logo" })
+                ),
+                React.createElement(
                     Modal,
                     { isOpen: this.state.modal_state },
                     React.createElement(
@@ -480,7 +485,7 @@ var Table = function (_React$Component) {
                                 { className: "modal-body-down-right inline" },
                                 React.createElement(
                                     "div",
-                                    { className: "font-modal" },
+                                    { className: "font-modal", style: { "float": "right" } },
                                     "\u603B\u91D1\u989D:"
                                 ),
                                 React.createElement(

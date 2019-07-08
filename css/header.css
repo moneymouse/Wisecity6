@@ -22,3 +22,52 @@ tbody{
     font-family: Lanting;
     src: url(方正兰亭超细黑.TTF);
 }
+
+.bg-brown {
+    background-color: #856B53 !important;
+}
+
+.welcome {
+    font-family: 微软雅黑;
+    margin-left: 5.2%;
+    margin-top: 3.4%;
+    font-size: 1.2em;
+    color:#856B53 !important;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
+    color:white !important;
+}
+
+a:hover{
+    color:white !important;
+}
+
+td > a{
+    color:black !important;
+}
+
+td > a:hover{
+    color:black !important;
+    cursor: default;
+}
+
+td > a.btn{
+    color:white !important;
+}
+
+img{
+    display: block;
+    height:100%;
+    width:auto;
+}
+
+.inline{
+    display: inline-block;
+}
+
+.broder-brown{
+    border:1px solid rgba(133,107,83,0.5);
+}

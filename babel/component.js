@@ -232,10 +232,9 @@ class Nav extends React.Component {
             "onChoose inline hide",
             "onChoose inline hide"],
             isOpen:false,
+            value : {}
         };
         this.state.navClass[this.props.choosed] = "onChoose inline";
-        this.value = {};
-
         this.handleClose = this.close.bind(this);
         this.handleOpen = this.open.bind(this);
         this.handleGetValue = this.getValue.bind(this);
@@ -255,12 +254,15 @@ class Nav extends React.Component {
     }
 
     getValue(e,i){
-        this.value[i] = e.target.value;
-        e.target.value = "";
+        var oj = this.state.value;
+        oj[i] = e.target.value;
+        this.setState({
+            value:oj
+        })
     }
 
     Click(){
-        if(this.value["surepass"]!==this.value["newpass"]){
+        if(this.state.value["surepass"]!==this.state.value["newpass"]){
             alert("新密码与确认密码不同！");
             return ;
         }
@@ -270,8 +272,8 @@ class Nav extends React.Component {
             type: "POST",
             url: "https://wisecity.itrclub.com/api/user/changePassword",
             data: {
-                "oldPwd":_t.value["oldpass"],
-                "newPwd":_t.value["newpass"]
+                "oldPwd":_t.state.value["oldpass"],
+                "newPwd":_t.state.value["newpass"]
             },
             dataType: "JSON",
             success: function (response) {
@@ -361,17 +363,17 @@ class Nav extends React.Component {
     <Modal isOpen={this.state.isOpen}>
         <Modal_head close={this.handleClose}><b>修改密码</b></Modal_head>
         <Modal_body>
-            <div className="row">
-                <div className="col-3">原密码</div>
-                <div className="col-6"><input className="form-control" onChange={e=>this.handleGetValue(e,"oldpass")} /></div>
+            <div className="row mb-3">
+                <div className="col-4">原密码</div>
+                <div className="col-7"><input className="form-control" value={this.state.value.oldpass} onChange={e=>this.handleGetValue(e,"oldpass")} /></div>
             </div>
-            <div className="row">
-                <div className="col-3">新密码</div>
-                <div className="col-6"><input className="form-control" onChange={e=>this.handleGetValue(e,"newpass")} /></div>
+            <div className="row mb-3">
+                <div className="col-4">新密码</div>
+                <div className="col-7"><input className="form-control" value={this.state.value.newpass} onChange={e=>this.handleGetValue(e,"newpass")} /></div>
             </div>
-            <div className="row">
-                <div className="col-3">确认新密码</div>
-                <div className="col-6"><input className="form-control" onChange={e=>this.handleGetValue(e,"surepass")} /></div>
+            <div className="row mb-3">
+                <div className="col-4">确认新密码</div>
+                <div className="col-7"><input className="form-control" value={this.state.value.surepass} onChange={e=>this.handleGetValue(e,"surepass")} /></div>
             </div>
         </Modal_body>
         <Modal_foot close={this.handleClose}>

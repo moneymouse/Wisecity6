@@ -162,7 +162,6 @@ myChart.on('updateAxisPointer', function (event) {
 
     render(){
         return (<div className={this.props.className} >
-            <div className="font-index">图形报表</div>
             <div id="main"></div>
         </div>
         );
@@ -251,7 +250,7 @@ class T_table_a extends React.Component{
     render(){
         return (
         <table className={this.props.className}>
-            <thead className="bg-brown">
+            <thead className="bg-brown" style={{"color":"white"}}>
                 <tr>
                 <th scope="col">交易ID</th>
                 <th scope="col">发起人</th>
@@ -338,7 +337,7 @@ class Loan_table extends React.Component{
     render(){
         return (
         <table className={this.props.className}>
-            <thead className="bg-brown">
+            <thead className="bg-brown" style={{"color":"white"}}>
                 <tr>
                 <th scope="col">交易ID</th>
                 <th scope="col">贷款方</th>
@@ -366,7 +365,8 @@ class Fina_box extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            time:"00:00:00"
+            time:"00:00:00",
+            num:0
         };
     }
 
@@ -395,18 +395,29 @@ class Fina_box extends React.Component{
             })
             
         }
+        var handleFinaNum = (e)=>{
+            if(e===0){
+                return ;
+            }
+            this.setState({
+                num:e
+            })
+        };
+        handleFinaNum = handleFinaNum.bind(this);
         handleFina = handleFina.bind(this)
-        ppss.listent("fina.rest",handleFina)
-        this.finaID = Finayear.getFina();
+        this.finaNumID =  ppss.listent("fina.num",handleFinaNum);
+        this.finaID = ppss.listent("fina.rest",handleFina)
+        Finayear.getFina();
     }
 
     componentWillUnmount(){
+        ppss.remove("fina.num",this.finaNumID)
         ppss.remove("fina.rest",this.finaID)
     }
 
     render(){
         return (<div className={this.props.className} onClick={this.handleclick}>
-            <h4 style={{"font-size":"1.3em"}}>第一财年倒计时</h4>
+            <h4 style={{"font-size":"1.3em"}}>第{this.state.num}财年倒计时</h4>
             <h4 className="h">{this.state.time}</h4>
         </div>);
     }
@@ -589,6 +600,7 @@ class Content extends React.Component{
                     <Fina_box className="Finayear inline"/>
                     <Asset className="Asset inline" />
                 </div>
+                <div className="font-index top-explain">图形报表</div>
                 <Left className="maina" />
                 <div className="font-index top-explain">待处理</div>
                 <div className="bottom">

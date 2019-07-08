@@ -191,6 +191,9 @@ class Body extends React.Component{
                     </div>    
                 </div>
                 </div>
+                <div className="logo">
+                    <img src={"https://wisecity.itrclub.com/resource/img/logo/transfer.png"} alt={"logo"} />
+                </div>
             </React.Fragment>
         )
     }

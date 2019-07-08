@@ -7,10 +7,11 @@ class ListItem extends React.Component{
 		return (
 			<a className="list-group-item list-group-item-action flex-column align-items-start" onClick={this.props.onClick}>
 				<div className="d-flex w-100 justify-content-between">
-					<h5 className="mb-1">{this.title}</h5>
-					<small>{this.props.team}</small>
+					<h5 className="mb-1"><b>{this.props.title}·{this.props.isPublic?"公开":"付费"}</b></h5>
 				</div>
-				{this.props.content}
+				<div className="news-content">{this.props.content}</div>
+				<br />
+				<small>发布者:{this.props.team}</small>
 			</a>
 		)
 	}
@@ -49,7 +50,7 @@ class List_private extends React.Component{
 			<div className="list-group">
 				{this.state.data.map((val,index)=>{
 					var handleonClick = this.Click.bind(this,val.id,val.title,val.price,val.surplus,val.authorTeamName,val.summary)// add the click listence in the Item to open Modal
-					return (<ListItem onClick={handleonClick} team={val.authorTeamName} title={val.title} content={val.summary} key={index} />)
+					return (<ListItem isPublic={false} onClick={handleonClick} team={val.authorTeamName} title={val.title} content={val.summary} key={index} />)
 				})}
 			</div>
 		)
@@ -89,7 +90,7 @@ class List_public extends React.Component{
 			<div className="list-group">
 				{this.state.data.map((val,index)=>{
 					var handleClick = this.Click.bind(this,val.title,val.content,val.authorTeamName)// add the click listence in the Item to open Modal
-					return (<ListItem team={val.authorTeamName} title={val.title} content={val.content} onClick={handleClick} key={index} />)
+					return (<ListItem team={val.authorTeamName} isPublic={true} title={val.title} content={val.summary} onClick={handleClick} key={index} />)
 				})}
 			</div>
 		)
@@ -188,11 +189,11 @@ class List_Market extends React.Component{
 				{this.state.data.map((val,index)=>{
 					if(Number(val.is_public)===1){
 						var handleClick = this.clickPublic.bind(this,val.title,val.content,val.authorTeamName)// add the click listence in the Item to open Modal
-						return (<ListItem team={val.authorTeamName} title={val.title} content={val.summary} onClick={handleClick} key={index} />)
+						return (<ListItem isPublic={true} team={val.authorTeamName} title={val.title} content={val.summary} onClick={handleClick} key={index} />)
 					}
 					else{
 						var handleClick = this.clickPrivate.bind(this,val.id,val.title,val.price,val.surplus,val.authorTeamName,val.summary)// add the click listence in the Item to open Modal
-						return (<ListItem team={val.authorTeamName} title={val.title} content={val.summary} onClick={handleClick} key={index} />)
+						return (<ListItem isPublic={false} team={val.authorTeamName} title={val.title} content={val.summary} onClick={handleClick} key={index} />)
 					}
 				})}
 			</div>
@@ -235,7 +236,8 @@ class CheckboxGroup extends React.Component{
 		super(props)
 		this.state={
 			inputClass:"hide",
-			groups:[]
+			groups:[],
+			check:[false,false,false,false,false,false]
 		}
 		this.handleCheck = {
 			"private":this.Check_private.bind(this),
@@ -287,8 +289,33 @@ class CheckboxGroup extends React.Component{
 	}
 
 	Click(index,e){
+		if(index=="all"){
+			if(e.target.checked){
+				this.setState({
+					check:[true,true,true,true,true,true]
+				})
+				for(var i=0;i<5;i++){
+					this.checked[i] = e.target.checked;
+				}
+			}
+			else{
+				this.setState({
+					check:[false,false,false,false,false,false]
+				})
+				for(var i=0;i<5;i++){
+					this.checked[i] = e.target.checked;
+				}
+			}
+		}
 		// console.log(e);
-		this.checked[index] = e.target.checked;
+		else{
+			this.checked[index] = e.target.checked;
+			var obj = this.state.check;
+			obj[index] = true;
+			this.setState({
+				check:obj
+			})
+		}
 	}
 
 	Check_private(e){
@@ -310,27 +337,27 @@ class CheckboxGroup extends React.Component{
 		return (<React.Fragment>
 		<div className="row">
 			<div className="col-3">
-				<input type="checkbox" onClick={(e)=>this} />{/*!!! */}
-				<label>{全选}</label> 
+				<input type="checkbox" onClick={(e)=>this.handleClick("all",e)} />{/*!!! */}
+				<label>全选</label> 
 			</div>
 			{this.state.groups.map((v,i)=>{
 				this.checked.v = false;
 				// console.log(v);
 				return (<div className="col-3">
-					<input type="checkbox" onClick={(e)=>this.handleClick(i,e)} />
-					<label>{v}</label>
+					<input className="inline" checked={this.state.check[i]} type="checkbox" onClick={(e)=>this.handleClick(i,e)} />
+					<label className="inline">{v}</label>
 				</div>
 				)
 			})}
 		</div>
 		<div class="row">
 			<div class="col-3">
-				<input name="lyz2lzh" type="radio" onChange={this.handleCheck.public} />
-				<label >公开</label>
+				<input className="inline" name="lyz2lzh" type="radio" onChange={this.handleCheck.public} />
+				<label className="inline" >公开</label>
 			</div>
 			<div class="col-3">
-				<input name="lyz2lzh" type="radio" onChange={this.handleCheck.private} />
-				<label >收费</label>
+				<input className="inline" name="lyz2lzh" type="radio" onChange={this.handleCheck.private} />
+				<label className="inline" >收费</label>
 			</div>
 			<div class={this.state.inputClass}>
 			<input type="text" onChange={this.handlegetValue} class="form-control" placeholder="情报单价" /> 
@@ -354,6 +381,19 @@ class Content extends React.Component{
 			privatePrice:"",
 			privateTotal:"",
 			privateFrom:"",
+			newsPass:"",
+			bottomClass:{
+				"law":"font_f inline",
+				"private":"font_f inline",
+				"public":"font_f inline",
+				"market":"font_f inline"
+			},
+			bottom:{
+				"law":"hide",
+				"private":"hide",
+				"public":"hide",
+				"market":"hide"
+			}
 		}
 		this.handlecloseModal = {
 			"public":this.closeModal.bind(this,"public"),
@@ -374,6 +414,8 @@ class Content extends React.Component{
 		this.handlenum = this.getNum.bind(this);
 		this.handleItemClick = this.itemClick.bind(this);
 		this.handleGetSummary = this.getSummary.bind(this);
+		this.handleChooseShow = this.chooseShow.bind(this);
+		this.handleNewsPass = this.handleNewsPass.bind(this);
 	}
 
 	componentDidMount(){
@@ -456,6 +498,12 @@ class Content extends React.Component{
 		}
 	}
 
+	handleNewsPass(e){
+		this.setState({
+			newsPass:e
+		})
+	}
+
 	openModal(type){
 		// show the modal
 		switch (type) {
@@ -468,7 +516,8 @@ class Content extends React.Component{
 			case "private":
 				this.setState({
 					privateModal_state:true
-				})
+				});
+				ppss.listent("newsPass",this.handleNewsPass);
 			default:
 				break;
 		}
@@ -486,7 +535,10 @@ class Content extends React.Component{
 			case "private":
 				this.setState({
 					privateModal_state:false
-				})
+				});
+				this.setState({
+					newsPass:""
+				});
 		
 			default:
 				break;
@@ -540,48 +592,84 @@ class Content extends React.Component{
 		this.running = null;
 	}
 
+	chooseShow(e){
+		var obj = this.state.bottom;
+		var oj = this.state.bottomClass;
+		for(var i in obj){
+			if(i===e){
+				obj[e] = "show";
+			}
+			else{
+				obj[i] = "hide";
+			}
+		}
+		for(var p in oj){
+			if(p===e){
+				oj[e] = "font_focus inline bg-brown";
+			}
+			else{
+				oj[p] = "font_f inline";
+			}
+		}
+		this.setState({
+			bottom:obj,
+			bottomClass:oj
+		});
+	}
+
 	render(){
-		return(
-			<div className="row">
-				<div className="col-lg-6 col-sm-12 left">
-					<div className="up">
-						<h3 className="font_f">地方法律</h3>
-						<List_law />
+		return(<React.Fragment>
+			<div className="welcome"><b>情报发布</b></div>
+			<div className="top">
+				<div className="mb-3">
+					<div className="row mb-3">
+						<div className="col-2">标题：</div>
+						<input type="text" onChange={this.handletitle} class="form-control col-10 mb-1" placeholder="标题" />
 					</div>
-					<div className="up">
-						<h3 className="font_f">官方公告</h3>
-						<List_public onClick={this.handleItemClick} />
-					</div>
-					<div className="down">
-					<h3 className="font_f">官方情报</h3>
-						<List_private onClick={this.handleItemClick} />
-					</div>
-					<div className="down">
-					<h3 className="font_f">情报市场</h3>
-						<List_Market onClick={this.handleItemClick} />
+					<div className="row mb-3">
+						<div className="col-2">摘要：</div>
+						<input type="text" onChange={this.handleGetSummary} class="form-control col-10" placeholder="摘要" />
 					</div>
 				</div>
-				<div className="col-lg-6 col-sm-12 right">
-					<div className="mb-3">
-						<input type="text" onChange={this.handletitle} class="form-control mb-1" placeholder="标题" />
-						<input type="text" onChange={this.handleGetSummary} class="form-control" placeholder="摘要" />
-					</div>
-					<Editor ref={this.editorRef} />
-					<div className="buttons-right">
-						<CheckboxGroup ref={this.myRef} />{/* The cheockbox of private or public the publish want */}
-						{/* publish the news and choose the  */}
-						<div className="row mb-3">
-							<div className="col-5">
-								<input type="text" onChange={this.handlenum} class="form-control" placeholder="情报数量" />
-							</div>
+				<Editor ref={this.editorRef} />
+				<div className="buttons-right">
+					<CheckboxGroup ref={this.myRef} />
+					<div className="mb-2"></div>
+					<div className="row mb-3">
+						<div className="col-5">
+							<input type="text" onChange={this.handlenum} class="form-control" placeholder="情报数量" />
 						</div>
-						<div className="row mb-3">	
-							{/* <div className="col-1"></div>		 */}
-							{/* <button type="file" onChange={this.handlegetFile} class="btn btn-outline-secondary btn-block col-4 ">添加附件</button>			 */}
-							<a onClick={this.handlePublish} className="fuck btn btn-secondary" href="#" role="button">发布情报</a>
+						<div className="col-3">
+							<a onClick={this.handlePublish} className="fuck btn bg-brown" href="#" role="button">发布</a>
 						</div>
 					</div>
 				</div>
+			</div>
+			
+			<div className="welcome"><b>情报与公告</b></div>
+			<div className="bottom-top">
+				<div className={this.state.bottomClass.law}><a onClick={e=>this.handleChooseShow("law")}>地方法律</a></div>
+				<div className={this.state.bottomClass.public}><a onClick={e=>this.handleChooseShow("public")}>官方公告</a></div>
+				<div className={this.state.bottomClass.market}><a onClick={e=>this.handleChooseShow("market")}>情报市场</a></div>
+				<div className={this.state.bottomClass.private}><a onClick={e=>this.handleChooseShow("private")}>官方情报</a></div>
+			</div>
+			<div className="bottom">
+				<div className={this.state.bottom.law}>
+					<List_law />
+				</div>
+				<div className={this.state.bottom.public}>
+					<List_public onClick={this.handleItemClick} />
+				</div>
+				<div className={this.state.bottom.private}>
+					<List_private onClick={this.handleItemClick} />
+				</div>
+				<div className={this.state.bottom.market}>
+					<List_Market onClick={this.handleItemClick} />
+				</div>
+			</div>
+			<div className="logo">
+            	<img src={"https://wisecity.itrclub.com/resource/img/logo/news.png"} alt={"logo"} />
+        	</div>	
 				<Modal isOpen={this.state.publicModal_state} >
 					{/* The Modal of public news */}
 					<Modal_head close={this.handlecloseModal.public}>{this.state.publicTitle}</Modal_head>
@@ -603,6 +691,8 @@ class Content extends React.Component{
 						<small>剩余量:{this.state.privateTotal}</small>
 						<div className="mb-1"></div>
 						<small>消息来源:{this.state.privateFrom}</small>
+						<div className="mb-1"></div>
+						<small>情报码:{this.state.newsPass}</small>
 					</Modal_body>
 					<Modal_foot close={this.handlecloseModal.private}>
 						<input type="text" class="form-control" placeholder="请输入兑换码" aria-label="请输入兑换码" aria-describedby="basic-addon1" onChange={this.handlegetData} />
@@ -610,14 +700,14 @@ class Content extends React.Component{
 						<button type="button" onClick={this.handleBuy} class="btn btn-primary col-2">购买</button>
 					</Modal_foot>
 				</Modal>
-			</div>
+		</React.Fragment>
 		)
 	}
 }
 
 ReactDOM.render(
 	// 加载导航栏
-	<Nav />,
+	<Nav choosed={3} teamName={team.name} />,
 	document.getElementById("Nav")
 )
 

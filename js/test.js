@@ -176,11 +176,6 @@ var Left = function (_React$Component) {
             return React.createElement(
                 "div",
                 { className: this.props.className },
-                React.createElement(
-                    "div",
-                    { className: "font-index" },
-                    "\u56FE\u5F62\u62A5\u8868"
-                ),
                 React.createElement("div", { id: "main" })
             );
         }
@@ -304,7 +299,7 @@ var T_table_a = function (_React$Component3) {
                 { className: this.props.className },
                 React.createElement(
                     "thead",
-                    { className: "bg-brown" },
+                    { className: "bg-brown", style: { "color": "white" } },
                     React.createElement(
                         "tr",
                         null,
@@ -466,7 +461,7 @@ var Loan_table = function (_React$Component5) {
                 { className: this.props.className },
                 React.createElement(
                     "thead",
-                    { className: "bg-brown" },
+                    { className: "bg-brown", style: { "color": "white" } },
                     React.createElement(
                         "tr",
                         null,
@@ -539,7 +534,8 @@ var Fina_box = function (_React$Component6) {
         var _this11 = _possibleConstructorReturn(this, (Fina_box.__proto__ || Object.getPrototypeOf(Fina_box)).call(this, props));
 
         _this11.state = {
-            time: "00:00:00"
+            time: "00:00:00",
+            num: 0
         };
         return _this11;
     }
@@ -572,13 +568,24 @@ var Fina_box = function (_React$Component6) {
                     time: _this12.formate(e)
                 });
             };
+            var handleFinaNum = function handleFinaNum(e) {
+                if (e === 0) {
+                    return;
+                }
+                _this12.setState({
+                    num: e
+                });
+            };
+            handleFinaNum = handleFinaNum.bind(this);
             handleFina = handleFina.bind(this);
-            ppss.listent("fina.rest", handleFina);
-            this.finaID = Finayear.getFina();
+            this.finaNumID = ppss.listent("fina.num", handleFinaNum);
+            this.finaID = ppss.listent("fina.rest", handleFina);
+            Finayear.getFina();
         }
     }, {
         key: "componentWillUnmount",
         value: function componentWillUnmount() {
+            ppss.remove("fina.num", this.finaNumID);
             ppss.remove("fina.rest", this.finaID);
         }
     }, {
@@ -590,7 +597,9 @@ var Fina_box = function (_React$Component6) {
                 React.createElement(
                     "h4",
                     { style: { "font-size": "1.3em" } },
-                    "\u7B2C\u4E00\u8D22\u5E74\u5012\u8BA1\u65F6"
+                    "\u7B2C",
+                    this.state.num,
+                    "\u8D22\u5E74\u5012\u8BA1\u65F6"
                 ),
                 React.createElement(
                     "h4",
@@ -867,6 +876,11 @@ var Content = function (_React$Component8) {
                     { className: "top" },
                     React.createElement(Fina_box, { className: "Finayear inline" }),
                     React.createElement(Asset, { className: "Asset inline" })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "font-index top-explain" },
+                    "\u56FE\u5F62\u62A5\u8868"
                 ),
                 React.createElement(Left, { className: "maina" }),
                 React.createElement(

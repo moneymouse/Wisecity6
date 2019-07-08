@@ -279,6 +279,9 @@ class Table extends React.Component{
             </tbody>
         </table>
         </div>
+        <div className="logo">
+            <img src={"https://wisecity.itrclub.com/resource/img/logo/storage.png"} alt={"logo"} />
+        </div>
         <Modal isOpen={this.state.modal_state}>
             <Modal_head close={this.handleclose}>{this.value.goods_name}</Modal_head>
             <Modal_body>
@@ -319,7 +322,7 @@ class Table extends React.Component{
                         <div className={"font-modal"}>即时单价:{this.value.price}</div>
                     </div>
                     <div className="modal-body-down-right inline">
-                        <div className="font-modal">总金额:</div>
+                        <div className="font-modal" style={{"float":"right"}}>总金额:</div>
                         <div className="font-modal" style={{"float":"right"}}>{this.state.totalPrice.toFixed(2)}</div>
                     </div>
                 </div>

@@ -29,15 +29,27 @@ var ListItem = function (_React$Component) {
 					React.createElement(
 						"h5",
 						{ className: "mb-1" },
-						this.title
-					),
-					React.createElement(
-						"small",
-						null,
-						this.props.team
+						React.createElement(
+							"b",
+							null,
+							this.props.title,
+							"\xB7",
+							this.props.isPublic ? "公开" : "付费"
+						)
 					)
 				),
-				this.props.content
+				React.createElement(
+					"div",
+					{ className: "news-content" },
+					this.props.content
+				),
+				React.createElement("br", null),
+				React.createElement(
+					"small",
+					null,
+					"\u53D1\u5E03\u8005:",
+					this.props.team
+				)
 			);
 		}
 	}]);
@@ -94,7 +106,7 @@ var List_private = function (_React$Component2) {
 				{ className: "list-group" },
 				this.state.data.map(function (val, index) {
 					var handleonClick = _this4.Click.bind(_this4, val.id, val.title, val.price, val.surplus, val.authorTeamName, val.summary); // add the click listence in the Item to open Modal
-					return React.createElement(ListItem, { onClick: handleonClick, team: val.authorTeamName, title: val.title, content: val.summary, key: index });
+					return React.createElement(ListItem, { isPublic: false, onClick: handleonClick, team: val.authorTeamName, title: val.title, content: val.summary, key: index });
 				})
 			);
 		}
@@ -152,7 +164,7 @@ var List_public = function (_React$Component3) {
 				{ className: "list-group" },
 				this.state.data.map(function (val, index) {
 					var handleClick = _this7.Click.bind(_this7, val.title, val.content, val.authorTeamName); // add the click listence in the Item to open Modal
-					return React.createElement(ListItem, { team: val.authorTeamName, title: val.title, content: val.content, onClick: handleClick, key: index });
+					return React.createElement(ListItem, { team: val.authorTeamName, isPublic: true, title: val.title, content: val.summary, onClick: handleClick, key: index });
 				})
 			);
 		}
@@ -283,10 +295,10 @@ var List_Market = function (_React$Component5) {
 				this.state.data.map(function (val, index) {
 					if (Number(val.is_public) === 1) {
 						var handleClick = _this12.clickPublic.bind(_this12, val.title, val.content, val.authorTeamName); // add the click listence in the Item to open Modal
-						return React.createElement(ListItem, { team: val.authorTeamName, title: val.title, content: val.summary, onClick: handleClick, key: index });
+						return React.createElement(ListItem, { isPublic: true, team: val.authorTeamName, title: val.title, content: val.summary, onClick: handleClick, key: index });
 					} else {
 						var handleClick = _this12.clickPrivate.bind(_this12, val.id, val.title, val.price, val.surplus, val.authorTeamName, val.summary); // add the click listence in the Item to open Modal
-						return React.createElement(ListItem, { team: val.authorTeamName, title: val.title, content: val.summary, onClick: handleClick, key: index });
+						return React.createElement(ListItem, { isPublic: false, team: val.authorTeamName, title: val.title, content: val.summary, onClick: handleClick, key: index });
 					}
 				})
 			);
@@ -348,7 +360,8 @@ var CheckboxGroup = function (_React$Component7) {
 
 		_this15.state = {
 			inputClass: "hide",
-			groups: []
+			groups: [],
+			check: [false, false, false, false, false, false]
 		};
 		_this15.handleCheck = {
 			"private": _this15.Check_private.bind(_this15),
@@ -402,8 +415,32 @@ var CheckboxGroup = function (_React$Component7) {
 	}, {
 		key: "Click",
 		value: function Click(index, e) {
+			if (index == "all") {
+				if (e.target.checked) {
+					this.setState({
+						check: [true, true, true, true, true, true]
+					});
+					for (var i = 0; i < 5; i++) {
+						this.checked[i] = e.target.checked;
+					}
+				} else {
+					this.setState({
+						check: [false, false, false, false, false, false]
+					});
+					for (var i = 0; i < 5; i++) {
+						this.checked[i] = e.target.checked;
+					}
+				}
+			}
 			// console.log(e);
-			this.checked[index] = e.target.checked;
+			else {
+					this.checked[index] = e.target.checked;
+					var obj = this.state.check;
+					obj[index] = true;
+					this.setState({
+						check: obj
+					});
+				}
 		}
 	}, {
 		key: "Check_private",
@@ -436,12 +473,12 @@ var CheckboxGroup = function (_React$Component7) {
 						"div",
 						{ className: "col-3" },
 						React.createElement("input", { type: "checkbox", onClick: function onClick(e) {
-								return _this16;
+								return _this16.handleClick("all", e);
 							} }),
 						React.createElement(
 							"label",
 							null,
-							全选
+							"\u5168\u9009"
 						)
 					),
 					this.state.groups.map(function (v, i) {
@@ -450,12 +487,12 @@ var CheckboxGroup = function (_React$Component7) {
 						return React.createElement(
 							"div",
 							{ className: "col-3" },
-							React.createElement("input", { type: "checkbox", onClick: function onClick(e) {
+							React.createElement("input", { className: "inline", checked: _this16.state.check[i], type: "checkbox", onClick: function onClick(e) {
 									return _this16.handleClick(i, e);
 								} }),
 							React.createElement(
 								"label",
-								null,
+								{ className: "inline" },
 								v
 							)
 						);
@@ -467,20 +504,20 @@ var CheckboxGroup = function (_React$Component7) {
 					React.createElement(
 						"div",
 						{ "class": "col-3" },
-						React.createElement("input", { name: "lyz2lzh", type: "radio", onChange: this.handleCheck.public }),
+						React.createElement("input", { className: "inline", name: "lyz2lzh", type: "radio", onChange: this.handleCheck.public }),
 						React.createElement(
 							"label",
-							null,
+							{ className: "inline" },
 							"\u516C\u5F00"
 						)
 					),
 					React.createElement(
 						"div",
 						{ "class": "col-3" },
-						React.createElement("input", { name: "lyz2lzh", type: "radio", onChange: this.handleCheck.private }),
+						React.createElement("input", { className: "inline", name: "lyz2lzh", type: "radio", onChange: this.handleCheck.private }),
 						React.createElement(
 							"label",
-							null,
+							{ className: "inline" },
 							"\u6536\u8D39"
 						)
 					),
@@ -514,7 +551,20 @@ var Content = function (_React$Component8) {
 			privateTitle: "",
 			privatePrice: "",
 			privateTotal: "",
-			privateFrom: ""
+			privateFrom: "",
+			newsPass: "",
+			bottomClass: {
+				"law": "font_f inline",
+				"private": "font_f inline",
+				"public": "font_f inline",
+				"market": "font_f inline"
+			},
+			bottom: {
+				"law": "hide",
+				"private": "hide",
+				"public": "hide",
+				"market": "hide"
+			}
 		};
 		_this17.handlecloseModal = {
 			"public": _this17.closeModal.bind(_this17, "public"),
@@ -535,6 +585,8 @@ var Content = function (_React$Component8) {
 		_this17.handlenum = _this17.getNum.bind(_this17);
 		_this17.handleItemClick = _this17.itemClick.bind(_this17);
 		_this17.handleGetSummary = _this17.getSummary.bind(_this17);
+		_this17.handleChooseShow = _this17.chooseShow.bind(_this17);
+		_this17.handleNewsPass = _this17.handleNewsPass.bind(_this17);
 		return _this17;
 	}
 
@@ -633,6 +685,13 @@ var Content = function (_React$Component8) {
 			}
 		}
 	}, {
+		key: "handleNewsPass",
+		value: function handleNewsPass(e) {
+			this.setState({
+				newsPass: e
+			});
+		}
+	}, {
 		key: "openModal",
 		value: function openModal(type) {
 			// show the modal
@@ -647,6 +706,7 @@ var Content = function (_React$Component8) {
 					this.setState({
 						privateModal_state: true
 					});
+					ppss.listent("newsPass", this.handleNewsPass);
 				default:
 					break;
 			}
@@ -665,6 +725,9 @@ var Content = function (_React$Component8) {
 				case "private":
 					this.setState({
 						privateModal_state: false
+					});
+					this.setState({
+						newsPass: ""
 					});
 
 				default:
@@ -722,69 +785,79 @@ var Content = function (_React$Component8) {
 			this.running = null;
 		}
 	}, {
+		key: "chooseShow",
+		value: function chooseShow(e) {
+			var obj = this.state.bottom;
+			var oj = this.state.bottomClass;
+			for (var i in obj) {
+				if (i === e) {
+					obj[e] = "show";
+				} else {
+					obj[i] = "hide";
+				}
+			}
+			for (var p in oj) {
+				if (p === e) {
+					oj[e] = "font_focus inline bg-brown";
+				} else {
+					oj[p] = "font_f inline";
+				}
+			}
+			this.setState({
+				bottom: obj,
+				bottomClass: oj
+			});
+		}
+	}, {
 		key: "render",
 		value: function render() {
+			var _this21 = this;
+
 			return React.createElement(
-				"div",
-				{ className: "row" },
+				React.Fragment,
+				null,
 				React.createElement(
 					"div",
-					{ className: "col-lg-6 col-sm-12 left" },
+					{ className: "welcome" },
 					React.createElement(
-						"div",
-						{ className: "up" },
-						React.createElement(
-							"h3",
-							{ className: "font_f" },
-							"\u5730\u65B9\u6CD5\u5F8B"
-						),
-						React.createElement(List_law, null)
-					),
-					React.createElement(
-						"div",
-						{ className: "up" },
-						React.createElement(
-							"h3",
-							{ className: "font_f" },
-							"\u5B98\u65B9\u516C\u544A"
-						),
-						React.createElement(List_public, { onClick: this.handleItemClick })
-					),
-					React.createElement(
-						"div",
-						{ className: "down" },
-						React.createElement(
-							"h3",
-							{ className: "font_f" },
-							"\u5B98\u65B9\u60C5\u62A5"
-						),
-						React.createElement(List_private, { onClick: this.handleItemClick })
-					),
-					React.createElement(
-						"div",
-						{ className: "down" },
-						React.createElement(
-							"h3",
-							{ className: "font_f" },
-							"\u60C5\u62A5\u5E02\u573A"
-						),
-						React.createElement(List_Market, { onClick: this.handleItemClick })
+						"b",
+						null,
+						"\u60C5\u62A5\u53D1\u5E03"
 					)
 				),
 				React.createElement(
 					"div",
-					{ className: "col-lg-6 col-sm-12 right" },
+					{ className: "top" },
 					React.createElement(
 						"div",
 						{ className: "mb-3" },
-						React.createElement("input", { type: "text", onChange: this.handletitle, "class": "form-control mb-1", placeholder: "\u6807\u9898" }),
-						React.createElement("input", { type: "text", onChange: this.handleGetSummary, "class": "form-control", placeholder: "\u6458\u8981" })
+						React.createElement(
+							"div",
+							{ className: "row mb-3" },
+							React.createElement(
+								"div",
+								{ className: "col-2" },
+								"\u6807\u9898\uFF1A"
+							),
+							React.createElement("input", { type: "text", onChange: this.handletitle, "class": "form-control col-10 mb-1", placeholder: "\u6807\u9898" })
+						),
+						React.createElement(
+							"div",
+							{ className: "row mb-3" },
+							React.createElement(
+								"div",
+								{ className: "col-2" },
+								"\u6458\u8981\uFF1A"
+							),
+							React.createElement("input", { type: "text", onChange: this.handleGetSummary, "class": "form-control col-10", placeholder: "\u6458\u8981" })
+						)
 					),
 					React.createElement(Editor, { ref: this.editorRef }),
 					React.createElement(
 						"div",
 						{ className: "buttons-right" },
 						React.createElement(CheckboxGroup, { ref: this.myRef }),
+						React.createElement("div", { className: "mb-2" }),
 						React.createElement(
 							"div",
 							{ className: "row mb-3" },
@@ -792,18 +865,104 @@ var Content = function (_React$Component8) {
 								"div",
 								{ className: "col-5" },
 								React.createElement("input", { type: "text", onChange: this.handlenum, "class": "form-control", placeholder: "\u60C5\u62A5\u6570\u91CF" })
-							)
-						),
-						React.createElement(
-							"div",
-							{ className: "row mb-3" },
+							),
 							React.createElement(
-								"a",
-								{ onClick: this.handlePublish, className: "fuck btn btn-secondary", href: "#", role: "button" },
-								"\u53D1\u5E03\u60C5\u62A5"
+								"div",
+								{ className: "col-3" },
+								React.createElement(
+									"a",
+									{ onClick: this.handlePublish, className: "fuck btn bg-brown", href: "#", role: "button" },
+									"\u53D1\u5E03"
+								)
 							)
 						)
 					)
+				),
+				React.createElement(
+					"div",
+					{ className: "welcome" },
+					React.createElement(
+						"b",
+						null,
+						"\u60C5\u62A5\u4E0E\u516C\u544A"
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "bottom-top" },
+					React.createElement(
+						"div",
+						{ className: this.state.bottomClass.law },
+						React.createElement(
+							"a",
+							{ onClick: function onClick(e) {
+									return _this21.handleChooseShow("law");
+								} },
+							"\u5730\u65B9\u6CD5\u5F8B"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: this.state.bottomClass.public },
+						React.createElement(
+							"a",
+							{ onClick: function onClick(e) {
+									return _this21.handleChooseShow("public");
+								} },
+							"\u5B98\u65B9\u516C\u544A"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: this.state.bottomClass.market },
+						React.createElement(
+							"a",
+							{ onClick: function onClick(e) {
+									return _this21.handleChooseShow("market");
+								} },
+							"\u60C5\u62A5\u5E02\u573A"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: this.state.bottomClass.private },
+						React.createElement(
+							"a",
+							{ onClick: function onClick(e) {
+									return _this21.handleChooseShow("private");
+								} },
+							"\u5B98\u65B9\u60C5\u62A5"
+						)
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "bottom" },
+					React.createElement(
+						"div",
+						{ className: this.state.bottom.law },
+						React.createElement(List_law, null)
+					),
+					React.createElement(
+						"div",
+						{ className: this.state.bottom.public },
+						React.createElement(List_public, { onClick: this.handleItemClick })
+					),
+					React.createElement(
+						"div",
+						{ className: this.state.bottom.private },
+						React.createElement(List_private, { onClick: this.handleItemClick })
+					),
+					React.createElement(
+						"div",
+						{ className: this.state.bottom.market },
+						React.createElement(List_Market, { onClick: this.handleItemClick })
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "logo" },
+					React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/news.png", alt: "logo" })
 				),
 				React.createElement(
 					Modal,
@@ -859,6 +1018,13 @@ var Content = function (_React$Component8) {
 							null,
 							"\u6D88\u606F\u6765\u6E90:",
 							this.state.privateFrom
+						),
+						React.createElement("div", { className: "mb-1" }),
+						React.createElement(
+							"small",
+							null,
+							"\u60C5\u62A5\u7801:",
+							this.state.newsPass
 						)
 					),
 					React.createElement(
@@ -886,7 +1052,7 @@ var Content = function (_React$Component8) {
 
 ReactDOM.render(
 // 加载导航栏
-React.createElement(Nav, null), document.getElementById("Nav"));
+React.createElement(Nav, { choosed: 3, teamName: team.name }), document.getElementById("Nav"));
 
 ReactDOM.render(
 // 加载内容

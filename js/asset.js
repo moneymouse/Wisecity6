@@ -197,241 +197,262 @@ var Asset = function (_React$Component) {
                 null,
                 React.createElement(
                     "div",
-                    null,
+                    { className: "welcome" },
+                    React.createElement(
+                        "b",
+                        null,
+                        "\u8D44\u4EA7\u7BA1\u7406"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "assetBox" },
                     React.createElement(
                         "div",
-                        { "class": "teamdata row" },
+                        { className: "top-explain" },
                         React.createElement(
                             "div",
-                            { "class": "col-lg-6 col-md-12 col-sm-12" },
+                            { className: "detail inline" },
                             React.createElement(
-                                "h4",
-                                null,
-                                React.createElement(
-                                    "b",
-                                    null,
-                                    "\u961F\u4F0D\u540D"
-                                ),
-                                ":",
-                                this.state.teamName
-                            ),
-                            React.createElement(
-                                "h4",
+                                "b",
                                 null,
                                 "\u8D44\u91D1\u8BE6\u60C5"
-                            ),
-                            React.createElement(
-                                "div",
-                                null,
-                                this.state.Asset.map(function (v, i) {
-                                    // console.log(v);
-                                    return React.createElement(
-                                        React.Fragment,
-                                        null,
-                                        React.createElement(
-                                            "h5",
-                                            { key: i },
-                                            v.type,
-                                            ":",
-                                            v.num
-                                        ),
-                                        React.createElement("br", null)
-                                    );
-                                })
-                            ),
-                            React.createElement(
-                                "h4",
-                                null,
-                                "\u8D44\u91D1\u6D41\u52A8\u603B\u989D"
-                            ),
-                            React.createElement(
-                                "div",
-                                null,
-                                this.state.Asset_data.map(function (v, i) {
-                                    // console.log(v);
-                                    return React.createElement(
-                                        React.Fragment,
-                                        null,
-                                        React.createElement(
-                                            "h5",
-                                            { key: i },
-                                            v.name,
-                                            ":",
-                                            v.num
-                                        ),
-                                        React.createElement("br", null)
-                                    );
-                                })
                             )
                         ),
                         React.createElement(
                             "div",
-                            { "class": "col-lg-6 col-md-12 col-sm-12" },
+                            { className: "total inline" },
                             React.createElement(
-                                "h4",
+                                "b",
                                 null,
-                                "\u8D44\u91D1\u6D41\u91CF\u8BB0\u5F55"
-                            ),
-                            React.createElement(
-                                T_table,
-                                null,
-                                React.createElement(
-                                    "thead",
-                                    { className: "thead-light" },
-                                    React.createElement(
-                                        "tr",
-                                        null,
-                                        React.createElement(
-                                            "th",
-                                            { scope: "col" },
-                                            "\u4EA4\u6613ID"
-                                        ),
-                                        React.createElement(
-                                            "th",
-                                            { scope: "col" },
-                                            "\u53D1\u8D77\u65B9"
-                                        ),
-                                        React.createElement(
-                                            "th",
-                                            { scope: "col" },
-                                            "\u63A5\u53D7\u65B9"
-                                        ),
-                                        React.createElement(
-                                            "th",
-                                            { scope: "col" },
-                                            "\u5546\u54C1\u540D\u79F0"
-                                        ),
-                                        React.createElement(
-                                            "th",
-                                            { scope: "col" },
-                                            "\u5546\u54C1\u6570\u91CF"
-                                        ),
-                                        React.createElement(
-                                            "th",
-                                            { scope: "col" },
-                                            "\u91D1\u989D"
-                                        ),
-                                        React.createElement(
-                                            "th",
-                                            { scope: "col" },
-                                            "\u5907\u6CE8"
-                                        )
-                                    )
-                                ),
-                                React.createElement(
-                                    "tbody",
-                                    null,
-                                    this.state.Asset_flow.map(function (value, index) {
+                                "\u8D44\u91D1\u6D41\u52A8\u603B\u989D"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "top" },
+                        React.createElement(
+                            "div",
+                            { className: "detail-box inline" },
+                            this.state.Asset.map(function (v, i) {
+                                if (i <= 2) {
+                                    if (i === 0 || i === 1) {
                                         return React.createElement(
-                                            "tr",
-                                            { key: index },
+                                            React.Fragment,
+                                            null,
                                             React.createElement(
-                                                "td",
-                                                null,
+                                                "div",
+                                                { className: "asset-each inline" },
                                                 React.createElement(
-                                                    "a",
-                                                    { href: "#", onClick: function onClick() {
-                                                            _this3.handleopen(value);
-                                                        } },
-                                                    value.id
+                                                    "div",
+                                                    { style: { "float": "left", "color": "#856B53" } },
+                                                    React.createElement(
+                                                        "b",
+                                                        null,
+                                                        v.num
+                                                    )
+                                                ),
+                                                React.createElement("br", null),
+                                                React.createElement(
+                                                    "div",
+                                                    { style: { "float": "left" } },
+                                                    v.type
                                                 )
                                             ),
-                                            React.createElement(
-                                                "td",
-                                                null,
-                                                " ",
-                                                value.fromTeamName,
-                                                " "
-                                            ),
-                                            React.createElement(
-                                                "td",
-                                                null,
-                                                value.toTeamName
-                                            ),
-                                            React.createElement(
-                                                "td",
-                                                null,
-                                                value.goods_name
-                                            ),
-                                            React.createElement(
-                                                "td",
-                                                null,
-                                                value.num
-                                            ),
-                                            React.createElement(
-                                                "td",
-                                                null,
-                                                value.currency,
-                                                ":",
-                                                value.money || value.num
-                                            ),
-                                            React.createElement(
-                                                "td",
-                                                null,
-                                                value.remark
-                                            )
+                                            React.createElement("div", { className: "line-index-asset inline" })
                                         );
-                                    })
-                                )
-                            )
+                                    } else return React.createElement(
+                                        "div",
+                                        { className: "asset-each inline" },
+                                        React.createElement(
+                                            "div",
+                                            { style: { "float": "left", "color": "#856B53" } },
+                                            React.createElement(
+                                                "b",
+                                                null,
+                                                v.num
+                                            )
+                                        ),
+                                        React.createElement("br", null),
+                                        React.createElement(
+                                            "div",
+                                            { style: { "float": "left" } },
+                                            v.type
+                                        )
+                                    );
+                                }
+                            })
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "total-box inline" },
+                            this.state.Asset_data.map(function (v, i) {
+                                if (i <= 2) {
+                                    if (i === 0 || i === 1) {
+                                        return React.createElement(
+                                            React.Fragment,
+                                            null,
+                                            React.createElement(
+                                                "div",
+                                                { className: "asset-each inline" },
+                                                React.createElement(
+                                                    "div",
+                                                    { style: { "float": "left", "color": "#856B53" } },
+                                                    React.createElement(
+                                                        "b",
+                                                        null,
+                                                        v.num.toFixed(2)
+                                                    )
+                                                ),
+                                                React.createElement("br", null),
+                                                React.createElement(
+                                                    "div",
+                                                    { style: { "float": "left" } },
+                                                    v.name
+                                                )
+                                            ),
+                                            React.createElement("div", { className: "line-index-asset inline" })
+                                        );
+                                    } else return React.createElement(
+                                        "div",
+                                        { className: "asset-each inline" },
+                                        React.createElement(
+                                            "div",
+                                            { style: { "float": "left", "color": "#856B53" } },
+                                            React.createElement(
+                                                "b",
+                                                null,
+                                                v.num.toFixed(2)
+                                            )
+                                        ),
+                                        React.createElement("br", null),
+                                        React.createElement(
+                                            "div",
+                                            { style: { "float": "left" } },
+                                            v.name
+                                        )
+                                    );
+                                }
+                            })
                         )
                     )
                 ),
                 React.createElement(
-                    Modal,
-                    { isOpen: this.state.isOpen },
-                    React.createElement(Modal_head, { close: this.handleclose }),
+                    "div",
+                    { className: "logo" },
+                    React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/summary.png", alt: "logo" })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "top-explain", style: { "margin-left": "8.3%", "margin-top": "1.02%" } },
+                    "\u8D44\u91D1\u6D41\u91CF\u8BB0\u5F55"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "bottom" },
                     React.createElement(
-                        Modal_body,
+                        T_table,
                         null,
                         React.createElement(
-                            "div",
-                            null,
-                            "\u4EA4\u6613ID:",
-                            this.modal_value.id
+                            "thead",
+                            { className: "bg-brown", style: { "color": "white" } },
+                            React.createElement(
+                                "tr",
+                                null,
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u4EA4\u6613ID"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u53D1\u8D77\u65B9"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u63A5\u53D7\u65B9"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5546\u54C1\u540D\u79F0"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5546\u54C1\u6570\u91CF"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u91D1\u989D"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5907\u6CE8"
+                                )
+                            )
                         ),
                         React.createElement(
-                            "div",
+                            "tbody",
                             null,
-                            "\u53D1\u8D77\u65B9:",
-                            this.modal_value.fromTeamName
-                        ),
-                        React.createElement(
-                            "div",
-                            null,
-                            "\u63A5\u6536\u65B9:",
-                            this.modal_value.toTeamName
-                        ),
-                        this.modal_value.goods_name ? "商品:" : undefined,
-                        this.modal_value.goods_name || "",
-                        React.createElement(
-                            "div",
-                            null,
-                            "\u4E70\u5356:",
-                            buyStatus[this.modal_value.type]
-                        ),
-                        React.createElement(
-                            "div",
-                            null,
-                            "\u72B6\u6001:",
-                            confirmStatus[this.modal_value.status + 1]
-                        ),
-                        React.createElement(
-                            "div",
-                            null,
-                            "\u91D1\u989D:",
-                            this.modal_value.currency,
-                            ":",
-                            this.modal_value.money || this.modal_value.num
-                        ),
-                        React.createElement(
-                            "div",
-                            null,
-                            "\u5907\u6CE8:",
-                            this.modal_value.remark
+                            this.state.Asset_flow.map(function (value, index) {
+                                return React.createElement(
+                                    "tr",
+                                    { key: index },
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        React.createElement(
+                                            "a",
+                                            { href: "#", onClick: function onClick() {
+                                                    _this3.handleopen(value);
+                                                } },
+                                            value.id
+                                        )
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        " ",
+                                        value.fromTeamName,
+                                        " "
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.toTeamName
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.goods_name
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.num
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.currency,
+                                        ":",
+                                        value.money || value.num
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.remark
+                                    )
+                                );
+                            })
                         )
-                    ),
-                    React.createElement(Modal_foot, { close: this.handleclose })
+                    )
                 )
             );
         }
@@ -441,4 +462,4 @@ var Asset = function (_React$Component) {
 }(React.Component);
 
 ReactDOM.render(React.createElement(Asset, null), document.getElementById("root"));
-ReactDOM.render(React.createElement(Nav, null), document.getElementById("Nav"));
+ReactDOM.render(React.createElement(Nav, { choosed: 5, teamName: team.name }), document.getElementById("Nav"));

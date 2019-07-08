@@ -182,7 +182,8 @@ class News {
                 switch (response.code) {
                     case 200:
                         alert("恭喜您成功购买情报，本情报码：" + response.data.password+"\n温馨提示，系统将不会为您储存情报码");
-                        break
+                        ppss.publish("newsPass",response.data.password);
+                        break;
                     default:
                         ppss.publish("erro", response.code);
                 }
@@ -294,6 +295,7 @@ var timing = function () {
                 location.href = "https://wisecity.itrclub.com";
             } else {
                 ppss.publish("fina.rest", rest);
+                ppss.publish("fina.num", data.data.list.num)
             }
         } else if (data.code == 404) {
             alert("请至财年开始再登录。");

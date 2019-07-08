@@ -161,67 +161,91 @@ class Asset extends React.Component{
         var confirmStatus = ["退回","未签收","已签收"];
         return(
             <React.Fragment>
-                <div>
-                    <div class="teamdata row">
-                        <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h4><b>队伍名</b>:{this.state.teamName}</h4>
-                            <h4>资金详情</h4>
-                            <div>
-                                {this.state.Asset.map((v,i)=>{
-                                    // console.log(v);
-                                    return(
-                                        <React.Fragment>
-                                            <h5 key={i}>{v.type}:{v.num}</h5>
-                                            <br />
-                                        </React.Fragment>
-                                    )
-                                })}  
-                            </div>
-                            <h4>资金流动总额</h4>
-                            <div>
-                                {this.state.Asset_data.map((v,i)=>{
-                                    // console.log(v);
-                                    return(
-                                        <React.Fragment>
-                                            <h5 key={i}>{v.name}:{v.num}</h5>
-                                            <br />
-                                        </React.Fragment>
-                                    )
-                                })}    
-                            </div>
+                <div className="welcome"><b>资产管理</b></div>
+                <div className="assetBox">
+                    <div className="top-explain">
+                        <div className="detail inline"><b>资金详情</b></div>
+                        <div className="total inline"><b>资金流动总额</b></div>
+                    </div>
+                    <div className="top">
+                        <div className="detail-box inline">
+                        {this.state.Asset.map((v,i)=>{
+                            if(i<=2){
+                                if(i===0||i===1){
+                                    return (<React.Fragment>
+                                    <div className="asset-each inline">
+                                        <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                                        <br />
+                                        <div style={{"float":"left"}}>{v.type}</div>
+                                    </div>
+                                    <div className="line-index-asset inline"></div>
+                                    </React.Fragment>)
+                                }
+                                else return (<div className="asset-each inline">
+                                    <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                                    <br />
+                                    <div style={{"float":"left"}}>{v.type}</div>
+                                </div>)
+                            }
+                        })}
                         </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h4>资金流量记录</h4>
-                            <T_table>
-                                <thead className="thead-light">
-                                    <tr>
-                                    <th scope="col">交易ID</th>
-                                    <th scope="col">发起方</th>
-                                    <th scope="col">接受方</th>
-                                    <th scope="col">商品名称</th>
-                                    <th scope="col">商品数量</th>
-                                    <th scope="col">金额</th>
-                                    <th scope="col">备注</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.state.Asset_flow.map((value,index)=>{
-                                        return (<tr key={index} >
-                                            <td><a href="#" onClick={()=>{this.handleopen(value)}}>{value.id}</a></td>
-                                            <td> {value.fromTeamName} </td>
-                                            <td>{value.toTeamName}</td>
-                                            <td>{value.goods_name}</td>
-                                            <td>{value.num}</td>
-                                            <td>{value.currency}:{value.money||value.num}</td>
-                                            <td>{value.remark}</td>
-                                        </tr>)
-                                    })}
-                                </tbody>
-                            </T_table>
-                        </div>
+                        <div className="total-box inline">
+                        {this.state.Asset_data.map((v,i)=>{
+                            if(i<=2){
+                                if(i===0||i===1){
+                                    return (<React.Fragment>
+                                    <div className="asset-each inline">
+                                        <div style={{"float":"left","color":"#856B53"}}><b>{v.num.toFixed(2)}</b></div>
+                                        <br />
+                                        <div style={{"float":"left"}}>{v.name}</div>
+                                    </div>
+                                    <div className="line-index-asset inline"></div>
+                                    </React.Fragment>)
+                                }
+                                else return (<div className="asset-each inline">
+                                    <div style={{"float":"left","color":"#856B53"}}><b>{v.num.toFixed(2)}</b></div>
+                                    <br />
+                                    <div style={{"float":"left"}}>{v.name}</div>
+                                </div>)
+                            }
+                        })}    
                     </div>
                 </div>
-                <Modal isOpen={this.state.isOpen}>
+                </div>
+                <div className="logo">
+                    <img src={"https://wisecity.itrclub.com/resource/img/logo/summary.png"} alt={"logo"} />
+                </div>
+                <div className="top-explain" style={{"margin-left":"8.3%","margin-top":"1.02%"}} >资金流量记录</div>
+                <div className="bottom">
+                    <T_table>
+                        <thead className="bg-brown" style={{"color":"white"}}>
+                            <tr>
+                            <th scope="col">交易ID</th>
+                            <th scope="col">发起方</th>
+                            <th scope="col">接受方</th>
+                            <th scope="col">商品名称</th>
+                            <th scope="col">商品数量</th>
+                            <th scope="col">金额</th>
+                            <th scope="col">备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.Asset_flow.map((value,index)=>{
+                                return (<tr key={index} >
+                                    <td><a href="#" onClick={()=>{this.handleopen(value)}}>{value.id}</a></td>
+                                    <td> {value.fromTeamName} </td>
+                                    <td>{value.toTeamName}</td>
+                                    <td>{value.goods_name}</td>
+                                    <td>{value.num}</td>
+                                    <td>{value.currency}:{value.money||value.num}</td>
+                                    <td>{value.remark}</td>
+                                </tr>)
+                            })}
+                        </tbody>
+                    </T_table>
+                </div>
+                
+                {/* <Modal isOpen={this.state.isOpen}>
                     <Modal_head close={this.handleclose}></Modal_head>
                     <Modal_body>
                         <div>交易ID:{this.modal_value.id}</div>
@@ -234,7 +258,7 @@ class Asset extends React.Component{
                         <div>备注:{this.modal_value.remark}</div>
                     </Modal_body>
                     <Modal_foot close={this.handleclose}></Modal_foot>
-                </Modal>
+                </Modal> */}
             </React.Fragment>
         )
     }
@@ -245,6 +269,6 @@ ReactDOM.render(
     document.getElementById("root")
 )
 ReactDOM.render(
-    <Nav />,
+    <Nav choosed={5} teamName={team.name} />,
     document.getElementById("Nav")
 )

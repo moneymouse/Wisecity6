@@ -57,3 +57,10 @@ html {
     vertical-align: middle;
     padding-left:2%;
 }
+
+.logo {
+    height: 17%;
+    position: relative;
+    top: -50.5%;
+    left: 67%;
+}

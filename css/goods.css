@@ -1,11 +1,6 @@
 #root {
-    padding-top: 2%;
-    padding-left: 12%;
-    padding-right: 12%;
-}
-
-.table {
-    border: .5px solid #dddddd;
+    height: 100%;
+    margin-left:15.3%;
 }
 
 @font-face {
@@ -15,6 +10,10 @@
 
 .font_f {
     font-family: Lanting;
+}
+
+.table.td{
+    font-size:0.8em;
 }
 
 .cont {
@@ -27,10 +26,40 @@
     font-family: 'Times New Roman', Times, serif;
 }
 
-@media screen and (max-width:576px) {
-    #root {
-        padding-top: 2%;
-        padding-left: 4.19%;
-        padding-right: 4.19%;
-    }
+.line{
+    height: 0px;
+    border: 1px solid rgba(112,112,112,0.5);
+    opacity: 0.51;
+    margin-bottom: 24px;
+}
+
+.goodBox{
+    margin-left: 8.3%;
+    margin-top: 4.8%;
+    width: 48.1%;
+}
+
+.modal-body-down-right{
+    float: right;
+}
+
+.modal-body-down-left>.font-modal{
+    margin-bottom: 12px;
+}
+
+.modal-body-down-right>.font-modal{
+    margin-bottom: 12px;
+}
+
+th {
+    font-family: "微软雅黑";
+    font-size:0.8em;
+    border-bottom: none !important;
+}
+
+.logo {
+    height: 21%;
+    position: relative;
+    top: -24.5%;
+    left: 68%;
 }

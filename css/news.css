@@ -10,7 +10,46 @@ body {
 }
 
 .font_f {
-    font-family: Lanting;
+    border-radius: 4px 4px 0px 0px;
+    font-size: 0.9em;
+    padding: 2px;
+    margin-right: 1.9%;
+    width: 7.5%;
+    text-align: center;
+}
+
+.font_f>a{
+    color:black !important;
+}
+
+.font_f>a:hover{
+    color:black !important;
+}
+
+.font_focus{
+    color:white;
+    border-radius: 4px 4px 0px 0px;
+    font-size: 0.9em;
+    padding: 2px;
+    margin-right: 1.9%;
+    width: 7.5%;
+    text-align: center;
+}
+
+a.list-group-item{
+    color:black !important;
+}
+
+a.list-group-item:hover{
+    background-color: #856B53;
+    border-color: #856B53;
+    border-radius: 0px;
+
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
 }
 
 .title {
@@ -19,8 +58,8 @@ body {
 }
 
 #content {
-    padding: 2%;
-    height: 95%
+    margin-left: 15.3%;
+    height:100%;
 }
 
 .up,
@@ -52,8 +91,50 @@ body {
     display: none;
 }
 
+.show{
+    display: block;
+}
+
 .fuck{
     margin-left: 15px;
+}
+
+.top {
+    width: 50.86%;
+    margin-left: 7.6%;
+    margin-top: 2.7%;
+    height: 50.05%;
+}
+
+/* ckeditor */
+/* .ck.ck-toolbar{
+    background-color:#856B53 !important;
+    border-color:#856B53 !important;
+}
+
+.ck.ck-reset_all, .ck.ck-reset_all *{
+    color: white !important;
+    background-color: #856B53 !important;
+    border: none !important;
+} */
+
+.bottom{
+    width:81.3%;
+    margin-left:7.62%;
+    height: 1%;
+    margin-bottom: 20px;
+}
+
+.logo {
+    position: relative;
+    height: 29%;
+    top: -44.4%;
+    left: 62%;
+}
+
+.bottom-top{
+    margin-left:7.62%;
+    margin-top:2.5%;
 }
 
 @media screen and (max-width:576px) {

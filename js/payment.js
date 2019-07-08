@@ -276,6 +276,11 @@ var Body = function (_React$Component2) {
                             )
                         )
                     )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "logo" },
+                    React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/transfer.png", alt: "logo" })
                 )
             );
         }

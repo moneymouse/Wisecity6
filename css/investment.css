@@ -12,3 +12,120 @@ html,body{
 .hidden{
     display: none;
 }
+
+.detail-box {
+    border: 1px solid rgba(221,221,221,0.8);
+    border-radius: 5px;
+    text-align: center;
+    vertical-align: middle;
+    height: 10.6%;
+    width: 38%;
+    margin-bottom: 3.48%;
+}
+
+.top-explain{
+    margin-top: 2.9%;
+    margin-bottom: 1.6%;
+    font-size: 1.1em;
+    font-family: 微软雅黑;
+}
+
+.text-bottom{
+    vertical-align: text-bottom;
+}
+
+#root{
+    height: 100%;
+    margin-left:15.3%;
+}
+
+.saveMoney {
+    margin-right: 48.6%;
+}
+
+.container-investment{
+    border-radius: 4px;
+    height: 100%;
+    width: 68.4%;
+    margin-left: 7.4%;
+    margin-top: 3.8%;
+    border: 1px solid rgba(133,107,83,0.5);
+    padding-left: 6.7%;
+}
+
+a.btn{
+    color:black!important;
+    border:1px solid #856B53;
+}
+
+.list-choose {
+    width: 7.5%;
+    left: 80.5%;
+    position: fixed;
+    top: 17.1%;
+}
+
+.list-group > a{
+    color:black !important;
+}
+
+.list-group-item.active{
+    background-color: #856B53 !important;
+    border-color:#856B53 !important;
+}
+
+.show {
+    height: 100%;
+}
+
+.asset-each{
+    margin-left: 7%;
+}
+
+.line-index-asset{
+    width: 0px;
+    border: 1px solid rgba(112,112,112,0.4);
+    opacity: 1;
+    height: 56.4%;
+    margin-left: 5.3%;
+    vertical-align: middle;
+    margin-top: 5%;
+}
+
+.bts{
+    width:100% !important;
+}
+
+.savemoney{
+    width: 7.5%;
+    margin-left: 4.8%;
+}
+
+.getmoney{
+    width: 7.5%;
+    margin-left: 2.1%;
+    margin-right: 2.1%;
+}
+
+.tips {
+    margin-right: 1.3%;
+}
+
+.currency {
+    margin-right: 4.1%;
+}
+
+.second{
+    margin-bottom: 6.2%;
+}
+
+.askmoney{
+    margin-top:6.2%;
+}
+
+.logo {
+    position: fixed;
+    top: 67%;
+    height: 18%;
+    left: 80%;
+}

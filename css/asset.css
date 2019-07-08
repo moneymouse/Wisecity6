@@ -1,0 +1,81 @@
+html,body{
+    height:100%;
+}
+
+#root{
+    height: 100%;
+    margin-left:15.3%;
+}
+
+.top-explain{
+    margin-top: 2.9%;
+    margin-bottom: 1.6%;
+}
+
+.asset-each{
+    margin-left: 7%;
+}
+
+.line-index-asset{
+    width: 0px;
+    border: 1px solid rgba(112,112,112,0.4);
+    opacity: 1;
+    height: 56.4%;
+    margin-left: 5.3%;
+    vertical-align: middle;
+    margin-top: 5%;
+}
+
+.assetBox{
+    margin-left: 8.3%;
+    margin-top: 4.8%;
+    width: 100%;
+    height: 15.74%;
+}
+
+.top{
+    height: 68.8%;
+    width: 100%;
+}
+
+.detail-box{
+    height: 100%;
+    width: 31.9%;
+    border: 1px solid rgba(221,221,221,0.8);
+    border-radius: 5px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.total-box{
+    height: 100%;
+    width: 31.9%;
+    margin-left: 3.9%;
+    vertical-align: middle;
+    border: 1px solid rgba(221,221,221,0.8);
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+}
+
+.detail {
+    margin-right: 30%;
+}
+
+.bottom {
+    font-size: 0.87em;
+    margin-left: 8.3%;
+    width: 82.2%;
+}
+
+.table thead th{
+    border-bottom: none !important;
+    font-weight: 100 !important;
+}
+
+.logo {
+    height: 12%;
+    position: relative;
+    top: 4%;
+    left: 76%;
+}

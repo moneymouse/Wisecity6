@@ -24,7 +24,9 @@ var Table = function (_React$Component) {
             modal_value: {
                 place: {}
             },
-            currency: []
+            currency: [],
+            totalPriceSell: 0,
+            totalPriceBuy: 0
         };
         _this.handlecloseModal = _this.close.bind(_this);
         _this.handleopenModal = _this.open.bind(_this);
@@ -133,16 +135,30 @@ var Table = function (_React$Component) {
         key: "get_input_Value",
         value: function get_input_Value(e) {
             this.buy_value.num = e.target.value;
+            this.setState({
+                inputValue: e.target.value,
+                totalPriceSell: Number(this.buy_value.num) * Number(this.state.modal_value.sell),
+                totalPriceBuy: Number(this.buy_value.num) * Number(this.state.modal_value.buy)
+            });
         }
     }, {
         key: "Buy",
         value: function Buy() {
-            console.log(this.buy_value);
+            this.setState({
+                inputValue: undefined,
+                totalPriceSell: 0,
+                totalPriceBuy: 0
+            });
             this.good.BuyOrSell("buy", this.buy_value.id, this.buy_value.num);
         }
     }, {
         key: "Sell",
         value: function Sell() {
+            this.setState({
+                inputValue: undefined,
+                totalPriceSell: 0,
+                totalPriceBuy: 0
+            });
             this.good.BuyOrSell("sell", this.buy_value.id, this.buy_value.num);
         }
     }, {
@@ -154,86 +170,98 @@ var Table = function (_React$Component) {
                 React.Fragment,
                 null,
                 React.createElement(
-                    "table",
-                    { className: "table" },
+                    "div",
+                    { className: "welcome" },
                     React.createElement(
-                        "div",
-                        { className: "welcome" },
-                        "\u5546\u5E97"
-                    ),
-                    React.createElement("div", { className: "goodBox" }),
-                    React.createElement(
-                        "thead",
-                        { className: "thead-light" },
-                        React.createElement(
-                            "tr",
-                            null,
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u5546\u54C1\u540D\u79F0"
-                            ),
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u539F\u4EA7\u5730"
-                            ),
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u5373\u65F6\u8D2D\u4EF7"
-                            ),
-                            React.createElement(
-                                "th",
-                                { scope: "col" },
-                                "\u5373\u65F6\u552E\u4EF7"
-                            ),
-                            React.createElement("th", { scope: "col" })
-                        )
-                    ),
-                    React.createElement(
-                        "tbody",
+                        "b",
                         null,
-                        this.state.good_space.map(function (value, index) {
-                            return React.createElement(
-                                "tr",
-                                { key: "index" },
-                                React.createElement(
-                                    "td",
-                                    null,
-                                    value.name
-                                ),
-                                React.createElement(
-                                    "td",
-                                    null,
-                                    " ",
-                                    value.place.name,
-                                    " "
-                                ),
-                                React.createElement(
-                                    "td",
-                                    null,
-                                    value.buy
-                                ),
-                                React.createElement(
-                                    "td",
-                                    null,
-                                    value.sell
-                                ),
-                                React.createElement(
-                                    "td",
-                                    null,
-                                    React.createElement(
-                                        "a",
-                                        { "class": "btn btn-secondary", href: "#", onClick: function onClick() {
-                                                _this3.handleopenModal(value);
-                                            }, role: "button" },
-                                        "Click!"
-                                    )
-                                )
-                            );
-                        })
+                        "\u5546\u5E97"
                     )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "goodBox" },
+                    React.createElement(
+                        "table",
+                        { className: "table" },
+                        React.createElement(
+                            "thead",
+                            { className: "bg-brown", style: { "color": "white" } },
+                            React.createElement(
+                                "tr",
+                                null,
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5546\u54C1\u540D\u79F0"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u539F\u4EA7\u5730"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5373\u65F6\u8D2D\u4EF7"
+                                ),
+                                React.createElement(
+                                    "th",
+                                    { scope: "col" },
+                                    "\u5373\u65F6\u552E\u4EF7"
+                                ),
+                                React.createElement("th", { scope: "col" })
+                            )
+                        ),
+                        React.createElement(
+                            "tbody",
+                            null,
+                            this.state.good_space.map(function (value) {
+                                return React.createElement(
+                                    "tr",
+                                    { key: "index" },
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.name
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        " ",
+                                        value.place.name,
+                                        " "
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.buy
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        value.sell
+                                    ),
+                                    React.createElement(
+                                        "td",
+                                        null,
+                                        React.createElement(
+                                            "a",
+                                            { "class": "btn bg-brown", href: "#", onClick: function onClick() {
+                                                    _this3.handleopenModal(value);
+                                                }, role: "button" },
+                                            "Click!"
+                                        )
+                                    )
+                                );
+                            })
+                        )
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "logo" },
+                    React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/store.png", alt: "logo" })
                 ),
                 React.createElement(
                     Modal,
@@ -247,40 +275,112 @@ var Table = function (_React$Component) {
                         Modal_body,
                         null,
                         React.createElement(
-                            "h4",
-                            null,
-                            "\u8FDB\u4EF7:",
-                            this.state.modal_value.buy
+                            "div",
+                            { className: "row mb-2" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3 font-modal" },
+                                "\u5E93\u5B58:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                this.warehouse[this.state.modal_value.name]
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-3 font-modal" },
+                                "\u5373\u65F6\u8FDB\u4EF7:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                this.state.modal_value.buy
+                            )
                         ),
                         React.createElement(
-                            "h4",
-                            null,
-                            "\u4EA7\u5730:",
-                            this.state.modal_value.place.name
+                            "div",
+                            { className: "row mb-3" },
+                            React.createElement(
+                                "div",
+                                { className: "col-3" },
+                                "\u4EA7\u5730:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                this.state.modal_value.place.name
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-3 font-modal" },
+                                "\u5373\u65F6\u552E\u4EF7:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-2" },
+                                this.state.modal_value.sell
+                            )
                         ),
                         React.createElement(
-                            "h4",
+                            "div",
+                            { className: "row mb-4" },
+                            React.createElement(
+                                "div",
+                                { className: "col-4" },
+                                "\u8D2D\u5165/\u552E\u51FA\u6570\u91CF:"
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-6" },
+                                React.createElement("input", { value: this.state.inputValue, className: "form-control", type: "text", onChange: this.handleget_input_Value, placeholder: "\u8D2D\u4E70/\u552E\u51FA\u6570\u91CF..." })
+                            )
+                        ),
+                        React.createElement("div", { className: "line" }),
+                        React.createElement(
+                            "div",
                             null,
-                            "\u5E93\u5B58:",
-                            this.warehouse[this.state.modal_value.name]
+                            React.createElement(
+                                "div",
+                                { className: "modal-body-down-left inline" },
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal" },
+                                    "\u603B\u8FDB\u4EF7:"
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal", style: { "float": "left" } },
+                                    this.state.totalPriceBuy.toFixed(2)
+                                )
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "modal-body-down-right inline" },
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal", style: { "float": "right" } },
+                                    "\u603B\u552E\u4EF7:"
+                                ),
+                                React.createElement(
+                                    "div",
+                                    { className: "font-modal", style: { "float": "right" } },
+                                    this.state.totalPriceSell.toFixed(2)
+                                )
+                            )
                         )
                     ),
                     React.createElement(
                         Modal_foot,
                         { close: this.handlecloseModal },
                         React.createElement(
-                            "div",
-                            { className: "row" },
-                            React.createElement("input", { className: "form-control", type: "text", onChange: this.handleget_input_Value, placeholder: "\u8D2D\u4E70\u6570\u91CF..." })
-                        ),
-                        React.createElement(
                             "a",
-                            { "class": "btn btn-primary", href: "#", onClick: this.handleBuy, role: "button" },
+                            { "class": "btn bg-brown", href: "#", onClick: this.handleBuy, role: "button" },
                             "\u8D2D\u4E70"
                         ),
                         React.createElement(
                             "a",
-                            { "class": "btn btn-primary", href: "#", role: "button", onClick: this.handleSell },
+                            { "class": "btn bg-brown", href: "#", role: "button", onClick: this.handleSell },
                             "\u51FA\u552E"
                         )
                     )
@@ -294,4 +394,4 @@ var Table = function (_React$Component) {
 
 ReactDOM.render(React.createElement(Table, null), document.getElementById("root"));
 
-ReactDOM.render(React.createElement(Nav, null), document.getElementById("Nav"));
+ReactDOM.render(React.createElement(Nav, { choosed: 4, teamName: team.name }), document.getElementById("Nav"));

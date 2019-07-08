@@ -472,6 +472,30 @@ class Deposit extends React.Component{
     }
 }
 
+// props: type : the type of bank -- value("money":"ticket")
+//        groupName
+class Nav extends React.Component{
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        return(
+            <div class="Nav">
+                <div class="nav-logo">
+                    <img src="img/Nav_logo.png" alt="WISECITY" />
+                </div>
+                <div class="float-right">
+                    <div class="inline box-left font-nav">商帮名称：{this.props.groupName}</div>
+                    <div class="inline font-nav">商帮产业：{this.props.type==="money" ? "钱庄":"票庄"}</div>
+                    <div class="inline font-nav line box-center"></div>
+                    <div class="inline box-right font-nav"><a href="https://wisecity.itrclub.com/user/logout">退出登录</a></div>
+                </div>
+            </div>
+        )
+    }
+}
+
 class Content extends React.Component{
     constructor(props){
         super(props);
@@ -545,7 +569,7 @@ class Content extends React.Component{
         var status = ["已还","未还","申请延期","申请贷款"];
         if(this.props.type==="money"){
             return (<React.Fragment>
-
+                    <Nav type={"money"} groupName={this.props.group.name} />
                     <Groupdata type="money" groupName={this.props.group.name} groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id}  />
                     <Response onClick={this.handleOpenResponse} />
                     <Transfer groupId={this.props.group.id} />
@@ -579,6 +603,7 @@ class Content extends React.Component{
         }
         else {
             return (<React.Fragment>
+                    <Nav type={"money"} groupName={this.props.group.name} />
                     <Groupdata type="money" groupName={this.props.group.name} groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id} />
                     <h5>借贷申请:</h5>
                     <Response onClick={this.handleOpenResponse} />

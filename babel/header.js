@@ -92,7 +92,7 @@ class SureExchange extends React.Component{
 
     render(){
         return(
-            <T_table>
+            <table className={this.props.className}>
                 <thead class={"bg-brown"}>
                     <tr>
                         <th scope="col">交易ID</th>
@@ -111,7 +111,7 @@ class SureExchange extends React.Component{
                         </tr>)
                     })}
                 </tbody>
-            </T_table>
+            </table>
         )
     }
 }
@@ -148,8 +148,8 @@ class Response extends React.Component{
     render(){
         var status = ["已还","未还","申请延期","申请贷款"];
         var _t = this;
-        return(<div>
-                <T_table>
+        return(<React.Fragment>
+                <table className={this.props.className}>
                     <thead className="bg-brown">
                         <tr>
                             <th scope="col">交易号</th>
@@ -168,8 +168,8 @@ class Response extends React.Component{
                             </tr>)
                         })}
                     </tbody>
-                </T_table>
-            </div>
+                </table>
+            </React.Fragment>
         )
     }
 }
@@ -180,6 +180,7 @@ class Transfer extends React.Component{
         this.state = {
             teamList:[],
             currencyList:["白银"],
+            input:[]
         }
         this.team = [];//the Object of teamName and teamId
         this.ajaxData = {};
@@ -189,15 +190,26 @@ class Transfer extends React.Component{
         this.handleClick = this.Click.bind(this);
         this.handleMoneyNum = this.getMoney.bind(this);
         this.handleGetRemark = this.getRemark.bind(this);
+        this.handleClear = this.clear.bind(this);
     }
 
     getMoney(e){
         // console.log(e.target.value);
         this.ajaxData.num = e.target.value;
+        var arr = this.state.input;
+        arr[0] = e.target.value;
+        this.setState({
+            input:arr
+        })
     }
 
     getRemark(e){
         this.ajaxData.remark = e.target.value;
+        var arr = this.state.input;
+        arr[1] = e.target.value;
+        this.setState({
+            input:arr
+        })
     }
 
     getTeam(e){
@@ -236,6 +248,10 @@ class Transfer extends React.Component{
             "num":this.ajaxData.num,
             "remark":this.ajaxData.remark
         }
+        this.setState({
+            input:["",""]
+        })
+        this.ajaxData={};
         // console.log(send);
         $.ajax({
             type: "POST",
@@ -312,29 +328,45 @@ class Transfer extends React.Component{
         
     }
 
+    clear(){
+        this.setState({
+            input:["",""]
+        });
+    }
+
     render(){
         return (
-            <div className="border-brown">
+            <React.Fragment>
                 <div className="row mb-3">
-                    <div className="col-4">
-                        <Select value="目标队伍..." options={this.state.teamList} get_value={this.handleTeamFocus} />
+                    <div className="col-3 tip">收款方：</div>
+                    <div className="col-3">
+                        <Select value="请选择..." options={this.state.teamList} get_value={this.handleTeamFocus} />
                     </div>
-                    <div className="col-4">
-                        <Select value="货币类型..." options={this.state.currencyList} get_value={this.handleCurrencyFocus} />
+                    <div className="col-3 tip">货币类型：</div>
+                    <div className="col-3">
+                        <Select value="请选择..." options={this.state.currencyList} get_value={this.handleCurrencyFocus} />
                     </div>
                 </div>
-                <div className="row mb-3">
+                <div className="row mb-4">
+                    <div className="col-2 tip">金额：</div>
                     <div className="col-4">
-                        <input className="form-control" type="text" onChange={this.handleMoneyNum} placeholder="金额...." />
+                        <input value={this.state.input[0]} className="form-control" type="text" onChange={this.handleMoneyNum} placeholder="金额..." />
                     </div>
+                    <div className="col-2 tip">备注：</div>
                     <div className="col-4">
-                        <input className="form-control" type="text" onChange={this.handleGetRemark} placeholder="备注...." />
-                    </div>
-                    <div className="col-3">
+                        <input value={this.state.input[1]} className="form-control" type="text" onChange={this.handleGetRemark} placeholder="备注..." />
+                    </div>   
+                </div>
+                <div className="row">
+                    <div className="col-8"></div>
+                    <div className="col-2">
                         <a className="btn bg-brown" role="button" onClick={this.handleClick}>转账</a>
                     </div>
+                    <div className="col-2">
+                        <a className="btn border-brown" role="button" onClick={this.handleClear}>重置</a>
+                    </div>  
                 </div>
-            </div>
+            </React.Fragment>
     )
 
     }
@@ -343,13 +375,20 @@ class Transfer extends React.Component{
 class Issue extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            input:undefined
+        }
         this.handlegetNum = this.getNum.bind(this);
         this.handleClick = this.click.bind(this);
         this.ajaxData = {};
+        this.handleClear = this.clear.bind(this);
     }
 
     getNum(e){
         this.ajaxData.num = e.target.value;
+        this.setState({
+            input:e.target.value
+        })
     }
 
     click(){
@@ -360,7 +399,9 @@ class Issue extends React.Component{
         var data={
             "num":this.ajaxData.num
         }
-        console.log(data);
+        this.setState({
+            input:""
+        })
         $.ajax({
             type: "POST",
             url: "https://wisecity.itrclub.com/api/bank/ticket/issue",
@@ -378,17 +419,24 @@ class Issue extends React.Component{
         });
     }
 
+    clear(){
+        this.setState({
+            input:""
+        });
+    }
+
     render(){
         return(<React.Fragment>
-            <div className="row mb-3 border-brown">
-                <h5 className="col-3">发行票号:</h5>
+                <div classNAme="col-2" style={{"font-family":"微软雅黑","font-size":"0.8em"}}>数量：</div>
                 <div className="col-5">
-                    <input className="form-control" type="text" onChange={this.handlegetNum} placeholder="数量...." />
+                    <input value={this.state.input} className="form-control" type="text" onChange={this.handlegetNum} placeholder="数量...." />
                 </div>
-                <div className="col-3">
+                <div className="col-2">
                     <a className="btn bg-brown" onClick={this.handleClick} role="button">发行</a>
                 </div>
-            </div>
+                <div className="col-2">
+                    <a className="btn border-brown" onClick={this.handleClear} role="button">重置</a>
+                </div>
         </React.Fragment>)
     }
 }
@@ -605,12 +653,34 @@ class Content extends React.Component{
                     <div className="top-asset">
                         <Groupdata type="money" groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id}  />
                     </div>
-                    <h5>借贷申请:</h5>
-                    <Response onClick={this.handleOpenResponse} />
-                    <Transfer groupId={this.props.group.id} />
-                    <Issue />
-                    <h5>兑现申请:</h5>
-                    <SureExchange groupId={this.props.group.id} />
+                    <div className="operate-title">
+                        <div className="welcome-b operate-title-l inline"><b>发行票号</b></div>
+                        <div className="welcome-b inline"><b>转账</b></div>
+                    </div>
+                    <div className="middle-operate">
+                        <div className="issue inline border-brown">
+                            <Issue />
+                        </div>
+                        <div className="logo">
+                            <img src={"https://wisecity.itrclub.com/resource/img/logo/storage.png"} alt={"logo"} />
+                        </div>
+                        <div className="transfer inline border-brown">
+                            <Transfer groupId={this.props.group.id} />
+                        </div>
+                    </div>
+                    <div className="operate-title">
+                        <div className="welcome-b operate-title-l inline"><b>借贷申请:</b></div>
+                        <div className="welcome-b inline"><b>兑现申请:</b></div>
+                    </div>
+                    <div className="bottom">
+                        <div className="inline a">
+                            <Response onClick={this.handleOpenResponse} className="table inline" />
+                        </div>
+                        <div className="inline b">
+                            <SureExchange groupId={this.props.group.id} className="table inline" />
+                        </div>
+                    </div>
+                    
                 <Modal isOpen={this.state.isOpenResponse}>
                     <Modal_head close={this.handleCloseResponse}>借贷业务详情</Modal_head>
                     <Modal_body>

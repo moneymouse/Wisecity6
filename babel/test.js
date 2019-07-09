@@ -435,17 +435,17 @@ class Asset extends React.Component{
                 if(i===0||i===1){
                     return (<React.Fragment>
                     <div className="asset-each inline">
-                        <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                        <div style={{"color":"#856B53"}}><b>{v.num}</b></div>
                         <br />
-                        <div style={{"float":"left"}}>{v.currency}</div>
+                        <div>{v.currency}</div>
                     </div>
                     <div className="line-index-asset inline"></div>
                     </React.Fragment>)
                 }
                 else return (<div className="asset-each inline">
-                <div style={{"float":"left","color":"#856B53"}}><b>{v.num}</b></div>
+                <div style={{"color":"#856B53"}}><b>{v.num}</b></div>
                 <br />
-                <div style={{"float":"left"}}>{v.currency}</div>
+                <div>{v.currency}</div>
             </div>)
             }
         })}
@@ -598,7 +598,9 @@ class Content extends React.Component{
                 </div>
                 <div className="top">
                     <Fina_box className="Finayear inline"/>
-                    <Asset className="Asset inline" />
+                    <div className="inline asset-t">
+                        <Asset className="Asset" />
+                    </div>
                 </div>
                 <div className="font-index top-explain">图形报表</div>
                 <Left className="maina" />

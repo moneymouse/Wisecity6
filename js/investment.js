@@ -386,7 +386,7 @@ var Investment = function (_React$Component5) {
         key: "aClear",
         value: function aClear() {
             this.setState({
-                bankInput: undefined
+                bankInput: ""
             });
         }
     }, {
@@ -403,7 +403,7 @@ var Investment = function (_React$Component5) {
         key: "bClear",
         value: function bClear() {
             this.setState({
-                askMoneyInput: []
+                askMoneyInput: ["", "", "", ""]
             });
         }
     }, {
@@ -537,7 +537,7 @@ var Investment = function (_React$Component5) {
         key: "Deposit",
         value: function Deposit() {
             this.setState({
-                bankInput: undefined
+                bankInput: ""
             });
             Bank.Deposit_Money(this.ajaxData.A_value, this.ajaxData.id, this.focusItem.name, this.ajaxData.typeA);
         }

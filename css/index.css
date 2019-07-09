@@ -52,14 +52,19 @@ body {
 
 .Asset{
     height: 100%;
-    width: 39.2%;
-    vertical-align: middle;
-    text-align: center;                    
+    width: 100%;
+    text-align: center;
     border: 1px solid rgba(221,221,221,1);
     margin-left: 3%;
     border-radius: 5px;
     font-family: 'Times New Roman', Times, serif;
-    padding-top: 2%;
+    display: flex;
+    align-items: center;
+}
+
+.inline.asset-t {
+    height: 100%;
+    width: 39.2%;
 }
 
 th {
@@ -79,13 +84,12 @@ h4.h {
     border:1px solid rgba(112,112,112,0.4);
     opacity:1;
     height: 50%;
-    margin-left: 5.3%;
-    vertical-align: middle;
 }
 
 .top{
     height:16.2%;
     width:100%;
+    display: flex;
 }
 
 .top-explain{
@@ -113,9 +117,10 @@ h4.h {
     width: 45.6%;
 }
 
-.asset-each{
-    margin-left: 7%;
-    vertical-align: middle;
+.asset-each{    
+    margin-left: 10.6%;
+    width: 12%;
+    margin-right: 10.6%;
 }
 
 .a,.b{

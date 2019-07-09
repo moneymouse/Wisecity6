@@ -29,31 +29,57 @@ var Groupdata = function (_React$Component) {
             return React.createElement(
                 React.Fragment,
                 null,
-                this.props.groupAsset.map(function (v) {
-                    return React.createElement(
-                        React.Fragment,
-                        null,
-                        React.createElement(
-                            "div",
-                            { className: "asset-each inline" },
+                this.props.groupAsset.map(function (v, i) {
+                    if (i < 2) {
+                        return React.createElement(
+                            React.Fragment,
+                            null,
                             React.createElement(
                                 "div",
-                                { style: { "color": "#856B53" } },
+                                { className: "asset-each inline" },
                                 React.createElement(
-                                    "b",
+                                    "div",
+                                    { style: { "color": "#856B53" } },
+                                    React.createElement(
+                                        "b",
+                                        null,
+                                        v.num
+                                    )
+                                ),
+                                React.createElement("br", null),
+                                React.createElement(
+                                    "div",
                                     null,
-                                    v.num
+                                    v.currency
                                 )
                             ),
-                            React.createElement("br", null),
+                            React.createElement("div", { className: "line-index-asset inline" })
+                        );
+                    } else {
+                        return React.createElement(
+                            React.Fragment,
+                            null,
                             React.createElement(
                                 "div",
-                                null,
-                                v.currency
+                                { className: "asset-each inline" },
+                                React.createElement(
+                                    "div",
+                                    { style: { "color": "#856B53" } },
+                                    React.createElement(
+                                        "b",
+                                        null,
+                                        v.num
+                                    )
+                                ),
+                                React.createElement("br", null),
+                                React.createElement(
+                                    "div",
+                                    null,
+                                    v.currency
+                                )
                             )
-                        ),
-                        React.createElement("div", { className: "line-index-asset inline" })
-                    );
+                        );
+                    }
                 })
             );
         }
@@ -131,8 +157,8 @@ var SureExchange = function (_React$Component2) {
             var _this5 = this;
 
             return React.createElement(
-                T_table,
-                null,
+                "table",
+                { className: this.props.className },
                 React.createElement(
                     "thead",
                     { "class": "bg-brown" },
@@ -250,11 +276,11 @@ var Response = function (_React$Component3) {
             var status = ["已还", "未还", "申请延期", "申请贷款"];
             var _t = this;
             return React.createElement(
-                "div",
+                React.Fragment,
                 null,
                 React.createElement(
-                    T_table,
-                    null,
+                    "table",
+                    { className: this.props.className },
                     React.createElement(
                         "thead",
                         { className: "bg-brown" },
@@ -339,7 +365,8 @@ var Transfer = function (_React$Component4) {
 
         _this8.state = {
             teamList: [],
-            currencyList: ["白银"]
+            currencyList: ["白银"],
+            input: []
         };
         _this8.team = []; //the Object of teamName and teamId
         _this8.ajaxData = {};
@@ -349,6 +376,7 @@ var Transfer = function (_React$Component4) {
         _this8.handleClick = _this8.Click.bind(_this8);
         _this8.handleMoneyNum = _this8.getMoney.bind(_this8);
         _this8.handleGetRemark = _this8.getRemark.bind(_this8);
+        _this8.handleClear = _this8.clear.bind(_this8);
         return _this8;
     }
 
@@ -357,11 +385,21 @@ var Transfer = function (_React$Component4) {
         value: function getMoney(e) {
             // console.log(e.target.value);
             this.ajaxData.num = e.target.value;
+            var arr = this.state.input;
+            arr[0] = e.target.value;
+            this.setState({
+                input: arr
+            });
         }
     }, {
         key: "getRemark",
         value: function getRemark(e) {
             this.ajaxData.remark = e.target.value;
+            var arr = this.state.input;
+            arr[1] = e.target.value;
+            this.setState({
+                input: arr
+            });
         }
     }, {
         key: "getTeam",
@@ -402,8 +440,13 @@ var Transfer = function (_React$Component4) {
                 "moneyType": this.ajaxData.moneyType,
                 "num": this.ajaxData.num,
                 "remark": this.ajaxData.remark
-                // console.log(send);
-            };$.ajax({
+            };
+            this.setState({
+                input: ["", ""]
+            });
+            this.ajaxData = {};
+            // console.log(send);
+            $.ajax({
                 type: "POST",
                 url: "https://wisecity.itrclub.com/api/group/transfer",
                 data: send,
@@ -477,46 +520,75 @@ var Transfer = function (_React$Component4) {
             });
         }
     }, {
+        key: "clear",
+        value: function clear() {
+            this.setState({
+                input: ["", ""]
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return React.createElement(
-                "div",
-                { className: "border-brown" },
+                React.Fragment,
+                null,
                 React.createElement(
                     "div",
-                    { className: "row mb-3" },
+                    { className: "col-3 tip" },
+                    "\u6536\u6B3E\u65B9\uFF1A"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-3" },
+                    React.createElement(Select, { value: "\u8BF7\u9009\u62E9...", options: this.state.teamList, get_value: this.handleTeamFocus })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-3 tip" },
+                    "\u8D27\u5E01\u7C7B\u578B\uFF1A"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-3" },
+                    React.createElement(Select, { value: "\u8BF7\u9009\u62E9...", options: this.state.currencyList, get_value: this.handleCurrencyFocus })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-2 tip" },
+                    "\u91D1\u989D\uFF1A"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-4" },
+                    React.createElement("input", { value: this.state.input[0], className: "form-control", type: "text", onChange: this.handleMoneyNum, placeholder: "\u91D1\u989D..." })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-2 tip" },
+                    "\u5907\u6CE8\uFF1A"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-4" },
+                    React.createElement("input", { value: this.state.input[1], className: "form-control", type: "text", onChange: this.handleGetRemark, placeholder: "\u5907\u6CE8..." })
+                ),
+                React.createElement("div", { className: "col-8" }),
+                React.createElement(
+                    "div",
+                    { className: "col-2" },
                     React.createElement(
-                        "div",
-                        { className: "col-4" },
-                        React.createElement(Select, { value: "\u76EE\u6807\u961F\u4F0D...", options: this.state.teamList, get_value: this.handleTeamFocus })
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "col-4" },
-                        React.createElement(Select, { value: "\u8D27\u5E01\u7C7B\u578B...", options: this.state.currencyList, get_value: this.handleCurrencyFocus })
+                        "a",
+                        { className: "btn bg-brown", role: "button", onClick: this.handleClick },
+                        "\u8F6C\u8D26"
                     )
                 ),
                 React.createElement(
                     "div",
-                    { className: "row mb-3" },
+                    { className: "col-2" },
                     React.createElement(
-                        "div",
-                        { className: "col-4" },
-                        React.createElement("input", { className: "form-control", type: "text", onChange: this.handleMoneyNum, placeholder: "\u91D1\u989D...." })
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "col-4" },
-                        React.createElement("input", { className: "form-control", type: "text", onChange: this.handleGetRemark, placeholder: "\u5907\u6CE8...." })
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "col-3" },
-                        React.createElement(
-                            "a",
-                            { className: "btn bg-brown", role: "button", onClick: this.handleClick },
-                            "\u8F6C\u8D26"
-                        )
+                        "a",
+                        { className: "btn border-brown", role: "button", onClick: this.handleClear },
+                        "\u91CD\u7F6E"
                     )
                 )
             );
@@ -534,9 +606,13 @@ var Issue = function (_React$Component5) {
 
         var _this10 = _possibleConstructorReturn(this, (Issue.__proto__ || Object.getPrototypeOf(Issue)).call(this, props));
 
+        _this10.state = {
+            input: undefined
+        };
         _this10.handlegetNum = _this10.getNum.bind(_this10);
         _this10.handleClick = _this10.click.bind(_this10);
         _this10.ajaxData = {};
+        _this10.handleClear = _this10.clear.bind(_this10);
         return _this10;
     }
 
@@ -544,6 +620,9 @@ var Issue = function (_React$Component5) {
         key: "getNum",
         value: function getNum(e) {
             this.ajaxData.num = e.target.value;
+            this.setState({
+                input: e.target.value
+            });
         }
     }, {
         key: "click",
@@ -555,7 +634,9 @@ var Issue = function (_React$Component5) {
             var data = {
                 "num": this.ajaxData.num
             };
-            console.log(data);
+            this.setState({
+                input: ""
+            });
             $.ajax({
                 type: "POST",
                 url: "https://wisecity.itrclub.com/api/bank/ticket/issue",
@@ -572,6 +653,13 @@ var Issue = function (_React$Component5) {
             });
         }
     }, {
+        key: "clear",
+        value: function clear() {
+            this.setState({
+                input: ""
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return React.createElement(
@@ -579,25 +667,30 @@ var Issue = function (_React$Component5) {
                 null,
                 React.createElement(
                     "div",
-                    { className: "row mb-3 border-brown" },
+                    { className: "col-2", style: { "font-family": "微软雅黑", "font-size": "0.8em" } },
+                    "\u6570\u91CF\uFF1A"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-5" },
+                    React.createElement("input", { value: this.state.input, className: "form-control", type: "text", onChange: this.handlegetNum, placeholder: "\u6570\u91CF...." })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-2" },
                     React.createElement(
-                        "h5",
-                        { className: "col-3" },
-                        "\u53D1\u884C\u7968\u53F7:"
-                    ),
+                        "a",
+                        { className: "btn bg-brown", onClick: this.handleClick, role: "button" },
+                        "\u53D1\u884C"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "col-2" },
                     React.createElement(
-                        "div",
-                        { className: "col-5" },
-                        React.createElement("input", { className: "form-control", type: "text", onChange: this.handlegetNum, placeholder: "\u6570\u91CF...." })
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "col-3" },
-                        React.createElement(
-                            "a",
-                            { className: "btn bg-brown", onClick: this.handleClick, role: "button" },
-                            "\u53D1\u884C"
-                        )
+                        "a",
+                        { className: "btn border-brown", onClick: this.handleClear, role: "button" },
+                        "\u91CD\u7F6E"
                     )
                 )
             );
@@ -888,9 +981,78 @@ var Content = function (_React$Component8) {
                         { className: "top-asset" },
                         React.createElement(Groupdata, { type: "money", groupAsset: this.props.group.treasury, groupWork: this.props.group.bankName, groupId: this.props.group.id })
                     ),
-                    React.createElement(Response, { onClick: this.handleOpenResponse }),
-                    React.createElement(Transfer, { groupId: this.props.group.id }),
-                    React.createElement(Deposit, { onClick: this.handleOpenDeposit, groupId: this.props.group.id }),
+                    React.createElement(
+                        "div",
+                        { className: "operate-title" },
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b operate-title-l inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u4ECB\u7CFB\u94B1\u5E84"
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u8F6C\u8D26"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "middle-operate" },
+                        React.createElement(
+                            "div",
+                            { className: "logo-b" },
+                            React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/bank-2.png", alt: "logo" })
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "transfer inline border-brown" },
+                            React.createElement(Transfer, { groupId: this.props.group.id })
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "operate-title" },
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b operate-title-l inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u501F\u8D37\u7533\u8BF7:"
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u94B1\u5E84\u8BB0\u5F55:"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "bottom" },
+                        React.createElement(
+                            "div",
+                            { className: "inline a" },
+                            React.createElement(Response, { onClick: this.handleOpenResponse, className: "table inline" })
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "inline b" },
+                            React.createElement(Deposit, { onClick: this.handleOpenDeposit, groupId: this.props.group.id })
+                        )
+                    ),
                     React.createElement(
                         Modal,
                         { isOpen: this.state.isOpenResponse },
@@ -965,19 +1127,82 @@ var Content = function (_React$Component8) {
                         React.createElement(Groupdata, { type: "money", groupAsset: this.props.group.treasury, groupWork: this.props.group.bankName, groupId: this.props.group.id })
                     ),
                     React.createElement(
-                        "h5",
-                        null,
-                        "\u501F\u8D37\u7533\u8BF7:"
+                        "div",
+                        { className: "operate-title" },
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b operate-title-l inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u53D1\u884C\u7968\u53F7"
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u8F6C\u8D26"
+                            )
+                        )
                     ),
-                    React.createElement(Response, { onClick: this.handleOpenResponse }),
-                    React.createElement(Transfer, { groupId: this.props.group.id }),
-                    React.createElement(Issue, null),
                     React.createElement(
-                        "h5",
-                        null,
-                        "\u5151\u73B0\u7533\u8BF7:"
+                        "div",
+                        { className: "middle-operate" },
+                        React.createElement(
+                            "div",
+                            { className: "issue inline border-brown" },
+                            React.createElement(Issue, null)
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "logo" },
+                            React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/logo/bank-2.png", alt: "logo" })
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "transfer inline border-brown" },
+                            React.createElement(Transfer, { groupId: this.props.group.id })
+                        )
                     ),
-                    React.createElement(SureExchange, { groupId: this.props.group.id }),
+                    React.createElement(
+                        "div",
+                        { className: "operate-title" },
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b operate-title-l inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u501F\u8D37\u7533\u8BF7:"
+                            )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "welcome-b inline" },
+                            React.createElement(
+                                "b",
+                                null,
+                                "\u5151\u73B0\u7533\u8BF7:"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "bottom" },
+                        React.createElement(
+                            "div",
+                            { className: "inline a" },
+                            React.createElement(Response, { onClick: this.handleOpenResponse, className: "table inline" })
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: "inline b" },
+                            React.createElement(SureExchange, { groupId: this.props.group.id, className: "table inline" })
+                        )
+                    ),
                     React.createElement(
                         Modal,
                         { isOpen: this.state.isOpenResponse },

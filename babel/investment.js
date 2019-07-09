@@ -275,7 +275,7 @@ class Investment extends React.Component{
 
     aClear(){
         this.setState({
-            bankInput:undefined
+            bankInput:""
         })
     }
 
@@ -290,7 +290,7 @@ class Investment extends React.Component{
 
     bClear(){
         this.setState({
-            askMoneyInput:[]
+            askMoneyInput:["","","",""]
         })
     }
 
@@ -412,7 +412,7 @@ class Investment extends React.Component{
 
     Deposit(){
         this.setState({
-            bankInput:undefined
+            bankInput:""
         })
         Bank.Deposit_Money(this.ajaxData.A_value,this.ajaxData.id,this.focusItem.name,this.ajaxData.typeA);
     }

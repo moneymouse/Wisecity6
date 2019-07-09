@@ -1,5 +1,6 @@
 html,body{
     height: 100%;
+    overflow-x:hidden;
 }
 
 .element::-webkit-scrollbar {display:none}
@@ -36,6 +37,10 @@ a:hover{
     color:white !important;
 }
 
+th{
+    color:white !important;
+}
+
 td > a{
     color:black !important;
 }
@@ -59,8 +64,9 @@ img{
     display: inline-block;
 }
 
-.broder-brown{
-    border:1px solid rgba(133,107,83,0.5);
+.border-brown{
+    border:1px solid rgba(133,107,83,0.5) !important;
+    border-radius: 4px;
 }
 
 /* nav */
@@ -84,6 +90,7 @@ img{
     position: fixed;
     width: 100%;
     top:0;
+    z-index: 1;
 }
 
 .line{
@@ -123,10 +130,9 @@ img{
 .asset-each {
     margin-left: 12.7%;
     margin-right: 12.7%;
-    vertical-align: middle;
     text-align: center;
     width: 7.8%;
-    margin-top: 0.3%;
+    line-height: 2vh;
 }
 
 .line-index-asset{
@@ -134,7 +140,6 @@ img{
     border: 1px solid rgba(112,112,112,0.4);
     opacity: 1;
     height: 50%;
-    vertical-align: middle;
 }
 
 .top-asset {
@@ -144,4 +149,110 @@ img{
     border: 1px solid rgba(221,221,221,1);
     border-radius: 3px;
     margin-top: 2.03%;
+    display: flex;
+    align-items: center;
+}
+
+/* middle operate */
+
+.transfer {
+    width: 37.9%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.issue {
+    height: 41.61%;
+    width: 37.9%;
+    margin-left: 9.06%;
+    margin-right: 8.17%;
+    padding-left:1.5%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tip{
+    font-size: 0.8em;
+    font-family: "微软雅黑";
+}
+
+a.border-brown{
+    color: black !important;
+}
+
+.row {
+    margin-left: 0 !important;
+    align-items: center !important;
+}
+
+.welcome-b {
+    font-family: 微软雅黑;
+    margin-left: 5.14%;
+    margin-top: 6.4%;
+    font-size: 1.4em;
+    color: #856B53 !important;
+    margin-top: 3.8%;
+}
+
+.welcome-b.inline.operate-title-l {
+    margin-right: 37.7%;
+}
+
+.middle-operate {
+    height: 33%;
+    margin-top: 2%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.btn{
+    font-size:0.5rem !important;
+}
+
+/* bottom */
+
+.inline.a{
+    width: 45.6%;
+    margin-right: 3.66%;
+    margin-left:5.14%;
+}
+
+.inline.b{
+    width: 45.6%;
+}
+
+.a,.b{
+    vertical-align: top;
+}
+
+.table.td,.table.th{
+    font-size:0.8em !important;
+}
+
+.bottom{
+    margin-top:2%;
+}
+
+.table thead th {
+    border-bottom: 0px !important;
+    font-weight:500 !important;
+}
+
+/* img */
+
+.logo {
+    position: relative;
+    right: 32%;
+    bottom: -67%;
+    height: 34.16%;
+    width: 0px;
+}
+
+.logo-b {
+    height: 90%;
+    width: 55.13%;
+    padding-left: 14%;
 }

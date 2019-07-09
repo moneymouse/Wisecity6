@@ -639,7 +639,7 @@ var Asset = function (_React$Component7) {
                                     { className: "asset-each inline" },
                                     React.createElement(
                                         "div",
-                                        { style: { "float": "left", "color": "#856B53" } },
+                                        { style: { "color": "#856B53" } },
                                         React.createElement(
                                             "b",
                                             null,
@@ -649,7 +649,7 @@ var Asset = function (_React$Component7) {
                                     React.createElement("br", null),
                                     React.createElement(
                                         "div",
-                                        { style: { "float": "left" } },
+                                        null,
                                         v.currency
                                     )
                                 ),
@@ -660,7 +660,7 @@ var Asset = function (_React$Component7) {
                             { className: "asset-each inline" },
                             React.createElement(
                                 "div",
-                                { style: { "float": "left", "color": "#856B53" } },
+                                { style: { "color": "#856B53" } },
                                 React.createElement(
                                     "b",
                                     null,
@@ -670,7 +670,7 @@ var Asset = function (_React$Component7) {
                             React.createElement("br", null),
                             React.createElement(
                                 "div",
-                                { style: { "float": "left" } },
+                                null,
                                 v.currency
                             )
                         );
@@ -875,7 +875,11 @@ var Content = function (_React$Component8) {
                     "div",
                     { className: "top" },
                     React.createElement(Fina_box, { className: "Finayear inline" }),
-                    React.createElement(Asset, { className: "Asset inline" })
+                    React.createElement(
+                        "div",
+                        { className: "inline asset-t" },
+                        React.createElement(Asset, { className: "Asset" })
+                    )
                 ),
                 React.createElement(
                     "div",

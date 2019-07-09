@@ -26,71 +26,36 @@ var Groupdata = function (_React$Component) {
     _createClass(Groupdata, [{
         key: "render",
         value: function render() {
-            if (this.props.type === "ticket") {
-                return React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "h5",
+            return React.createElement(
+                React.Fragment,
+                null,
+                this.props.groupAsset.map(function (v) {
+                    return React.createElement(
+                        React.Fragment,
                         null,
-                        "\u5546\u5E2E\u540D\u79F0\uFF1A",
-                        this.props.groupName
-                    ),
-                    React.createElement(
-                        "h5",
-                        null,
-                        "\u5546\u5E2E\u4EA7\u4E1A\uFF1A",
-                        this.props.groupWork
-                    ),
-                    React.createElement(
-                        "h5",
-                        null,
-                        "\u5546\u5E2E\u8D44\u4EA7\uFF1A",
-                        this.props.groupAsset.map(function (v) {
-                            return React.createElement(
-                                "h6",
+                        React.createElement(
+                            "div",
+                            { className: "asset-each inline" },
+                            React.createElement(
+                                "div",
+                                { style: { "color": "#856B53" } },
+                                React.createElement(
+                                    "b",
+                                    null,
+                                    v.num
+                                )
+                            ),
+                            React.createElement("br", null),
+                            React.createElement(
+                                "div",
                                 null,
-                                v.currency,
-                                ":",
-                                v.num
-                            );
-                        })
-                    )
-                );
-            } else if (this.props.type === "money") {
-                return React.createElement(
-                    "div",
-                    null,
-                    React.createElement(
-                        "h5",
-                        null,
-                        "\u5546\u5E2E\u540D\u79F0\uFF1A",
-                        this.props.groupName
-                    ),
-                    React.createElement(
-                        "h5",
-                        null,
-                        "\u5546\u5E2E\u4EA7\u4E1A\uFF1A",
-                        this.props.groupWork
-                    ),
-                    React.createElement(
-                        "h5",
-                        null,
-                        "\u5546\u5E2E\u8D44\u4EA7\uFF1A",
-                        this.props.groupAsset.map(function (v) {
-                            return React.createElement(
-                                "h6",
-                                null,
-                                v.currency,
-                                ":",
-                                v.num
-                            );
-                        })
-                    )
-                );
-            } else {
-                return;
-            }
+                                v.currency
+                            )
+                        ),
+                        React.createElement("div", { className: "line-index-asset inline" })
+                    );
+                })
+            );
         }
     }]);
 
@@ -170,7 +135,7 @@ var SureExchange = function (_React$Component2) {
                 null,
                 React.createElement(
                     "thead",
-                    { "class": "thead-light" },
+                    { "class": "bg-brown" },
                     React.createElement(
                         "tr",
                         null,
@@ -292,7 +257,7 @@ var Response = function (_React$Component3) {
                     null,
                     React.createElement(
                         "thead",
-                        { className: "thead-light" },
+                        { className: "bg-brown" },
                         React.createElement(
                             "tr",
                             null,
@@ -515,8 +480,8 @@ var Transfer = function (_React$Component4) {
         key: "render",
         value: function render() {
             return React.createElement(
-                React.Fragment,
-                null,
+                "div",
+                { className: "border-brown" },
                 React.createElement(
                     "div",
                     { className: "row mb-3" },
@@ -549,7 +514,7 @@ var Transfer = function (_React$Component4) {
                         { className: "col-3" },
                         React.createElement(
                             "a",
-                            { className: "btn btn-primary", role: "button", onClick: this.handleClick },
+                            { className: "btn bg-brown", role: "button", onClick: this.handleClick },
                             "\u8F6C\u8D26"
                         )
                     )
@@ -614,7 +579,7 @@ var Issue = function (_React$Component5) {
                 null,
                 React.createElement(
                     "div",
-                    { className: "row mb-3" },
+                    { className: "row mb-3 border-brown" },
                     React.createElement(
                         "h5",
                         { className: "col-3" },
@@ -630,7 +595,7 @@ var Issue = function (_React$Component5) {
                         { className: "col-3" },
                         React.createElement(
                             "a",
-                            { className: "btn btn-primary", onClick: this.handleClick, role: "button" },
+                            { className: "btn bg-brown", onClick: this.handleClick, role: "button" },
                             "\u53D1\u884C"
                         )
                     )
@@ -707,7 +672,7 @@ var Deposit = function (_React$Component6) {
                     null,
                     React.createElement(
                         "thead",
-                        { className: "thead-light" },
+                        { className: "bg-brown" },
                         React.createElement(
                             "tr",
                             null,
@@ -763,26 +728,83 @@ var Deposit = function (_React$Component6) {
     return Deposit;
 }(React.Component);
 
-var Content = function (_React$Component7) {
-    _inherits(Content, _React$Component7);
+// props: type : the type of bank -- value("money":"ticket")
+//        groupName
+
+
+var Nav = function (_React$Component7) {
+    _inherits(Nav, _React$Component7);
+
+    function Nav(props) {
+        _classCallCheck(this, Nav);
+
+        return _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props));
+    }
+
+    _createClass(Nav, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "div",
+                { "class": "Nav" },
+                React.createElement(
+                    "div",
+                    { "class": "nav-logo" },
+                    React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/Nav_logo.png", alt: "WISECITY" })
+                ),
+                React.createElement(
+                    "div",
+                    { "class": "float-right" },
+                    React.createElement(
+                        "div",
+                        { "class": "inline-nav box-left font-nav" },
+                        "\u5546\u5E2E\u540D\u79F0\uFF1A",
+                        this.props.groupName
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "inline-nav font-nav" },
+                        "\u5546\u5E2E\u4EA7\u4E1A\uFF1A",
+                        this.props.type === "money" ? "钱庄" : "票庄"
+                    ),
+                    React.createElement("div", { "class": "inline-nav font-nav line box-center" }),
+                    React.createElement(
+                        "div",
+                        { "class": "inline-nav box-right font-nav" },
+                        React.createElement(
+                            "a",
+                            { href: "https://wisecity.itrclub.com/user/logout" },
+                            "\u9000\u51FA\u767B\u5F55"
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Nav;
+}(React.Component);
+
+var Content = function (_React$Component8) {
+    _inherits(Content, _React$Component8);
 
     function Content(props) {
         _classCallCheck(this, Content);
 
-        var _this12 = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
+        var _this13 = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
 
-        _this12.state = {
+        _this13.state = {
             isOpenDeposit: false,
             isOpenResponse: false
         };
-        _this12.modalValueD = {};
-        _this12.modalValueR = {};
-        _this12.handleOpenDeposit = _this12.openDeposit.bind(_this12);
-        _this12.handleCloseDeposit = _this12.closeDeposit.bind(_this12);
-        _this12.handleOpenResponse = _this12.openResponse.bind(_this12);
-        _this12.handleCloseResponse = _this12.closeResponse.bind(_this12);
-        _this12.sureCredit = _this12.sureCredit.bind(_this12);
-        return _this12;
+        _this13.modalValueD = {};
+        _this13.modalValueR = {};
+        _this13.handleOpenDeposit = _this13.openDeposit.bind(_this13);
+        _this13.handleCloseDeposit = _this13.closeDeposit.bind(_this13);
+        _this13.handleOpenResponse = _this13.openResponse.bind(_this13);
+        _this13.handleCloseResponse = _this13.closeResponse.bind(_this13);
+        _this13.sureCredit = _this13.sureCredit.bind(_this13);
+        return _this13;
     }
 
     _createClass(Content, [{
@@ -844,30 +866,31 @@ var Content = function (_React$Component7) {
     }, {
         key: "render",
         value: function render() {
-            var _this13 = this;
+            var _this14 = this;
 
             var status = ["已还", "未还", "申请延期", "申请贷款"];
             if (this.props.type === "money") {
                 return React.createElement(
                     React.Fragment,
                     null,
-                    React.createElement("div", { className: "mb-3" }),
+                    React.createElement(Nav, { type: "money", groupName: this.props.group.name }),
                     React.createElement(
                         "div",
-                        { className: "row" },
+                        { className: "welcome" },
                         React.createElement(
-                            "div",
-                            { className: "col-lg-6 col-md-6 col-sm-12 mb-3" },
-                            React.createElement(Groupdata, { type: "money", groupName: this.props.group.name, groupAsset: this.props.group.treasury, groupWork: this.props.group.bankName, groupId: this.props.group.id }),
-                            React.createElement(Response, { onClick: this.handleOpenResponse })
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "col-lg-6 col-md-6 col-sm-12 mb-3" },
-                            React.createElement(Transfer, { groupId: this.props.group.id }),
-                            React.createElement(Deposit, { onClick: this.handleOpenDeposit, groupId: this.props.group.id })
+                            "b",
+                            null,
+                            "\u5546\u5E2E\u8D44\u4EA7"
                         )
                     ),
+                    React.createElement(
+                        "div",
+                        { className: "top-asset" },
+                        React.createElement(Groupdata, { type: "money", groupAsset: this.props.group.treasury, groupWork: this.props.group.bankName, groupId: this.props.group.id })
+                    ),
+                    React.createElement(Response, { onClick: this.handleOpenResponse }),
+                    React.createElement(Transfer, { groupId: this.props.group.id }),
+                    React.createElement(Deposit, { onClick: this.handleOpenDeposit, groupId: this.props.group.id }),
                     React.createElement(
                         Modal,
                         { isOpen: this.state.isOpenResponse },
@@ -908,14 +931,14 @@ var Content = function (_React$Component7) {
                             React.createElement(
                                 "a",
                                 { "class": "btn btn-success", onClick: function onClick() {
-                                        return _this13.sureCredit(1);
+                                        return _this14.sureCredit(1);
                                     }, role: "button" },
                                 "\u540C\u610F"
                             ),
                             React.createElement(
                                 "a",
                                 { "class": "btn btn-danger", onClick: function onClick() {
-                                        return _this13.sureCredit(-1);
+                                        return _this14.sureCredit(-1);
                                     }, role: "button" },
                                 "\u62D2\u7EDD"
                             )
@@ -926,34 +949,35 @@ var Content = function (_React$Component7) {
                 return React.createElement(
                     React.Fragment,
                     null,
-                    React.createElement("div", { className: "mb-3" }),
+                    React.createElement(Nav, { type: "ticket", groupName: this.props.group.name }),
                     React.createElement(
                         "div",
-                        { className: "row" },
+                        { className: "welcome" },
                         React.createElement(
-                            "div",
-                            { className: "col-lg-6 col-md-6 col-sm-12 mb-3" },
-                            React.createElement(Groupdata, { type: "money", groupName: this.props.group.name, groupAsset: this.props.group.treasury, groupWork: this.props.group.bankName, groupId: this.props.group.id }),
-                            React.createElement(
-                                "h5",
-                                null,
-                                "\u501F\u8D37\u7533\u8BF7:"
-                            ),
-                            React.createElement(Response, { onClick: this.handleOpenResponse })
-                        ),
-                        React.createElement(
-                            "div",
-                            { className: "col-lg-6 col-md-6 col-sm-12 mb-3" },
-                            React.createElement(Transfer, { groupId: this.props.group.id }),
-                            React.createElement(Issue, null),
-                            React.createElement(
-                                "h5",
-                                null,
-                                "\u5151\u73B0\u7533\u8BF7:"
-                            ),
-                            React.createElement(SureExchange, { groupId: this.props.group.id })
+                            "b",
+                            null,
+                            "\u5546\u5E2E\u8D44\u4EA7"
                         )
                     ),
+                    React.createElement(
+                        "div",
+                        { className: "top-asset" },
+                        React.createElement(Groupdata, { type: "money", groupAsset: this.props.group.treasury, groupWork: this.props.group.bankName, groupId: this.props.group.id })
+                    ),
+                    React.createElement(
+                        "h5",
+                        null,
+                        "\u501F\u8D37\u7533\u8BF7:"
+                    ),
+                    React.createElement(Response, { onClick: this.handleOpenResponse }),
+                    React.createElement(Transfer, { groupId: this.props.group.id }),
+                    React.createElement(Issue, null),
+                    React.createElement(
+                        "h5",
+                        null,
+                        "\u5151\u73B0\u7533\u8BF7:"
+                    ),
+                    React.createElement(SureExchange, { groupId: this.props.group.id }),
                     React.createElement(
                         Modal,
                         { isOpen: this.state.isOpenResponse },
@@ -994,14 +1018,14 @@ var Content = function (_React$Component7) {
                             React.createElement(
                                 "a",
                                 { "class": "btn btn-success", onClick: function onClick() {
-                                        return _this13.sureCredit(1);
+                                        return _this14.sureCredit(1);
                                     }, role: "button" },
                                 "\u540C\u610F"
                             ),
                             React.createElement(
                                 "a",
                                 { "class": "btn btn-danger", onClick: function onClick() {
-                                        return _this13.sureCredit(-1);
+                                        return _this14.sureCredit(-1);
                                     }, role: "button" },
                                 "\u62D2\u7EDD"
                             )

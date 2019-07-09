@@ -8,35 +8,29 @@ class Groupdata extends React.Component {
     }
 
     render(){
-        if(this.props.type === "ticket"){
-            return (<div>
-                <h5>商帮名称：{this.props.groupName}</h5>
-                <h5>商帮产业：{this.props.groupWork}</h5>
-                <h5>商帮资产：{this.props.groupAsset.map((v)=>{
-                    return (
-                        <h6>
-                            {v.currency}:{v.num}
-                        </h6>
-                    )
-                })}</h5>
-            </div>)
-        }
-        else if(this.props.type === "money"){
-            return (<div>
-                <h5>商帮名称：{this.props.groupName}</h5>
-                <h5>商帮产业：{this.props.groupWork}</h5>
-                <h5>商帮资产：{this.props.groupAsset.map((v)=>{
-                    return (
-                        <h6>
-                            {v.currency}:{v.num}
-                        </h6>
-                    )
-                })}</h5>
-            </div>)
-        }
-        else{
-            return ;
-        }
+            return (<React.Fragment>
+                {this.props.groupAsset.map((v,i)=>{
+                    if(i<2){
+                        return (<React.Fragment>
+                            <div className="asset-each inline">
+                                <div style={{"color":"#856B53"}}><b>{v.num}</b></div>
+                                <br />
+                                <div>{v.currency}</div>
+                            </div>
+                            <div className="line-index-asset inline"></div>
+                            </React.Fragment>)
+                    }
+                    else {
+                        return (<React.Fragment>
+                            <div className="asset-each inline">
+                                <div style={{"color":"#856B53"}}><b>{v.num}</b></div>
+                                <br />
+                                <div>{v.currency}</div>
+                            </div>
+                            </React.Fragment>)
+                    }
+        })}
+            </React.Fragment>)
     }
 }
 
@@ -483,13 +477,13 @@ class Nav extends React.Component{
         return(
             <div class="Nav">
                 <div class="nav-logo">
-                    <img src="img/Nav_logo.png" alt="WISECITY" />
+                    <img src="https://wisecity.itrclub.com/resource/img/Nav_logo.png" alt="WISECITY" />
                 </div>
                 <div class="float-right">
-                    <div class="inline box-left font-nav">商帮名称：{this.props.groupName}</div>
-                    <div class="inline font-nav">商帮产业：{this.props.type==="money" ? "钱庄":"票庄"}</div>
-                    <div class="inline font-nav line box-center"></div>
-                    <div class="inline box-right font-nav"><a href="https://wisecity.itrclub.com/user/logout">退出登录</a></div>
+                    <div class="inline-nav box-left font-nav">商帮名称：{this.props.groupName}</div>
+                    <div class="inline-nav font-nav">商帮产业：{this.props.type==="money" ? "钱庄":"票庄"}</div>
+                    <div class="inline-nav font-nav line box-center"></div>
+                    <div class="inline-nav box-right font-nav"><a href="https://wisecity.itrclub.com/user/logout">退出登录</a></div>
                 </div>
             </div>
         )
@@ -570,7 +564,10 @@ class Content extends React.Component{
         if(this.props.type==="money"){
             return (<React.Fragment>
                     <Nav type={"money"} groupName={this.props.group.name} />
-                    <Groupdata type="money" groupName={this.props.group.name} groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id}  />
+                    <div className="welcome"><b>商帮资产</b></div>
+                    <div className="top-asset">
+                        <Groupdata type="money" groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id}  />
+                    </div>
                     <Response onClick={this.handleOpenResponse} />
                     <Transfer groupId={this.props.group.id} />
                     <Deposit onClick={this.handleOpenDeposit} groupId={this.props.group.id} />
@@ -603,8 +600,11 @@ class Content extends React.Component{
         }
         else {
             return (<React.Fragment>
-                    <Nav type={"money"} groupName={this.props.group.name} />
-                    <Groupdata type="money" groupName={this.props.group.name} groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id} />
+                    <Nav type={"ticket"} groupName={this.props.group.name} />
+                    <div className="welcome"><b>商帮资产</b></div>
+                    <div className="top-asset">
+                        <Groupdata type="money" groupAsset={this.props.group.treasury} groupWork={this.props.group.bankName} groupId={this.props.group.id}  />
+                    </div>
                     <h5>借贷申请:</h5>
                     <Response onClick={this.handleOpenResponse} />
                     <Transfer groupId={this.props.group.id} />

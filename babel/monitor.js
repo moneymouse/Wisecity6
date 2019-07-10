@@ -921,13 +921,13 @@ class Content extends React.Component{
             case "log":
                 this.setState({
                     log:"log",
-                    a:"hidden"
+                    a:"hide"
                 });
                 break;
             case "a":
                 this.setState({
                     a:"a",
-                    log:"hidden"
+                    log:"hide"
                 });
                 break;
             default:
@@ -944,7 +944,7 @@ class Content extends React.Component{
                     <TeamRank />
                 </div>
                 <div className={"col-8"} >
-                    <div className={this.state.a}>
+                    <div className={this.state.a} style={{"margin-top":"0px !important"}}>
                         请选择商帮:<Select options={this.state.groupsName} get_value={this.handleGetValue} value={"请选择商帮..."} />
                     </div>
                     <div className={this.state.a}>
@@ -956,12 +956,13 @@ class Content extends React.Component{
                             </div>
                     </div>
                     <div className={this.state.a}>
-                        <div className={"hold-height"} style={{"margin-bottom":"15px"}}>
+                        <div className={"hold-height"}>
                         新闻待审核记录:
                             <br />
                             <List_News onClick={this.handleOpen} />
                         </div>
-                        <div className={"hold-height"}>
+                        <div className={"hold-height"}  style={{"margin-top":"5%"}}>
+                        新闻发布
                             <NewsPublish />
                         </div>
                     </div>

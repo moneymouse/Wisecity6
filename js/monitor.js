@@ -1467,13 +1467,13 @@ var Content = function (_React$Component13) {
                 case "log":
                     this.setState({
                         log: "log",
-                        a: "hidden"
+                        a: "hide"
                     });
                     break;
                 case "a":
                     this.setState({
                         a: "a",
-                        log: "hidden"
+                        log: "hide"
                     });
                     break;
                 default:
@@ -1508,7 +1508,7 @@ var Content = function (_React$Component13) {
                         { className: "col-8" },
                         React.createElement(
                             "div",
-                            { className: this.state.a },
+                            { className: this.state.a, style: { "margin-top": "0px !important" } },
                             "\u8BF7\u9009\u62E9\u5546\u5E2E:",
                             React.createElement(Select, { options: this.state.groupsName, get_value: this.handleGetValue, value: "请选择商帮..." })
                         ),
@@ -1533,14 +1533,15 @@ var Content = function (_React$Component13) {
                             { className: this.state.a },
                             React.createElement(
                                 "div",
-                                { className: "hold-height", style: { "margin-bottom": "15px" } },
+                                { className: "hold-height" },
                                 "\u65B0\u95FB\u5F85\u5BA1\u6838\u8BB0\u5F55:",
                                 React.createElement("br", null),
                                 React.createElement(List_News, { onClick: this.handleOpen })
                             ),
                             React.createElement(
                                 "div",
-                                { className: "hold-height" },
+                                { className: "hold-height", style: { "margin-top": "5%" } },
+                                "\u65B0\u95FB\u53D1\u5E03",
                                 React.createElement(NewsPublish, null)
                             )
                         ),

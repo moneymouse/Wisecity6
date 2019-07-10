@@ -20,7 +20,7 @@ a{
 }
 
 .Nav{
-    background-color:#856B53;
+    background-color:#848484;
     height:8.4%;
     position: fixed;
     width: 100%;
@@ -67,4 +67,21 @@ img{
     display: block;
     height:100%;
     width:auto;
+}
+
+.a {
+    margin-top: 5%;
+}
+
+a{
+    color: white;
+}
+
+.row.body-monitor {
+    margin-top: 5%;
+}
+
+div#root {
+    height: 100%;
+    width: 100%;
 }

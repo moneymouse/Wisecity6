@@ -323,6 +323,7 @@ class Table extends React.Component{
                     </div>
                     <div className="modal-body-down-right inline">
                         <div className="font-modal" style={{"float":"right"}}>总金额:</div>
+                        <br />
                         <div className="font-modal" style={{"float":"right"}}>{this.state.totalPrice.toFixed(2)}</div>
                     </div>
                 </div>

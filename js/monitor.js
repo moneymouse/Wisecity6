@@ -1283,7 +1283,7 @@ var LawPublish = function (_React$Component11) {
                     React.Fragment,
                     null,
                     this.state.lawList.map(function (v, i) {
-                        return React.createElement("input", { className: "form-control", type: "text", value: v, onChange: function onChange(e) {
+                        return React.createElement("input", { className: "form-control mb-3", type: "text", value: v, onChange: function onChange(e) {
                                 return _this24.handleChange(e, i);
                             } });
                     }),
@@ -1302,40 +1302,114 @@ var LawPublish = function (_React$Component11) {
     return LawPublish;
 }(React.Component);
 
-var Content = function (_React$Component12) {
-    _inherits(Content, _React$Component12);
+var Nav = function (_React$Component12) {
+    _inherits(Nav, _React$Component12);
+
+    function Nav(props) {
+        _classCallCheck(this, Nav);
+
+        return _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props));
+    }
+
+    _createClass(Nav, [{
+        key: "render",
+        value: function render() {
+            var _this26 = this;
+
+            return React.createElement(
+                "div",
+                { "class": "Nav" },
+                React.createElement(
+                    "div",
+                    { "class": "nav-logo" },
+                    React.createElement("img", { src: "https://wisecity.itrclub.com/resource/img/Nav_logo.png", alt: "WISECITY" })
+                ),
+                React.createElement(
+                    "div",
+                    { "class": "float-right" },
+                    React.createElement(
+                        "div",
+                        { "class": "inline-nav box-left font-nav" },
+                        React.createElement(
+                            "a",
+                            { onClick: function onClick(e) {
+                                    return _this26.props.onClick("a");
+                                } },
+                            "\u64CD\u4F5C"
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "inline-nav box-left font-nav" },
+                        React.createElement(
+                            "a",
+                            { onClick: function onClick(e) {
+                                    return _this26.props.onClick("log");
+                                } },
+                            "\u8BB0\u5F55"
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { "class": "inline-nav font-nav" },
+                        "\u540D\u79F0\uFF1A",
+                        this.props.groupName
+                    ),
+                    React.createElement("div", { "class": "inline-nav font-nav line box-center" }),
+                    React.createElement(
+                        "div",
+                        { "class": "inline-nav box-right font-nav" },
+                        React.createElement(
+                            "a",
+                            { href: "https://wisecity.itrclub.com/user/logout" },
+                            "\u9000\u51FA\u767B\u5F55"
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Nav;
+}(React.Component);
+
+var Content = function (_React$Component13) {
+    _inherits(Content, _React$Component13);
 
     function Content(props) {
         _classCallCheck(this, Content);
 
-        var _this25 = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
+        var _this27 = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
 
-        _this25.state = {
+        _this27.state = {
             groupName: "",
             wholeTicket: "",
             groupsName: [],
-            isOpen: false
+            isOpen: false,
+            a: "hide",
+            log: "hide"
         };
-        _this25.handleGetValue = _this25.getValue.bind(_this25);
-        _this25.handleOpen = _this25.open.bind(_this25);
-        _this25.handleClose = _this25.close.bind(_this25);
-        _this25.handlePass = _this25.Pass.bind(_this25);
-        _this25.handleUnPass = _this25.unPass.bind(_this25);
-        _this25.modalValue = {};
-        return _this25;
+        _this27.handleGetValue = _this27.getValue.bind(_this27);
+        _this27.handleOpen = _this27.open.bind(_this27);
+        _this27.handleClose = _this27.close.bind(_this27);
+        _this27.handlePass = _this27.Pass.bind(_this27);
+        _this27.handleUnPass = _this27.unPass.bind(_this27);
+        _this27.modalValue = {};
+        _this27.handleClickChange = _this27.clickChange.bind(_this27);
+        return _this27;
     }
 
     _createClass(Content, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-            var _this26 = this;
+            var _this28 = this;
 
             var _success = function success(e) {
                 var a = [];
                 for (var i in e) {
                     a.push(i);
                 }
-                _this26.setState({
+                _this28.setState({
                     groupsName: a
                 });
             };
@@ -1387,16 +1461,37 @@ var Content = function (_React$Component12) {
             News.unPassNews(e);
         }
     }, {
+        key: "clickChange",
+        value: function clickChange(e) {
+            switch (e) {
+                case "log":
+                    this.setState({
+                        log: "log",
+                        a: "hidden"
+                    });
+                    break;
+                case "a":
+                    this.setState({
+                        a: "a",
+                        log: "hidden"
+                    });
+                    break;
+                default:
+                    return;
+            }
+        }
+    }, {
         key: "render",
         value: function render() {
-            var _this27 = this;
+            var _this29 = this;
 
             return React.createElement(
                 React.Fragment,
                 null,
+                React.createElement(Nav, { groupName: "\u4E3B\u5E2D\u56E2", onClick: this.handleClickChange }),
                 React.createElement(
                     "div",
-                    { className: "row" },
+                    { className: "row body-monitor" },
                     React.createElement(
                         "div",
                         { className: "col-4" },
@@ -1411,44 +1506,67 @@ var Content = function (_React$Component12) {
                     React.createElement(
                         "div",
                         { className: "col-8" },
-                        "\u8BF7\u9009\u62E9\u5546\u5E2E:",
-                        React.createElement(Select, { options: this.state.groupsName, get_value: this.handleGetValue, value: "请选择商帮..." }),
-                        "\u5546\u54C1\u4FE1\u606F\u4FEE\u6539:",
-                        React.createElement(Good_Edit, { groupName: this.state.groupName }),
-                        "\u6CD5\u5F8B:",
                         React.createElement(
                             "div",
-                            { className: "hold-height" },
-                            React.createElement(LawPublish, { grouId: this.state.groupName })
-                        ),
-                        "\u65B0\u95FB:",
-                        React.createElement(
-                            "div",
-                            { className: "hold-height" },
-                            React.createElement(List_News, { onClick: this.handleOpen })
+                            { className: this.state.a },
+                            "\u8BF7\u9009\u62E9\u5546\u5E2E:",
+                            React.createElement(Select, { options: this.state.groupsName, get_value: this.handleGetValue, value: "请选择商帮..." })
                         ),
                         React.createElement(
                             "div",
-                            { className: "hold-height" },
-                            React.createElement(NewsPublish, null)
+                            { className: this.state.a },
+                            "\u5546\u54C1\u4FE1\u606F\u4FEE\u6539:",
+                            React.createElement(Good_Edit, { groupName: this.state.groupName })
                         ),
-                        "\u5546\u54C1\u4EA4\u6613\u8BB0\u5F55:",
                         React.createElement(
                             "div",
-                            { className: "hold-height" },
-                            React.createElement(TransactionLog, null)
+                            { className: this.state.a },
+                            "\u6CD5\u5F8B:",
+                            React.createElement(
+                                "div",
+                                { className: "hold-height" },
+                                React.createElement(LawPublish, { grouId: this.state.groupName })
+                            )
                         ),
-                        "\u8D44\u91D1\u8F6C\u8D26\u8BB0\u5F55:",
                         React.createElement(
                             "div",
-                            { className: "hold-height" },
-                            React.createElement(TransferLog, null)
+                            { className: this.state.a },
+                            React.createElement(
+                                "div",
+                                { className: "hold-height", style: { "margin-bottom": "15px" } },
+                                "\u65B0\u95FB\u5F85\u5BA1\u6838\u8BB0\u5F55:",
+                                React.createElement("br", null),
+                                React.createElement(List_News, { onClick: this.handleOpen })
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "hold-height" },
+                                React.createElement(NewsPublish, null)
+                            )
                         ),
-                        "\u501F\u8D37\u8BB0\u5F55:",
                         React.createElement(
                             "div",
-                            { className: "hold-height" },
-                            React.createElement(LonateLog, null)
+                            { className: this.state.log },
+                            "\u5546\u54C1\u4EA4\u6613\u8BB0\u5F55:",
+                            React.createElement(
+                                "div",
+                                { className: "hold-height" },
+                                React.createElement(TransactionLog, null)
+                            ),
+                            React.createElement("div", { className: "mb-4" }),
+                            "\u8D44\u91D1\u8F6C\u8D26\u8BB0\u5F55:",
+                            React.createElement(
+                                "div",
+                                { className: "hold-height" },
+                                React.createElement(TransferLog, null)
+                            ),
+                            React.createElement("div", { className: "mb-4" }),
+                            "\u501F\u8D37\u8BB0\u5F55:",
+                            React.createElement(
+                                "div",
+                                { className: "hold-height" },
+                                React.createElement(LonateLog, null)
+                            )
                         )
                     )
                 ),
@@ -1481,14 +1599,14 @@ var Content = function (_React$Component12) {
                         React.createElement(
                             "a",
                             { onClick: function onClick(e) {
-                                    return _this27.handlePass(_this27.modalValue.id);
+                                    return _this29.handlePass(_this29.modalValue.id);
                                 }, "class": "btn btn-success", role: "button" },
                             "\u53D1\u8868"
                         ),
                         React.createElement(
                             "a",
                             { onClick: function onClick(e) {
-                                    return _this27.handleUnPass(_this27.modalValue.id);
+                                    return _this29.handleUnPass(_this29.modalValue.id);
                                 }, "class": "btn btn-danger", role: "button" },
                             "\u9A73\u56DE"
                         )

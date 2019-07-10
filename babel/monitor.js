@@ -805,7 +805,7 @@ class LawPublish extends React.Component{
             return (<React.Fragment>
                 {this.state.lawList.map((v,i)=>{
                     return (
-                        <input className="form-control" type="text" value={v} onChange={(e)=>this.handleChange(e,i)} />
+                        <input className="form-control mb-3" type="text" value={v} onChange={(e)=>this.handleChange(e,i)} />
                     );
                 })}
                 <a onClick={this.handlePublish} class="btn btn-success" role="button">颁布</a>
@@ -819,6 +819,29 @@ class LawPublish extends React.Component{
     }
 }
 
+class Nav extends React.Component{
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        return(
+            <div class="Nav">
+                <div class="nav-logo">
+                    <img src="https://wisecity.itrclub.com/resource/img/Nav_logo.png" alt="WISECITY" />
+                </div>
+                <div class="float-right">
+                    <div class="inline-nav box-left font-nav"><a onClick={e=>this.props.onClick("a")}>操作</a></div>
+                    <div class="inline-nav box-left font-nav"><a onClick={e=>this.props.onClick("log")}>记录</a></div>
+                    <div class="inline-nav font-nav">名称：{this.props.groupName}</div>
+                    <div class="inline-nav font-nav line box-center"></div>
+                    <div class="inline-nav box-right font-nav"><a href="https://wisecity.itrclub.com/user/logout">退出登录</a></div>
+                </div>
+            </div>
+        )
+    }
+}
+
 class Content extends React.Component{
     constructor(props){
         super(props);
@@ -826,7 +849,9 @@ class Content extends React.Component{
             groupName:"",
             wholeTicket:"",
             groupsName:[],
-            isOpen:false
+            isOpen:false,
+            a:"hide",
+            log:"hide"
         }
         this.handleGetValue = this.getValue.bind(this);
         this.handleOpen = this.open.bind(this);
@@ -834,6 +859,7 @@ class Content extends React.Component{
         this.handlePass = this.Pass.bind(this);
         this.handleUnPass = this.unPass.bind(this);
         this.modalValue = {};
+        this.handleClickChange = this.clickChange.bind(this);
     }
 
     componentDidMount(){
@@ -890,35 +916,69 @@ class Content extends React.Component{
         News.unPassNews(e);
     }
 
+    clickChange(e){
+        switch(e){
+            case "log":
+                this.setState({
+                    log:"log",
+                    a:"hidden"
+                });
+                break;
+            case "a":
+                this.setState({
+                    a:"a",
+                    log:"hidden"
+                });
+                break;
+            default:
+                return ;
+        }
+    }
+
     render(){
         return (<React.Fragment>
-            <div className="row" >
+            <Nav groupName="主席团" onClick={this.handleClickChange} />
+            <div className="row body-monitor" >
                 <div className={"col-4"}>
                     <div className="mb-3">{"市场流通的票数:"}{this.state.wholeTicket}</div>
                     <TeamRank />
                 </div>
                 <div className={"col-8"} >
-                    请选择商帮:<Select options={this.state.groupsName} get_value={this.handleGetValue} value={"请选择商帮..."} />
-                    商品信息修改:<Good_Edit groupName={this.state.groupName} />
-                    法律:<div className={"hold-height"}>
-                            <LawPublish grouId={this.state.groupName} />
-                         </div>
-                    新闻:<div className={"hold-height"}>
+                    <div className={this.state.a}>
+                        请选择商帮:<Select options={this.state.groupsName} get_value={this.handleGetValue} value={"请选择商帮..."} />
+                    </div>
+                    <div className={this.state.a}>
+                        商品信息修改:<Good_Edit groupName={this.state.groupName} />
+                    </div>
+                    <div className={this.state.a}>
+                        法律:<div className={"hold-height"}>
+                                <LawPublish grouId={this.state.groupName} />
+                            </div>
+                    </div>
+                    <div className={this.state.a}>
+                        <div className={"hold-height"} style={{"margin-bottom":"15px"}}>
+                        新闻待审核记录:
+                            <br />
                             <List_News onClick={this.handleOpen} />
                         </div>
                         <div className={"hold-height"}>
                             <NewsPublish />
                         </div>
-                    商品交易记录:<div className={"hold-height"} >
-                            <TransactionLog />
-                        </div>
-                    资金转账记录:
-                    <div className={"hold-height"}>
-                        <TransferLog />
                     </div>
-                    借贷记录:
-                    <div className={"hold-height"}>
-                        <LonateLog />
+                    <div className={this.state.log}>
+                        商品交易记录:<div className={"hold-height"} >
+                                <TransactionLog />
+                            </div>
+                        <div className="mb-4"></div>
+                        资金转账记录:
+                        <div className={"hold-height"}>
+                            <TransferLog />
+                        </div>
+                        <div className="mb-4"></div>
+                        借贷记录:
+                        <div className={"hold-height"}>
+                            <LonateLog />
+                        </div>
                     </div>
                 </div>    
             </div>

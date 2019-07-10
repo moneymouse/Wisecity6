@@ -103,7 +103,7 @@ a.list-group-item:hover{
     width: 50.86%;
     margin-left: 7.6%;
     margin-top: 2.7%;
-    height: 50.05%;
+    height: auto;
 }
 
 /* ckeditor */

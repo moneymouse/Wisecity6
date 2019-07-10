@@ -362,6 +362,7 @@ var Table = function (_React$Component) {
                                     { className: "font-modal", style: { "float": "right" } },
                                     "\u603B\u552E\u4EF7:"
                                 ),
+                                React.createElement("br", null),
                                 React.createElement(
                                     "div",
                                     { className: "font-modal", style: { "float": "right" } },

@@ -101,7 +101,7 @@ class Good_Edit extends React.Component{
         console.log(goodFocus);
         return (
             <div>   
-                商品名称:<Select  get_value={(e)=>this.handleGetValue("name",e)} value="产品名称（必选）" options={(this.state.goods[this.props.groupName])||[]} />
+                商品名称:<Select  get_value={(e)=>this.handleGetValue("name",e)} value="产品名称（必选）" options={(this.state.goods[this.props.groupName==="京商"?"all":this.props.grouopName])||[]} />
                 商品产地:<Select get_value={(e)=>this.handleGetValue("groupName",e)} value={this.props.groupName||"所属商帮（必选）"} options={this.state.groups} />
                 购价系数:<input className="form-control non-border" onChange={(e)=>this.handleGetValue("kb",e)} placeholder={goodFocus.kb||"购价系数"} />
                 售价系数:<input className="form-control non-border" onChange={(e)=>this.handleGetValue("ks",e)} placeholder={goodFocus.ks||"售价系数"} />
@@ -121,13 +121,42 @@ class TeamRank extends React.Component{
         super(props);
         this.state = {
             isOpen:false,
-            teams:[]
+            teams:[],
+            teamChooseMoney:{}
         }
         this.modalValue={
             money:[]
         };
+        this.ajaxData = {};
         this.handleOpen=this.Open.bind(this);
         this.handleClose=this.Close.bind(this);
+        this.handleClick = this.click.bind(this);
+        this.handleChangeAsset = this.changeAsset.bind(this);
+    }
+
+    click(){
+        for(var i in this.ajaxData){
+            var data = {
+                "teamId":this.modalValue.id,
+                "moneyType":this.ajaxData[i].type,
+                "num":this.ajaxData[i].num
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://wisecity.itrclub.com/api/admin/editMoney",
+                data: data,
+                dataType: "JSON",
+                success: function (response) {
+                    if(response.code===200){
+                        alert("修改成功！");
+                    }
+                    else if(response.code===403003){
+                        alert("抱歉，你没有执行此操作的权限");
+                    }
+                    else alert("修改失败，请联系管理员，错误码："+response.code);
+                }
+            });
+        }
     }
 
     Open(e){
@@ -182,6 +211,18 @@ class TeamRank extends React.Component{
         });
     }
 
+    changeAsset(e,i){
+        this.ajaxData[i] = {
+            "num":e.target.value,
+            "type":i
+        };
+        var a = this.state.teamChooseMoney;
+        a[i] = e.target.value;
+        this.setState({
+            teamChooseMoney:a
+        })
+    }
+
     render(){
         return (<React.Fragment>
         <T_table>
@@ -207,17 +248,27 @@ class TeamRank extends React.Component{
                     {this.modalValue.name}
                 </Modal_head>
                 <Modal_body>
+                    队伍:{this.modalValue.name}
+                    <br />
                     所属商帮:{this.modalValue.geoupName}
                     <br />
+                    <div className="row">
                     {this.modalValue.money.map((v,i)=>{
                         if(i>2){
                             return ;
                         }
-                        return (v.currency+":"+v.num)
+                        return (<React.Fragment>
+                            <div className="col-3">{v.currency}:</div>
+                            <div className="col-9"><input className="form-control mb-3" value={this.state.teamChooseMoney[v.moneyType]||v.num} onChange={(e)=>this.handleChangeAsset(e,v.moneyType)} /></div>
+                        </React.Fragment>
+                        )
                     })}
-                    
+                    </div>
                 </Modal_body>
-                <Modal_foot close={this.handleClose}></Modal_foot>
+                <Modal_foot close={this.handleClose}>
+                    <a role="button" className="btn btn-primary" onClick={this.handleClick} >确认修改</a>
+                    <a role="button" className="btn btn-primary" onClick={e=>this.props.onClick(this.modalValue.id,this.handleClose,this.modalValue.name)} >修改仓库</a>
+                </Modal_foot>
             </Modal>
         </React.Fragment>
         )
@@ -359,8 +410,8 @@ class LonateLog extends React.Component{
                 <thead className="thead-light">
                     <tr>
                     <th scope="col">交易ID</th>
-                    <th scope="col">发起方</th>
-                    <th scope="col">接受方</th>
+                    <th scope="col">甲方</th>
+                    <th scope="col">乙方</th>
                     <th scope="col">金额</th>
                     <th scope="col">备注</th>
                     </tr>
@@ -369,8 +420,8 @@ class LonateLog extends React.Component{
                     {this.state.transferLog.map((value,index)=>{
                         return (<tr key={index} >
                             <td>{value.id}</td>
-                            <td> {value.fromTeamName} </td>
-                            <td>{value.toTeamName}</td>
+                            <td> {value.bankName} </td>
+                            <td>{value.teamName}</td>
                             <td>{value.currency}:{value.money||value.num}</td>
                             <td>{value.remark}</td>
                         </tr>)
@@ -822,6 +873,25 @@ class LawPublish extends React.Component{
 class Nav extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            name:""
+        }
+    }
+
+    componentDidMount(){
+        var _t = this;
+        $.ajax({
+            type: "GET",
+            url: "https://wisecity.itrclub.com/admin/getRealName",
+            dataType: "JSON",
+            success: function (response) {
+                if(response.code===200){
+                    _t.setState({
+                        "name":response.data
+                    })
+                }
+            }
+        });
     }
 
     render(){
@@ -833,11 +903,61 @@ class Nav extends React.Component{
                 <div class="float-right">
                     <div class="inline-nav box-left font-nav"><a onClick={e=>this.props.onClick("a")}>操作</a></div>
                     <div class="inline-nav box-left font-nav"><a onClick={e=>this.props.onClick("log")}>记录</a></div>
-                    <div class="inline-nav font-nav">名称：{this.props.groupName}</div>
+                    <div class="inline-nav font-nav">名称：{this.state.name}</div>
                     <div class="inline-nav font-nav line box-center"></div>
                     <div class="inline-nav box-right font-nav"><a href="https://wisecity.itrclub.com/user/logout">退出登录</a></div>
                 </div>
             </div>
+        )
+    }
+}
+
+class WarehouseTable extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            value:{}
+        }
+        this.handleChange = this.change.bind(this);
+        this.handleClick = this.click.bind(this);
+    }
+
+    change(i,e){
+        var a = this.state.value;
+        a[i] = e.target.value;
+        this.setState({
+            value:a
+        });
+        return ;    
+    }
+
+    click(i){
+        this.props.onClick(i,this.state.value[i]);
+        return ;
+    }
+
+    render(){
+        return (<React.Fragment>
+            <h4>{this.props.teamName}</h4>
+            <table className="table">
+                <thead className="thead-light">
+                    <tr>
+                        <th scope="col">商品名称</th>
+                        <th scope="col">商品数量</th>
+                        <th scope="col">修改</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {this.props.data.map((v)=>{
+                            return(<tr>
+                            <td>{v.goods_name}</td>
+                            <td><input className={"form-control"} value={this.state.value[v.goods_name]||v.num} onChange={e=>this.handleChange(v.goods_name,e)} /></td>
+                            <td> <a className="btn btn-primary" role="button" onClick={e=>this.handleClick(v.goods_name)}>Click!</a> </td>
+                            </tr>)
+                        })}
+                </tbody>
+            </table>
+        </React.Fragment>
         )
     }
 }
@@ -847,10 +967,13 @@ class Content extends React.Component{
         super(props);
         this.state = {
             groupName:"",
-            wholeTicket:"",
+            wholeTicketa:"",
+            wholeTicketb:"",
             groupsName:[],
             isOpen:false,
+            warehouse:[],
             a:"hide",
+            b:"hide",
             log:"hide"
         }
         this.handleGetValue = this.getValue.bind(this);
@@ -859,7 +982,11 @@ class Content extends React.Component{
         this.handlePass = this.Pass.bind(this);
         this.handleUnPass = this.unPass.bind(this);
         this.modalValue = {};
+        this.teamId = ""; //the team id of the team choosed
+        this.teamName = "";
         this.handleClickChange = this.clickChange.bind(this);
+        this.handleClickWarehouse = this.clickWarehouse.bind(this);
+        this.handleClickEditWarehouse = this.clickEditWarehouse.bind(this);
     }
 
     componentDidMount(){
@@ -883,6 +1010,51 @@ class Content extends React.Component{
                 }
                 else{
                     alert("请联系管理员，错误码:"+response.code);
+                }
+            }
+        });
+
+        var _t = this;
+        $.ajax({
+            type: "GET",
+            url: "https://wisecity.itrclub.com/api/bank/ticket/getTotalTicket",
+            data: {
+                "id":4
+            },
+            dataType: "JSON",
+            success: function (response) {
+                if(response.code === 200){
+                    _t.setState({
+                        wholeTicketa:response.data
+                    })
+                }
+                else if(response.code===404){
+                    return;
+                }
+                else{
+                    alert("请联系管理员！")
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "https://wisecity.itrclub.com/api/bank/ticket/getTotalTicket",
+            data: {
+                "id":5
+            },
+            dataType: "JSON",
+            success: function (response) {
+                if(response.code === 200){
+                    _t.setState({
+                        wholeTicketb:response.data
+                    })
+                }
+                else if(response.code===404){
+                    return;
+                }
+                else{
+                    alert("请联系管理员！")
                 }
             }
         });
@@ -913,7 +1085,7 @@ class Content extends React.Component{
     }
 
     unPass(e){
-        News.unPassNews(e);
+        News.deleteNews(e);
     }
 
     clickChange(e){
@@ -921,12 +1093,14 @@ class Content extends React.Component{
             case "log":
                 this.setState({
                     log:"log",
-                    a:"hide"
+                    a:"hide",
+                    b:"hide"
                 });
                 break;
             case "a":
                 this.setState({
                     a:"a",
+                    b:"hide",
                     log:"hide"
                 });
                 break;
@@ -935,13 +1109,79 @@ class Content extends React.Component{
         }
     }
 
+    /*
+    * @function:clickWarehouse
+    * @Desc: send message to the api/editWarehouse
+    * @param: {String}i the name of the goods,{Int}num the num of the goods
+    * @return: undefine
+    * @TODO: every
+    */
+   
+    clickWarehouse(i,num){
+        var _t = this;
+        $.ajax({
+            type: "POST",
+            url: "https://wisecity.itrclub.com/api/admin/editWarehouse",
+            data: {
+                "goodsName":i,
+                "num":num,
+                "teamId":_t.teamId
+            },
+            dataType: "JSON",
+            success: function (response) {
+                if(response.code===200){
+                    alert("修改成功！");
+                    return ;
+                }
+                else alert("请联系管理员");
+            }
+        });
+    }
+
+    /*
+    * @function:clickWarehouse
+    * @Desc: ask message from the api/team/getWarehouse,and setState of the warehouse,and close the modal,
+    *        and show the state of b
+    * @param: {INT}teamId ,{handle}handleClose the handle of the funtion closing the modal
+    * @return: undefine
+    * @TODO: every
+    */
+   
+    clickEditWarehouse(teamId,handleClose,teamName){
+        this.teamId = teamId;
+        this.teamName = teamName;
+        var _t = this;
+        $.ajax({
+            type: "GET",
+            url: "https://wisecity.itrclub.com/api/team/getWarehouse",
+            data: {
+                "teamId":teamId
+            },
+            dataType: "JSON",
+            success: function (response) {
+                if(response.code===200){
+                    _t.setState({
+                        warehouse:response.data,
+                        b:"log",
+                        a:"hide",
+                        log:"hide"   
+                    })
+                    handleClose();
+                }
+                else{
+                    alert("请联系管理员");                }
+            }
+        });
+    }
+
     render(){
         return (<React.Fragment>
             <Nav groupName="主席团" onClick={this.handleClickChange} />
             <div className="row body-monitor" >
                 <div className={"col-4"}>
-                    <div className="mb-3">{"市场流通的票数:"}{this.state.wholeTicket}</div>
-                    <TeamRank />
+                    <div className="mb-3">{"市场流通的银票数:"}{this.state.wholeTicketa}</div>
+                    <div className="mb-3">{"市场流通的交子数:"}{this.state.wholeTicketb}</div>
+                    <TeamRank onClick={this.handleClickEditWarehouse} />
                 </div>
                 <div className={"col-8"} >
                     <div className={this.state.a} style={{"margin-top":"0px !important"}}>
@@ -980,6 +1220,9 @@ class Content extends React.Component{
                         <div className={"hold-height"}>
                             <LonateLog />
                         </div>
+                    </div>
+                    <div className={this.state.b}>
+                        <WarehouseTable teamName={this.teamName} data={this.state.warehouse} onClick={this.handleClickWarehouse} />
                     </div>
                 </div>    
             </div>

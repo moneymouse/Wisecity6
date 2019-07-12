@@ -130,3 +130,7 @@ td > a:hover{
 td > a.btn{
     color:white !important;
 }
+
+a.btn.bg-brown{
+    color:white !important;
+}

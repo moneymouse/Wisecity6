@@ -354,7 +354,7 @@ class Finayear {
 var good_ask = {
     "list": (type = "teamId") => {
         var teamId = team.id||"";//从Team中得到id，Team类调用user/getTeamId获取id
-        teamId===1 ? type = "list" : type="teamId";
+        if(type==="teamId"){teamId===1 ? type = "list" : type="teamId";}
         $.ajax({
             type: "GET",
             url: "https://wisecity.itrclub.com/api/goods/get",
@@ -520,7 +520,7 @@ class Bank {
             },
             dataType: "JSON",
             success: function (response) {
-                if (response.code === 200) ppss.publish("success", "您已成功兑换" + num + "张" + currency + "票");
+                if (response.code === 200) ppss.publish("success", "您已成功兑换" + num + "张" + currency);
                 else ppss.publish("erro", response.code);
             }
         });
@@ -595,8 +595,8 @@ function Transfer_Money(Team_id, currency, num, remark) {
         },
         dataType: "JSON",
         success: function (response) {
-            if (response == 200) {
-                ppss.publish("success", "恭喜您发起转账成功！\n交易ID:" + response.orderId)
+            if (response.code === 200) {
+                ppss.publish("success", "恭喜您发起转账成功！\n交易ID:" + response.data.orderId)
             }
             else if(response.code===1){
                 ppss.publish("erro.detail","资金不足")

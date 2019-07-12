@@ -230,34 +230,28 @@ var T_table_a = function (_React$Component3) {
         _this4.total = 0;
         _this4.listent = _this4.listent.bind(_this4);
         console.log(_this4.state.Table);
+        _this4.arr = [];
         return _this4;
     }
 
     _createClass(T_table_a, [{
         key: "listent",
         value: function listent(e) {
-            var arr = [];
-            console.log(this.total);
-            console.log(arr);
-            console.log(this.state.Table);
-            if (this.total > 0) {
-                this.total = 0;
+            if (this.total % 2 === 0) {
+                this.total += 1;
+                for (var a in e) {
+                    this.arr.push(e[a]);
+                }
             } else {
-                arr = this.state.Table;
-                this.total = this.total + 1;
+                this.total += 1;
+                for (var a in e) {
+                    this.arr.push(e[a]);
+                }
+                this.setState({
+                    Table: this.arr
+                });
+                this.arr = [];
             }
-            console.log(arr);
-            for (var a in e) {
-                e[a].num = e.money || e.num;
-                if (e[a] == undefined) {
-                    continue;
-                } else arr.push(e[a]);
-            }
-            // console.log(arr);
-            this.setState({
-                Table: arr
-            });
-            // console.log(e)
         }
     }, {
         key: "componentDidMount",
@@ -931,7 +925,7 @@ var Content = function (_React$Component8) {
                         "\u91D1\u989D:",
                         this.modalValue.currency,
                         ":",
-                        this.modalValue.money || this.modalValue.num,
+                        good ? this.modalValue.money : this.modalValue.num,
                         React.createElement("br", null),
                         "\u5907\u6CE8:",
                         this.modalValue.remark

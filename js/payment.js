@@ -174,6 +174,7 @@ var Body = function (_React$Component2) {
                 inputValueM: "",
                 inputValueR: ""
             });
+            this.value = {};
         }
     }, {
         key: "Clear",

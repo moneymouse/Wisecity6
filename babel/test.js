@@ -195,31 +195,26 @@ class T_table_a extends React.Component{
         this.total = 0;
         this.listent = this.listent.bind(this);
         console.log(this.state.Table);
+        this.arr = []
     }
 
     listent(e){
-        var arr = [];
-        console.log(this.total);
-        console.log(arr);
-        console.log(this.state.Table);
-        if(this.total>0){
-            this.total = 0;
+        if(this.total%2===0){
+            this.total += 1;
+            for(var a in e){
+                this.arr.push(e[a]);
+            }
         }
         else{
-            arr = this.state.Table;
-            this.total = this.total + 1;
+            this.total += 1;
+            for(var a in e){
+                this.arr.push(e[a]);
+            }
+            this.setState({
+                Table : this.arr
+            });
+            this.arr = [];
         }
-        console.log(arr);
-        for(var a in e){
-            e[a].num = e.money||e.num;
-            if(e[a]==undefined){continue;}
-            else arr.push(e[a]);
-        }
-        // console.log(arr);
-        this.setState({
-            Table : arr
-        })
-        // console.log(e)
     }
 
     componentDidMount(){
@@ -624,7 +619,7 @@ class Content extends React.Component{
                         <br />
                         {good?"数量:":undefined}{good?this.modalValue.num:undefined}
                         {good?<br />:undefined}
-                        金额:{this.modalValue.currency}:{this.modalValue.money||this.modalValue.num}
+                        金额:{this.modalValue.currency}:{good?this.modalValue.money:this.modalValue.num}
                         <br />
                         备注:{this.modalValue.remark}
                     </Modal_body>

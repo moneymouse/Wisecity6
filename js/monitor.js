@@ -124,7 +124,7 @@ var Good_Edit = function (_React$Component) {
                 "\u5546\u54C1\u540D\u79F0:",
                 React.createElement(Select, { get_value: function get_value(e) {
                         return _this3.handleGetValue("name", e);
-                    }, value: "\u4EA7\u54C1\u540D\u79F0\uFF08\u5FC5\u9009\uFF09", options: this.state.goods[this.props.groupName] || [] }),
+                    }, value: "\u4EA7\u54C1\u540D\u79F0\uFF08\u5FC5\u9009\uFF09", options: this.state.goods[this.props.groupName === "京商" ? "all" : this.props.grouopName] || [] }),
                 "\u5546\u54C1\u4EA7\u5730:",
                 React.createElement(Select, { get_value: function get_value(e) {
                         return _this3.handleGetValue("groupName", e);
@@ -176,17 +176,45 @@ var TeamRank = function (_React$Component2) {
 
         _this4.state = {
             isOpen: false,
-            teams: []
+            teams: [],
+            teamChooseMoney: {}
         };
         _this4.modalValue = {
             money: []
         };
+        _this4.ajaxData = {};
         _this4.handleOpen = _this4.Open.bind(_this4);
         _this4.handleClose = _this4.Close.bind(_this4);
+        _this4.handleClick = _this4.click.bind(_this4);
+        _this4.handleChangeAsset = _this4.changeAsset.bind(_this4);
         return _this4;
     }
 
     _createClass(TeamRank, [{
+        key: "click",
+        value: function click() {
+            for (var i in this.ajaxData) {
+                var data = {
+                    "teamId": this.modalValue.id,
+                    "moneyType": this.ajaxData[i].type,
+                    "num": this.ajaxData[i].num
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "https://wisecity.itrclub.com/api/admin/editMoney",
+                    data: data,
+                    dataType: "JSON",
+                    success: function success(response) {
+                        if (response.code === 200) {
+                            alert("修改成功！");
+                        } else if (response.code === 403003) {
+                            alert("抱歉，你没有执行此操作的权限");
+                        } else alert("修改失败，请联系管理员，错误码：" + response.code);
+                    }
+                });
+            }
+        }
+    }, {
         key: "Open",
         value: function Open(e) {
             this.modalValue = e;
@@ -240,6 +268,19 @@ var TeamRank = function (_React$Component2) {
                         alert("请联系管理员，错误码:" + response.code);
                     }
                 }
+            });
+        }
+    }, {
+        key: "changeAsset",
+        value: function changeAsset(e, i) {
+            this.ajaxData[i] = {
+                "num": e.target.value,
+                "type": i
+            };
+            var a = this.state.teamChooseMoney;
+            a[i] = e.target.value;
+            this.setState({
+                teamChooseMoney: a
             });
         }
     }, {
@@ -319,17 +360,55 @@ var TeamRank = function (_React$Component2) {
                     React.createElement(
                         Modal_body,
                         null,
+                        "\u961F\u4F0D:",
+                        this.modalValue.name,
+                        React.createElement("br", null),
                         "\u6240\u5C5E\u5546\u5E2E:",
                         this.modalValue.geoupName,
                         React.createElement("br", null),
-                        this.modalValue.money.map(function (v, i) {
-                            if (i > 2) {
-                                return;
-                            }
-                            return v.currency + ":" + v.num;
-                        })
+                        React.createElement(
+                            "div",
+                            { className: "row" },
+                            this.modalValue.money.map(function (v, i) {
+                                if (i > 2) {
+                                    return;
+                                }
+                                return React.createElement(
+                                    React.Fragment,
+                                    null,
+                                    React.createElement(
+                                        "div",
+                                        { className: "col-3" },
+                                        v.currency,
+                                        ":"
+                                    ),
+                                    React.createElement(
+                                        "div",
+                                        { className: "col-9" },
+                                        React.createElement("input", { className: "form-control mb-3", value: _this6.state.teamChooseMoney[v.moneyType] || v.num, onChange: function onChange(e) {
+                                                return _this6.handleChangeAsset(e, v.moneyType);
+                                            } })
+                                    )
+                                );
+                            })
+                        )
                     ),
-                    React.createElement(Modal_foot, { close: this.handleClose })
+                    React.createElement(
+                        Modal_foot,
+                        { close: this.handleClose },
+                        React.createElement(
+                            "a",
+                            { role: "button", className: "btn btn-primary", onClick: this.handleClick },
+                            "\u786E\u8BA4\u4FEE\u6539"
+                        ),
+                        React.createElement(
+                            "a",
+                            { role: "button", className: "btn btn-primary", onClick: function onClick(e) {
+                                    return _this6.props.onClick(_this6.modalValue.id, _this6.handleClose, _this6.modalValue.name);
+                                } },
+                            "\u4FEE\u6539\u4ED3\u5E93"
+                        )
+                    )
                 )
             );
         }
@@ -644,12 +723,12 @@ var LonateLog = function (_React$Component5) {
                         React.createElement(
                             "th",
                             { scope: "col" },
-                            "\u53D1\u8D77\u65B9"
+                            "\u7532\u65B9"
                         ),
                         React.createElement(
                             "th",
                             { scope: "col" },
-                            "\u63A5\u53D7\u65B9"
+                            "\u4E59\u65B9"
                         ),
                         React.createElement(
                             "th",
@@ -679,13 +758,13 @@ var LonateLog = function (_React$Component5) {
                                 "td",
                                 null,
                                 " ",
-                                value.fromTeamName,
+                                value.bankName,
                                 " "
                             ),
                             React.createElement(
                                 "td",
                                 null,
-                                value.toTeamName
+                                value.teamName
                             ),
                             React.createElement(
                                 "td",
@@ -1308,10 +1387,32 @@ var Nav = function (_React$Component12) {
     function Nav(props) {
         _classCallCheck(this, Nav);
 
-        return _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props));
+        var _this25 = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props));
+
+        _this25.state = {
+            name: ""
+        };
+        return _this25;
     }
 
     _createClass(Nav, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            var _t = this;
+            $.ajax({
+                type: "GET",
+                url: "https://wisecity.itrclub.com/admin/getRealName",
+                dataType: "JSON",
+                success: function success(response) {
+                    if (response.code === 200) {
+                        _t.setState({
+                            "name": response.data
+                        });
+                    }
+                }
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this26 = this;
@@ -1353,7 +1454,7 @@ var Nav = function (_React$Component12) {
                         "div",
                         { "class": "inline-nav font-nav" },
                         "\u540D\u79F0\uFF1A",
-                        this.props.groupName
+                        this.state.name
                     ),
                     React.createElement("div", { "class": "inline-nav font-nav line box-center" }),
                     React.createElement(
@@ -1373,43 +1474,164 @@ var Nav = function (_React$Component12) {
     return Nav;
 }(React.Component);
 
-var Content = function (_React$Component13) {
-    _inherits(Content, _React$Component13);
+var WarehouseTable = function (_React$Component13) {
+    _inherits(WarehouseTable, _React$Component13);
+
+    function WarehouseTable(props) {
+        _classCallCheck(this, WarehouseTable);
+
+        var _this27 = _possibleConstructorReturn(this, (WarehouseTable.__proto__ || Object.getPrototypeOf(WarehouseTable)).call(this, props));
+
+        _this27.state = {
+            value: {}
+        };
+        _this27.handleChange = _this27.change.bind(_this27);
+        _this27.handleClick = _this27.click.bind(_this27);
+        return _this27;
+    }
+
+    _createClass(WarehouseTable, [{
+        key: "change",
+        value: function change(i, e) {
+            var a = this.state.value;
+            a[i] = e.target.value;
+            this.setState({
+                value: a
+            });
+            return;
+        }
+    }, {
+        key: "click",
+        value: function click(i) {
+            this.props.onClick(i, this.state.value[i]);
+            return;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this28 = this;
+
+            return React.createElement(
+                React.Fragment,
+                null,
+                React.createElement(
+                    "h4",
+                    null,
+                    this.props.teamName
+                ),
+                React.createElement(
+                    "table",
+                    { className: "table" },
+                    React.createElement(
+                        "thead",
+                        { className: "thead-light" },
+                        React.createElement(
+                            "tr",
+                            null,
+                            React.createElement(
+                                "th",
+                                { scope: "col" },
+                                "\u5546\u54C1\u540D\u79F0"
+                            ),
+                            React.createElement(
+                                "th",
+                                { scope: "col" },
+                                "\u5546\u54C1\u6570\u91CF"
+                            ),
+                            React.createElement(
+                                "th",
+                                { scope: "col" },
+                                "\u4FEE\u6539"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "tbody",
+                        null,
+                        this.props.data.map(function (v) {
+                            return React.createElement(
+                                "tr",
+                                null,
+                                React.createElement(
+                                    "td",
+                                    null,
+                                    v.goods_name
+                                ),
+                                React.createElement(
+                                    "td",
+                                    null,
+                                    React.createElement("input", { className: "form-control", value: _this28.state.value[v.goods_name] || v.num, onChange: function onChange(e) {
+                                            return _this28.handleChange(v.goods_name, e);
+                                        } })
+                                ),
+                                React.createElement(
+                                    "td",
+                                    null,
+                                    " ",
+                                    React.createElement(
+                                        "a",
+                                        { className: "btn btn-primary", role: "button", onClick: function onClick(e) {
+                                                return _this28.handleClick(v.goods_name);
+                                            } },
+                                        "Click!"
+                                    ),
+                                    " "
+                                )
+                            );
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return WarehouseTable;
+}(React.Component);
+
+var Content = function (_React$Component14) {
+    _inherits(Content, _React$Component14);
 
     function Content(props) {
         _classCallCheck(this, Content);
 
-        var _this27 = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
+        var _this29 = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
 
-        _this27.state = {
+        _this29.state = {
             groupName: "",
-            wholeTicket: "",
+            wholeTicketa: "",
+            wholeTicketb: "",
             groupsName: [],
             isOpen: false,
+            warehouse: [],
             a: "hide",
+            b: "hide",
             log: "hide"
         };
-        _this27.handleGetValue = _this27.getValue.bind(_this27);
-        _this27.handleOpen = _this27.open.bind(_this27);
-        _this27.handleClose = _this27.close.bind(_this27);
-        _this27.handlePass = _this27.Pass.bind(_this27);
-        _this27.handleUnPass = _this27.unPass.bind(_this27);
-        _this27.modalValue = {};
-        _this27.handleClickChange = _this27.clickChange.bind(_this27);
-        return _this27;
+        _this29.handleGetValue = _this29.getValue.bind(_this29);
+        _this29.handleOpen = _this29.open.bind(_this29);
+        _this29.handleClose = _this29.close.bind(_this29);
+        _this29.handlePass = _this29.Pass.bind(_this29);
+        _this29.handleUnPass = _this29.unPass.bind(_this29);
+        _this29.modalValue = {};
+        _this29.teamId = ""; //the team id of the team choosed
+        _this29.teamName = "";
+        _this29.handleClickChange = _this29.clickChange.bind(_this29);
+        _this29.handleClickWarehouse = _this29.clickWarehouse.bind(_this29);
+        _this29.handleClickEditWarehouse = _this29.clickEditWarehouse.bind(_this29);
+        return _this29;
     }
 
     _createClass(Content, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-            var _this28 = this;
+            var _this30 = this;
 
             var _success = function success(e) {
                 var a = [];
                 for (var i in e) {
                     a.push(i);
                 }
-                _this28.setState({
+                _this30.setState({
                     groupsName: a
                 });
             };
@@ -1423,6 +1645,47 @@ var Content = function (_React$Component13) {
                         _success(response.data);
                     } else {
                         alert("请联系管理员，错误码:" + response.code);
+                    }
+                }
+            });
+
+            var _t = this;
+            $.ajax({
+                type: "GET",
+                url: "https://wisecity.itrclub.com/api/bank/ticket/getTotalTicket",
+                data: {
+                    "id": 4
+                },
+                dataType: "JSON",
+                success: function success(response) {
+                    if (response.code === 200) {
+                        _t.setState({
+                            wholeTicketa: response.data
+                        });
+                    } else if (response.code === 404) {
+                        return;
+                    } else {
+                        alert("请联系管理员！");
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "https://wisecity.itrclub.com/api/bank/ticket/getTotalTicket",
+                data: {
+                    "id": 5
+                },
+                dataType: "JSON",
+                success: function success(response) {
+                    if (response.code === 200) {
+                        _t.setState({
+                            wholeTicketb: response.data
+                        });
+                    } else if (response.code === 404) {
+                        return;
+                    } else {
+                        alert("请联系管理员！");
                     }
                 }
             });
@@ -1458,7 +1721,7 @@ var Content = function (_React$Component13) {
     }, {
         key: "unPass",
         value: function unPass(e) {
-            News.unPassNews(e);
+            News.deleteNews(e);
         }
     }, {
         key: "clickChange",
@@ -1467,12 +1730,14 @@ var Content = function (_React$Component13) {
                 case "log":
                     this.setState({
                         log: "log",
-                        a: "hide"
+                        a: "hide",
+                        b: "hide"
                     });
                     break;
                 case "a":
                     this.setState({
                         a: "a",
+                        b: "hide",
                         log: "hide"
                     });
                     break;
@@ -1480,10 +1745,78 @@ var Content = function (_React$Component13) {
                     return;
             }
         }
+
+        /*
+        * @function:clickWarehouse
+        * @Desc: send message to the api/editWarehouse
+        * @param: {String}i the name of the goods,{Int}num the num of the goods
+        * @return: undefine
+        * @TODO: every
+        */
+
+    }, {
+        key: "clickWarehouse",
+        value: function clickWarehouse(i, num) {
+            var _t = this;
+            $.ajax({
+                type: "POST",
+                url: "https://wisecity.itrclub.com/api/admin/editWarehouse",
+                data: {
+                    "goodsName": i,
+                    "num": num,
+                    "teamId": _t.teamId
+                },
+                dataType: "JSON",
+                success: function success(response) {
+                    if (response.code === 200) {
+                        alert("修改成功！");
+                        return;
+                    } else alert("请联系管理员");
+                }
+            });
+        }
+
+        /*
+        * @function:clickWarehouse
+        * @Desc: ask message from the api/team/getWarehouse,and setState of the warehouse,and close the modal,
+        *        and show the state of b
+        * @param: {INT}teamId ,{handle}handleClose the handle of the funtion closing the modal
+        * @return: undefine
+        * @TODO: every
+        */
+
+    }, {
+        key: "clickEditWarehouse",
+        value: function clickEditWarehouse(teamId, handleClose, teamName) {
+            this.teamId = teamId;
+            this.teamName = teamName;
+            var _t = this;
+            $.ajax({
+                type: "GET",
+                url: "https://wisecity.itrclub.com/api/team/getWarehouse",
+                data: {
+                    "teamId": teamId
+                },
+                dataType: "JSON",
+                success: function success(response) {
+                    if (response.code === 200) {
+                        _t.setState({
+                            warehouse: response.data,
+                            b: "log",
+                            a: "hide",
+                            log: "hide"
+                        });
+                        handleClose();
+                    } else {
+                        alert("请联系管理员");
+                    }
+                }
+            });
+        }
     }, {
         key: "render",
         value: function render() {
-            var _this29 = this;
+            var _this31 = this;
 
             return React.createElement(
                 React.Fragment,
@@ -1498,10 +1831,16 @@ var Content = function (_React$Component13) {
                         React.createElement(
                             "div",
                             { className: "mb-3" },
-                            "市场流通的票数:",
-                            this.state.wholeTicket
+                            "市场流通的银票数:",
+                            this.state.wholeTicketa
                         ),
-                        React.createElement(TeamRank, null)
+                        React.createElement(
+                            "div",
+                            { className: "mb-3" },
+                            "市场流通的交子数:",
+                            this.state.wholeTicketb
+                        ),
+                        React.createElement(TeamRank, { onClick: this.handleClickEditWarehouse })
                     ),
                     React.createElement(
                         "div",
@@ -1568,6 +1907,11 @@ var Content = function (_React$Component13) {
                                 { className: "hold-height" },
                                 React.createElement(LonateLog, null)
                             )
+                        ),
+                        React.createElement(
+                            "div",
+                            { className: this.state.b },
+                            React.createElement(WarehouseTable, { teamName: this.teamName, data: this.state.warehouse, onClick: this.handleClickWarehouse })
                         )
                     )
                 ),
@@ -1600,14 +1944,14 @@ var Content = function (_React$Component13) {
                         React.createElement(
                             "a",
                             { onClick: function onClick(e) {
-                                    return _this29.handlePass(_this29.modalValue.id);
+                                    return _this31.handlePass(_this31.modalValue.id);
                                 }, "class": "btn btn-success", role: "button" },
                             "\u53D1\u8868"
                         ),
                         React.createElement(
                             "a",
                             { onClick: function onClick(e) {
-                                    return _this29.handleUnPass(_this29.modalValue.id);
+                                    return _this31.handleUnPass(_this31.modalValue.id);
                                 }, "class": "btn btn-danger", role: "button" },
                             "\u9A73\u56DE"
                         )

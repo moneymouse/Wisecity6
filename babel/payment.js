@@ -145,7 +145,8 @@ class Body extends React.Component{
         this.setState({
             inputValueM:"",
             inputValueR:""
-        })
+        });
+        this.value={};
     }
 
     Clear(){
